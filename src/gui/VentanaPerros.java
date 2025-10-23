@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ private static final long serialVersionUID = 1L;
 	//Declaración de los componentes de la ventana
 	private JButton btn1, btn2, btn3, btn4, btn5, btn6, btnATRAS;
 	private JPanel pNorte, pSur, pEste, pOeste, pCentro, pBotones, pGridInfo, pInfo;
+	private JPanel pBorderIzda, pBorderCentro, pBorderDrcha;
 	private JLabel lblTitulo, lblBusqueda, lblFiltrar, imagen; // Imagen lo borraré cuando ponga una Imagen --------- !!!!
 	private JLabel lblNombre, lblSexo, lblEdad, lblRaza, lblPeso, lblPersonalidad, lblFisico;
 	private JTextField txt2;
@@ -32,6 +35,11 @@ private static final long serialVersionUID = 1L;
 		
 		//Instanciamos los paneles
 		pNorte = new JPanel();
+		pNorte.setLayout(new BorderLayout());
+		pBorderIzda= new JPanel();
+		pBorderCentro= new JPanel();
+		pBorderDrcha= new JPanel();
+		
 		pSur = new JPanel();
 		
 		pBotones= new JPanel();
@@ -84,11 +92,16 @@ private static final long serialVersionUID = 1L;
 		cbFiltros.setSelectedItem(null);
 		
 		//Añadimos los componentes a la ventana
-		pNorte.add(lblTitulo);
-		pNorte.add(lblBusqueda);
-		pNorte.add(txt2);
-		pNorte.add(lblFiltrar);
-		pNorte.add(cbFiltros);
+		pBorderIzda.add(lblTitulo);
+		pBorderCentro.add(lblBusqueda);
+		pBorderCentro.add(txt2);
+		pBorderDrcha.add(lblFiltrar);
+		pBorderDrcha.add(cbFiltros);
+		
+		// AÑADIR BORDERLAYOUT:
+		pNorte.add(pBorderIzda, BorderLayout.WEST);
+		pNorte.add(pBorderCentro, BorderLayout.CENTER);
+		pNorte.add(pBorderDrcha, BorderLayout.EAST);
 		
 		pSur.add(btnATRAS);
 		
@@ -153,3 +166,4 @@ private static final long serialVersionUID = 1L;
 		VentanaPerros v = new VentanaPerros();
 	}
 }
+
