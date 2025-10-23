@@ -2,9 +2,13 @@ package Domain;
 
 public class Gato extends Animal{
 	
-	public Gato(String nombre, float edad, String raza, float peso, String descripcion_personalidad,
+	public Gato(String nombre, String sexo, float edad, String raza, float peso, String descripcion_personalidad,
 			String descripcion_fisica, boolean adoptado) {
-		super(nombre, edad, raza, peso, descripcion_personalidad, descripcion_fisica, adoptado);
+		
+		
+		super(nombre, sexo, edad, raza, peso, descripcion_personalidad, descripcion_fisica, adoptado);
+		
+		
 	}
 
 	public Gato() {

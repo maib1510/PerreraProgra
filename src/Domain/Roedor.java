@@ -2,9 +2,9 @@ package Domain;
 
 public class Roedor extends Animal{
 	
-	public Roedor(String nombre, float edad, String raza, float peso, String descripcion_personalidad,
+	public Roedor(String nombre, String sexo, float edad, String raza, float peso, String descripcion_personalidad,
 			String descripcion_fisica, boolean adoptado) {
-		super(nombre, edad, raza, peso, descripcion_personalidad, descripcion_fisica, adoptado);
+		super(nombre, sexo, edad, raza, peso, descripcion_personalidad, descripcion_fisica, adoptado);
 	}
 
 	public Roedor() {

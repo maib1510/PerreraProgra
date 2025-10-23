@@ -5,6 +5,7 @@ import java.util.Objects;
 public abstract class Animal {
 	
 	private String nombre;
+	private String sexo;
 	private float edad;
 	private String raza;
 	private float peso;
@@ -13,11 +14,11 @@ public abstract class Animal {
 	private boolean adoptado;
 	
 	
-	
-	public Animal(String nombre, float edad, String raza, float peso, String descripcion_personalidad,
+	public Animal(String nombre,String sexo, float edad, String raza, float peso, String descripcion_personalidad,
 			String descripcion_fisica, boolean adoptado) {
 		super();
 		this.nombre = nombre;
+		this.sexo= sexo;
 		this.edad = edad;
 		this.raza = raza;
 		this.peso = peso;
@@ -26,9 +27,14 @@ public abstract class Animal {
 		this.adoptado = adoptado;
 	}
 	
-	
-	
-	
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
 	public Animal() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -83,8 +89,6 @@ public abstract class Animal {
 	public int hashCode() {
 		return Objects.hash(adoptado, descripcion_fisica, descripcion_personalidad, edad, nombre, peso, raza);
 	}
-	
-	
 	
 	
 	@Override
