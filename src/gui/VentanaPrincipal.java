@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 
@@ -29,7 +31,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelPerros.setLayout(new BoxLayout(panelPerros, BoxLayout.Y_AXIS));
 
-		JLabel labelPerro = crearImagen("/Users/maialenbarredomuro/Desktop/INF_CDIA/tercero/programación3/trabajoEnCasa/swing/Perrera/imagenes/perrito.jpg", 150, 200);
+		JLabel labelPerro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/perrito.jpg", 150, 200);
 		JButton botonPerros = new JButton("Adoptar");
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -45,7 +47,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelGatos.setLayout(new BoxLayout(panelGatos, BoxLayout.Y_AXIS));
 
-		JLabel labelGato = crearImagen("/Users/maialenbarredomuro/Desktop/INF_CDIA/tercero/programación3/trabajoEnCasa/swing/Perrera/imagenes/gatito.jpg", 150, 200);
+		JLabel labelGato = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/gatito.jpg", 150, 200);
 		JButton botonGatos = new JButton("Adoptar");
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -61,7 +63,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelPajaros.setLayout(new BoxLayout(panelPajaros, BoxLayout.Y_AXIS));
 
-		JLabel labelPajaro = crearImagen("/Users/maialenbarredomuro/Desktop/INF_CDIA/tercero/programación3/trabajoEnCasa/swing/Perrera/imagenes/patito.jpg", 150, 200);
+		JLabel labelPajaro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/patito.jpg", 150, 200);
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -77,7 +79,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelRoedores.setLayout(new BoxLayout(panelRoedores, BoxLayout.Y_AXIS));
 
-		JLabel labelRoedor = crearImagen("/Users/maialenbarredomuro/Desktop/INF_CDIA/tercero/programación3/trabajoEnCasa/swing/Perrera/imagenes/ratoncito.jpg", 150, 200);
+		JLabel labelRoedor = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/ratoncito.jpg", 150, 200);
 		JButton botonRoedor = new JButton("Adoptar");
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -85,12 +87,41 @@ public class VentanaPrincipal extends JFrame {
 		panelRoedores.add(botonRoedor);
 		panelAnimales.add(panelRoedores);
 
-	
-		
 		this.add(panelAnimales);
 		
 		
+		// -------------------------------------- panel menu / botones a otros -----------------------------------
+		JPanel panelMenu = new JPanel();
+		panelMenu.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.BLACK),
+				"Menu", 
+				TitledBorder.CENTER, 
+				TitledBorder.TOP)
+		);
 		
+		panelMenu.setBackground(new Color(245, 245, 245)); // gris claro
+		panelMenu.setLayout(new FlowLayout()); // para que la barra se ajuste bien
+		
+		// botones
+		JButton animales = new JButton("animales");
+		JButton tienda = new JButton("tienda");
+		JButton perfil = new JButton("perfil");
+		
+		JLabel iconoPerfil = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/Image.jpeg", 30, 30);
+		panelMenu.add(iconoPerfil);
+		
+		panelMenu.add(perfil);
+		panelMenu.add(animales);
+		panelMenu.add(tienda);
+		
+		
+		
+		
+		this.add(panelMenu, BorderLayout.NORTH);
+
+		
+
+
 		
 		
 		this.setVisible(true);
