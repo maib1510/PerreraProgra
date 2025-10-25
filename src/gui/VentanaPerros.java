@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class VentanaPerros extends JFrame{
+public class VentanaPerros extends JFrame {
 
 private static final long serialVersionUID = 1L;
 	
