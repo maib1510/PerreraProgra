@@ -17,12 +17,15 @@ public class VentanaPrincipal extends JFrame {
 	
 	VentanaPrincipal() {
 		this.setTitle("ventana principal - perrera");
-		this.setSize(800, 600);
+		this.setSize(850, 600);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		JPanel frame = new JPanel(new BorderLayout());
+		frame.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // top, left, bottom, right
 		
 		// panel animales
-		JPanel panelAnimales = new JPanel(new GridLayout(2,2));
+		JPanel panelAnimales = new JPanel(new GridLayout(2, 2, 20, 10));
 		
 		// ----------------------------------------- panel perros ----------------------------------------- 
 		JPanel panelPerros = new JPanel();
@@ -31,7 +34,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelPerros.setLayout(new BoxLayout(panelPerros, BoxLayout.Y_AXIS));
 
-		JLabel labelPerro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/perrito.jpg", 150, 200);
+		JLabel labelPerro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/perrito.jpg", 100, 150);
 		JButton botonPerros = new JButton("Adoptar");
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -47,7 +50,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelGatos.setLayout(new BoxLayout(panelGatos, BoxLayout.Y_AXIS));
 
-		JLabel labelGato = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/gatito.jpg", 150, 200);
+		JLabel labelGato = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/gatito.jpg", 100, 150);
 		JButton botonGatos = new JButton("Adoptar");
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -63,7 +66,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelPajaros.setLayout(new BoxLayout(panelPajaros, BoxLayout.Y_AXIS));
 
-		JLabel labelPajaro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/patito.jpg", 150, 200);
+		JLabel labelPajaro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/patito.jpg", 100, 150);
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -79,7 +82,7 @@ public class VentanaPrincipal extends JFrame {
 		));
 		panelRoedores.setLayout(new BoxLayout(panelRoedores, BoxLayout.Y_AXIS));
 
-		JLabel labelRoedor = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/ratoncito.jpg", 150, 200);
+		JLabel labelRoedor = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/ratoncito.jpg", 100, 150);
 		JButton botonRoedor = new JButton("Adoptar");
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -87,8 +90,7 @@ public class VentanaPrincipal extends JFrame {
 		panelRoedores.add(botonRoedor);
 		panelAnimales.add(panelRoedores);
 
-		this.add(panelAnimales);
-		
+		frame.add(panelAnimales, BorderLayout.CENTER);
 		
 		// -------------------------------------- panel menu / botones a otros -----------------------------------
 		JPanel panelMenu = new JPanel();
@@ -107,21 +109,24 @@ public class VentanaPrincipal extends JFrame {
 		JButton tienda = new JButton("tienda");
 		JButton perfil = new JButton("perfil");
 		
-		JLabel iconoPerfil = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/Image.jpeg", 30, 30);
-		panelMenu.add(iconoPerfil);
+		
+		// action listener para ir a la ventana de perfil
+		perfil.addActionListener(e -> {
+			
+			VentanaPerfil ventanaPerfil = new VentanaPerfil(this);
+			ventanaPerfil.setVisible(false);
+			SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
+			this.setVisible(false);
+		});
+
 		
 		panelMenu.add(perfil);
 		panelMenu.add(animales);
 		panelMenu.add(tienda);
 		
 		
-		
-		
-		this.add(panelMenu, BorderLayout.NORTH);
-
-		
-
-
+		frame.add(panelMenu, BorderLayout.NORTH);
+		this.add(frame);
 		
 		
 		this.setVisible(true);
