@@ -11,21 +11,26 @@ import java.awt.Image;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-public class VentanaPrincipal extends JFrame {
+import Domain.Gato;
 
+public class VentanaPrincipal extends JFrame {
+	private Gato[] gatos;
 	private static final long serialVersionUID = 1L;
 	
-	VentanaPrincipal() {
+	public VentanaPrincipal(Gato[] gatos) {
 		this.setTitle("ventana principal - perrera");
-		this.setSize(850, 600);
+		this.setSize(500, 600);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 
 		JPanel frame = new JPanel(new BorderLayout());
-		frame.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // top, left, bottom, right
-		
+		frame.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+		frame.setBackground(new Color(255, 182, 193));
 		// panel animales
 		JPanel panelAnimales = new JPanel(new GridLayout(2, 2, 20, 10));
+		panelAnimales.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+		panelAnimales.setBackground(new Color(255, 182, 193));
 		
 		// ----------------------------------------- panel perros ----------------------------------------- 
 		JPanel panelPerros = new JPanel();
@@ -33,8 +38,9 @@ public class VentanaPrincipal extends JFrame {
 		        BorderFactory.createLineBorder(Color.BLACK), "Perros", TitledBorder.LEFT, TitledBorder.TOP
 		));
 		panelPerros.setLayout(new BoxLayout(panelPerros, BoxLayout.Y_AXIS));
+		panelPerros.setBackground(new Color(204, 236, 247));
 
-		JLabel labelPerro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/perrito.jpg", 100, 150);
+		JLabel labelPerro = crearImagen("imagenes/fotosVentanaPrincipal/perritoMenu.png.jpeg", 175, 175);
 		JButton botonPerros = new JButton("Adoptar");
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -49,10 +55,19 @@ public class VentanaPrincipal extends JFrame {
 		        BorderFactory.createLineBorder(Color.BLACK), "Gatos", TitledBorder.LEFT, TitledBorder.TOP
 		));
 		panelGatos.setLayout(new BoxLayout(panelGatos, BoxLayout.Y_AXIS));
+		panelGatos.setBackground(new Color(204, 236, 247));
 
-		JLabel labelGato = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/gatito.jpg", 100, 150);
+
+		JLabel labelGato = crearImagen("imagenes/fotosVentanaPrincipal/gatitoMenu.png.jpeg", 175, 175);
 		JButton botonGatos = new JButton("Adoptar");
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonGatos.addActionListener(e -> {
+			VentanaGatos ventanaGatos = new VentanaGatos(gatos);
+			ventanaGatos.setVisible(false);
+			SwingUtilities.invokeLater(() -> ventanaGatos.setVisible(true));
+			this.setVisible(false);
+		});
 
 		panelGatos.add(labelGato);
 		panelGatos.add(botonGatos);
@@ -65,8 +80,10 @@ public class VentanaPrincipal extends JFrame {
 		        BorderFactory.createLineBorder(Color.BLACK), "Pajaros", TitledBorder.LEFT, TitledBorder.TOP
 		));
 		panelPajaros.setLayout(new BoxLayout(panelPajaros, BoxLayout.Y_AXIS));
+		panelPajaros.setBackground(new Color(204, 236, 247));
 
-		JLabel labelPajaro = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/patito.jpg", 100, 150);
+
+		JLabel labelPajaro = crearImagen("imagenes/fotosVentanaPrincipal/loritoMenu.png.jpeg", 175, 175);
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -81,8 +98,10 @@ public class VentanaPrincipal extends JFrame {
 				BorderFactory.createLineBorder(Color.BLACK), "Roedores", TitledBorder.LEFT, TitledBorder.TOP
 		));
 		panelRoedores.setLayout(new BoxLayout(panelRoedores, BoxLayout.Y_AXIS));
+		panelRoedores.setBackground(new Color(204, 236, 247));
 
-		JLabel labelRoedor = crearImagen("/Users/maialenbarredomuro/Desktop/PerreraProgra_/imagenes/ratoncito.jpg", 100, 150);
+
+		JLabel labelRoedor = crearImagen("imagenes/fotosVentanaPrincipal/hamstercitoMenu.png.jpeg", 175, 175);
 		JButton botonRoedor = new JButton("Adoptar");
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -101,7 +120,7 @@ public class VentanaPrincipal extends JFrame {
 				TitledBorder.TOP)
 		);
 		
-		panelMenu.setBackground(new Color(245, 245, 245)); // gris claro
+		panelMenu.setBackground(new Color(204, 236, 247)); 
 		panelMenu.setLayout(new FlowLayout()); // para que la barra se ajuste bien
 		
 		// botones
@@ -116,6 +135,13 @@ public class VentanaPrincipal extends JFrame {
 			VentanaPerfil ventanaPerfil = new VentanaPerfil(this);
 			ventanaPerfil.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
+			this.setVisible(false);
+		});
+		
+		tienda.addActionListener(e -> {
+			VentanaTienda ventanaTienda = new VentanaTienda(this);
+			ventanaTienda.setVisible(false);
+			SwingUtilities.invokeLater(() -> ventanaTienda.setVisible(true));
 			this.setVisible(false);
 		});
 
@@ -139,12 +165,8 @@ public class VentanaPrincipal extends JFrame {
 	    ImageIcon icono = new ImageIcon(imgEscalada);
 	    JLabel label = new JLabel(icono);
 	    label.setAlignmentX(Component.CENTER_ALIGNMENT); // para BoxLayout vertical
+	    label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 	    return label;
-	}
-
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(VentanaPrincipal::new);
 	}
 
 }

@@ -1,10 +1,13 @@
 package main;
 
+import java.io.File;
+
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
 import Domain.Roedor;
 import gui.VentanaGatos;
+import gui.VentanaPrincipal;
 
 public class Main {
 
@@ -44,8 +47,12 @@ public class Main {
 		gatos[10] = gato11;
 		gatos[11] = gato12;
 		
-		VentanaGatos ventanaGatos = new VentanaGatos(gatos);
-		System.out.println(ventanaGatos);
+		
+		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos);
+		System.out.println(ventanaPrincipal);
+
+		//VentanaGatos ventanaGatos = new VentanaGatos(gatos);
+		//System.out.println(ventanaGatos);
 
 	}
 
