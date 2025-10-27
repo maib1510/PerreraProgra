@@ -41,4 +41,10 @@ public class Gato extends Animal{
 		return true;
 	}
 
+	@Override
+	public String sonidoAnimales() {
+		// TODO Auto-generated method stub
+		return "miau miau";
+	}
+
 }

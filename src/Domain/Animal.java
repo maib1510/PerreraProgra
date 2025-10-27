@@ -116,12 +116,7 @@ public abstract class Animal {
 				+ descripcion_fisica + ", adoptado=" + adoptado + "]";
 	}
 	
-	
-	
-	
-	
-	
-	
+	public abstract String sonidoAnimales();
 	
 
 }

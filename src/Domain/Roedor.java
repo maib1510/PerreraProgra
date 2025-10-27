@@ -37,4 +37,10 @@ public class Roedor extends Animal{
 		return true;
 	}
 
+	@Override
+	public String sonidoAnimales() {
+		// TODO Auto-generated method stub
+		return "chiik chiik";
+	}
+
 }
