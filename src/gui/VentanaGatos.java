@@ -35,13 +35,17 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
+import Domain.Pajaro;
+import Domain.Roedor;
 
 public class VentanaGatos extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Gato[] gatos;
 
-	public VentanaGatos(Gato[] gatos) {
+	private VentanaPrincipal ventanaPrincipal;
+
+	public VentanaGatos(VentanaPrincipal ventanaPrincipal, Gato[] gatos) {
 
 		this.gatos = gatos;
 
@@ -87,8 +91,8 @@ public class VentanaGatos extends JFrame {
 
 		//---------------------------------------------------LISTENER BOTON ATRAS-----------------------------------------------------------------
 		botonAtras.addActionListener(e -> {
-			VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos);
-			ventanaPrincipal.setVisible(false);
+			//VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, pajaros, roedores);
+			//ventanaPrincipal.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaPrincipal.setVisible(true));
 			this.setVisible(false);
 		});
@@ -167,7 +171,7 @@ public class VentanaGatos extends JFrame {
 			});
 		}
 
-		frame.add(jscroll);
+		frame.add(jscroll, BorderLayout.CENTER);
 		add(frame);
 		setVisible(true);
 
@@ -335,10 +339,11 @@ public class VentanaGatos extends JFrame {
 
 		//------------listener boton atras-------------
 		botonAtras.addActionListener(e -> {
-			VentanaGatos ventanaGatos = new VentanaGatos(gatos);
-			ventanaGatos.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaGatos.setVisible(true));
-			this.setVisible(false);
+			//VentanaGatos ventanaGatos = new VentanaGatos(gatos);
+			//ventanaGatos.setVisible(false);
+			//SwingUtilities.invokeLater(() -> ventanaPrincipal.setVisible(true));
+			ventanaCarac.setVisible(false);
+			this.setVisible(true);
 		});
 
 		// ---------añadir al frame-----------

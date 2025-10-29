@@ -12,12 +12,16 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
+import Domain.Pajaro;
+import Domain.Roedor;
 
 public class VentanaPrincipal extends JFrame {
 	private Gato[] gatos;
+	private Roedor[] roedores;
+	private Pajaro[] pajaros;
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaPrincipal(Gato[] gatos) {
+	public VentanaPrincipal(Gato[] gatos, Pajaro[] pajaros, Roedor[] roedores) {
 		this.setTitle("ventana principal - perrera");
 		this.setSize(500, 600);
 		this.setLocationRelativeTo(null);
@@ -63,7 +67,7 @@ public class VentanaPrincipal extends JFrame {
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonGatos.addActionListener(e -> {
-			VentanaGatos ventanaGatos = new VentanaGatos(gatos);
+			VentanaGatos ventanaGatos = new VentanaGatos(this, gatos);
 			ventanaGatos.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaGatos.setVisible(true));
 			this.setVisible(false);
@@ -155,7 +159,7 @@ public class VentanaPrincipal extends JFrame {
 		this.add(frame);
 		
 		
-		this.setVisible(true);
+		this.setVisible(false);
 	}
 	
 	private JLabel crearImagen(String ruta, int ancho, int alto) {
