@@ -1,16 +1,23 @@
 package gui;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import Domain.Perfil;
 
 public class VentanaInicioSesion extends JFrame {
 	private VentanaPrincipal ventanaPrincipal;
 
     public VentanaInicioSesion(VentanaPrincipal ventanaPrincipal) {
+    	this.ventanaPrincipal = ventanaPrincipal;
         // configuración de la ventana -------------------------------------------------------------------------
         this.setTitle("Inicio de Sesión");
-        this.setSize(380, 300);
+        this.setSize(380, 260);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -21,16 +28,16 @@ public class VentanaInicioSesion extends JFrame {
         Font fuenteTitulo = new Font("Arial", Font.BOLD, 22);
 
         // crear colores ---------------------------------------------------------------------------------------
-        Color rosa = new Color(255, 182, 193);
-        Color azul = new Color(204, 236, 247);
+        Color marron = new Color(193, 129, 66); 
+        Color beige = new Color(250, 240, 230); // “linen”, muy usado en interfaces suaves
 
-
+        ArrayList<Perfil> usuarios = leerCSV("perfiles.csv");
 
         // ------------------------------------------------------------------------------------------------------
 
         // panel superior ---------------------------------------------------------------------------------------
         JPanel superiorPanel = new JPanel();
-        superiorPanel.setBackground(azul);
+        superiorPanel.setBackground(beige);
 
         // borde del panel ------------------------------------
         superiorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -49,7 +56,7 @@ public class VentanaInicioSesion extends JFrame {
 
         // panel de registro (centro) ------------------------------------------
         JPanel registerPanel = new JPanel();
-        registerPanel.setBackground(rosa);
+        registerPanel.setBackground(marron);
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.Y_AXIS));
 
         // borde del panel -----------------------------------------------------
@@ -66,12 +73,9 @@ public class VentanaInicioSesion extends JFrame {
 
 
         // -----------------------------------------------------
-        JLabel nombre = new JLabel("Nombre");
-        nombre.setFont(fuenteTexto);
-
-        JLabel email = new JLabel("Email");
-        email.setFont(fuenteTexto);
-
+        JLabel username = new JLabel("Username");
+        username.setFont(fuenteTexto);
+        
         JLabel contraseña = new JLabel("Contraseña");
         contraseña.setFont(fuenteTexto);
 
@@ -79,15 +83,11 @@ public class VentanaInicioSesion extends JFrame {
         fieldsPanel.setOpaque(false); // para que mantenga el fondo rosa
         // -----------------------------------------------------
 
-        JTextField rellenarNombre = new JTextField(14);
-        JTextField rellenarEmail = new JTextField(14);
+        JTextField rellenarUsername = new JTextField(14);
         JPasswordField rellenarContraseña = new JPasswordField(14);
 
-        fieldsPanel.add(nombre);
-        fieldsPanel.add(rellenarNombre);
-
-        fieldsPanel.add(email);
-        fieldsPanel.add(rellenarEmail);
+        fieldsPanel.add(username);
+        fieldsPanel.add(rellenarUsername);
 
         fieldsPanel.add(contraseña);
         fieldsPanel.add(rellenarContraseña);
@@ -106,7 +106,7 @@ public class VentanaInicioSesion extends JFrame {
         // panel de botón de acceso -----------------------------------------------------------------------------
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(azul);
+        bottomPanel.setBackground(beige);
 
         // borde del panel -----------------------------------------------------
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -116,11 +116,32 @@ public class VentanaInicioSesion extends JFrame {
         JButton regButton = new JButton("Registrarse");
 
         // listener para que abra la ventana principal -------------------------
-        acButton.addActionListener(e -> { // la hace visible, no la crea
-			SwingUtilities.invokeLater(() -> ventanaPrincipal.setVisible(true));
-			this.dispose();
+        acButton.addActionListener(e -> {
+            String contraseñaIngresada = new String(rellenarContraseña.getPassword());
+
+            if (rellenarUsername.getText().isEmpty() || contraseñaIngresada.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            boolean encontrado = false;
+            for (Perfil u : usuarios) {
+                if (u.getUsername().equals(rellenarUsername.getText())) {
+                    if (u.getPassword().equals(contraseñaIngresada)) {
+                        ventanaPrincipal.setVisible(true);
+                        this.dispose();
+                        encontrado = true;
+                        break; // salimos porque ya encontramos al usuario correcto
+                    }
+                }
+            }
+
+            if (!encontrado) {
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
+        
         regButton.addActionListener(e -> {
             VentanaRegistro ventanaRegistro = new VentanaRegistro(this);
             SwingUtilities.invokeLater(() -> ventanaRegistro.setVisible(true));
@@ -139,6 +160,43 @@ public class VentanaInicioSesion extends JFrame {
         // ------------------------------------------------------------------------------------------------------
         this.setVisible(true);
     }
+    
+    private ArrayList<Perfil> leerCSV(String rutaArchivo) {
+    	ArrayList<Perfil> usuarios = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            boolean primeraLinea = true;
+
+            while ((linea = br.readLine()) != null) {
+                // Saltar la cabecera
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    continue;
+                }
+
+                // Dividir por comas y validar
+                String[] valores = linea.split(",");
+                if (valores.length < 2) continue; // Saltar filas mal formadas
+
+                Perfil user = new Perfil();
+                user.setUsername(valores[0].trim());
+                user.setPassword(valores[1].trim());
+
+                usuarios.add(user);
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "No se pudo leer el archivo: " + e.getMessage(),
+                "Error de lectura",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+        return usuarios;
+    }
+
+
 
 
 
