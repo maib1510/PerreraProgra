@@ -8,13 +8,17 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import Domain.Gato;
 import Domain.Perfil;
+import Domain.Usuario;
 
 public class VentanaInicioSesion extends JFrame {
-	private VentanaPrincipal ventanaPrincipal;
+	//private VentanaPrincipal ventanaPrincipal;
+	private Gato[] gatos;
 
-    public VentanaInicioSesion(VentanaPrincipal ventanaPrincipal) {
-    	this.ventanaPrincipal = ventanaPrincipal;
+    public VentanaInicioSesion(Gato[] gatos) {
+    	//this.ventanaPrincipal = ventanaPrincipal;
         // configuración de la ventana -------------------------------------------------------------------------
         this.setTitle("Inicio de Sesión");
         this.setSize(380, 260);
@@ -31,7 +35,7 @@ public class VentanaInicioSesion extends JFrame {
         Color marron = new Color(193, 129, 66); 
         Color beige = new Color(250, 240, 230); // “linen”, muy usado en interfaces suaves
 
-        ArrayList<Perfil> usuarios = leerCSV("perfiles.csv");
+        ArrayList<Usuario> usuarios = leerCSV("usuarios.csv");
 
         // ------------------------------------------------------------------------------------------------------
 
@@ -125,9 +129,10 @@ public class VentanaInicioSesion extends JFrame {
             }
 
             boolean encontrado = false;
-            for (Perfil u : usuarios) {
+            for (Usuario u : usuarios) {
                 if (u.getUsername().equals(rellenarUsername.getText())) {
                     if (u.getPassword().equals(contraseñaIngresada)) {
+                    	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos,u);
                         ventanaPrincipal.setVisible(true);
                         this.dispose();
                         encontrado = true;
@@ -161,8 +166,8 @@ public class VentanaInicioSesion extends JFrame {
         this.setVisible(true);
     }
     
-    private ArrayList<Perfil> leerCSV(String rutaArchivo) {
-    	ArrayList<Perfil> usuarios = new ArrayList<>();
+    private ArrayList<Usuario> leerCSV(String rutaArchivo) {
+    	ArrayList<Usuario> usuarios = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
             boolean primeraLinea = true;
@@ -176,11 +181,18 @@ public class VentanaInicioSesion extends JFrame {
 
                 // Dividir por comas y validar
                 String[] valores = linea.split(",");
-                if (valores.length < 2) continue; // Saltar filas mal formadas
+                if (valores.length < 8) continue; // Saltar filas mal formadas
 
-                Perfil user = new Perfil();
-                user.setUsername(valores[0].trim());
-                user.setPassword(valores[1].trim());
+                Usuario user = new Usuario();
+                // Nombre,Apellido,Edad,Username,Email,Telefono,TarjetaBancaria,Contraseña
+                user.setNombre(valores[0].trim());
+                user.setApellido(valores[1].trim());
+                user.setEdad(Integer.parseInt(valores[2]));
+                user.setUsername(valores[3].trim());
+                user.setEmail(valores[4].trim());
+                user.setTelefono(valores[5].trim());
+                user.setTarjeta_bancaria(valores[6]);
+                user.setPassword(valores[7].trim());
 
                 usuarios.add(user);
             }

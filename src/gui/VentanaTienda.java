@@ -7,11 +7,14 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import Domain.Usuario;
+
 public class VentanaTienda extends JFrame {
     private static final long serialVersionUID = 1L;
 	private JFrame ventanaAnimales;
+	private Usuario user;
 	
-	VentanaTienda(JFrame ventanaAnterior) {
+	VentanaTienda(JFrame ventanaAnterior, Usuario user) {
 		this.ventanaAnimales = ventanaAnterior;
 		 
 		this.setTitle("Tienda de Productos");
@@ -45,8 +48,7 @@ public class VentanaTienda extends JFrame {
         });
         
         perfilBtn.addActionListener(e -> {
-			
-        	VentanaPerfil ventanaPerfil = new VentanaPerfil(this);
+        	VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user);
 			ventanaPerfil.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
 			this.setVisible(false);
@@ -61,7 +63,7 @@ public class VentanaTienda extends JFrame {
         add(panelMenu, BorderLayout.NORTH);
         
         
-		this.setVisible(true);
+		this.setVisible(false);
 	}
 
 }

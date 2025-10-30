@@ -12,16 +12,15 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
-import Domain.Pajaro;
-import Domain.Roedor;
+import Domain.Usuario;
+
 
 public class VentanaPrincipal extends JFrame {
 	private Gato[] gatos;
-	private Roedor[] roedores;
-	private Pajaro[] pajaros;
+	private Usuario user;
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaPrincipal(Gato[] gatos, Pajaro[] pajaros, Roedor[] roedores) {
+	public VentanaPrincipal(Gato[] gatos, Usuario user) {
 		this.setTitle("ventana principal - perrera");
 		this.setSize(500, 600);
 		this.setLocationRelativeTo(null);
@@ -67,7 +66,7 @@ public class VentanaPrincipal extends JFrame {
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonGatos.addActionListener(e -> {
-			VentanaGatos ventanaGatos = new VentanaGatos(this, gatos);
+			VentanaGatos ventanaGatos = new VentanaGatos(this,gatos);
 			ventanaGatos.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaGatos.setVisible(true));
 			this.setVisible(false);
@@ -136,19 +135,17 @@ public class VentanaPrincipal extends JFrame {
 		// action listener para ir a la ventana de perfil
 		perfil.addActionListener(e -> {
 			
-			VentanaPerfil ventanaPerfil = new VentanaPerfil(this);
-			ventanaPerfil.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
+			VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user);
+			ventanaPerfil.setVisible(true);
 			this.setVisible(false);
 		});
 		
+
 		tienda.addActionListener(e -> {
-			VentanaTienda ventanaTienda = new VentanaTienda(this);
-			ventanaTienda.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaTienda.setVisible(true));
+			VentanaTienda ventanaTienda = new VentanaTienda(this, user);
+			ventanaTienda.setVisible(true);
 			this.setVisible(false);
 		});
-
 		
 		panelMenu.add(perfil);
 		panelMenu.add(animales);
@@ -174,3 +171,4 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 }
+

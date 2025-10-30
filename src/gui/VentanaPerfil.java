@@ -7,6 +7,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -18,12 +19,12 @@ public class VentanaPerfil extends JFrame {
     private JLabel fotoLabel;
     private ImageIcon fotoPerfil;
     private JFrame ventanaAnimales;
+    private Usuario user;
 
     // de momento pongo esto, ya crearé las clases 
     private Perfil perfil = new Perfil("imagenes/fotosPerfil/Image.jpeg", Color.BLACK);
-    private Usuario user = new Usuario("nombreUsuario", "nombre", "apellido", new ArrayList<>(), 20, 000000000, "usuario@email.com", 1010238491);
     
-    public VentanaPerfil(JFrame ventanaAnterior) {
+    public VentanaPerfil(JFrame ventanaAnterior, Usuario user) {
         this.ventanaAnimales = ventanaAnterior;
 
         // ------- CONFIGURACIÓN DE VENTANA -------------------------------------------------------------------------------------------
@@ -57,13 +58,6 @@ public class VentanaPerfil extends JFrame {
             ventanaAnimales.setVisible(true);
             dispose();
         });
-        
-        tienda.addActionListener(e -> {
-			VentanaTienda ventanaTienda = new VentanaTienda(this);
-			ventanaTienda.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaTienda.setVisible(true));
-			this.setVisible(false);
-		});
         
         // añadir los botones 
         panelMenu.add(perfilBtn);
@@ -174,31 +168,52 @@ public class VentanaPerfil extends JFrame {
     
 
         setVisible(true);
+
     }
     
 
     private BufferedImage createCircleImage(String imagePath, int diameter, Color borderColor) {
+        BufferedImage originalImage = null;
+
+        // Intenta cargar como recurso (útil si la imagen está dentro del proyecto/JAR)
         try {
-            BufferedImage originalImage = ImageIO.read(new File(imagePath)); // carga la imagen desde el archivo
-            Image scaledImage = originalImage.getScaledInstance(diameter, diameter, Image.SCALE_SMOOTH); // redimensiona suavemente
-            BufferedImage circularImage = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB); // crea imagen transparente para dibujar el círculo
-
-            Graphics2D g = circularImage.createGraphics(); // obtiene el contexto gráfico
-            g.setClip(new Ellipse2D.Float(0, 0, diameter, diameter)); // define la región circular de recorte
-            g.drawImage(scaledImage, 0, 0, null); // dibuja la imagen escalada dentro del círculo
-
-            g.setClip(null); // desactiva el recorte para poder dibujar el borde
-            g.setColor(borderColor); // establece el color del borde
-            g.setStroke(new BasicStroke(3)); // define el grosor del borde
-            g.drawOval(0, 0, diameter - 1, diameter - 1); // dibuja el borde circular
-            g.dispose(); // libera recursos del objeto Graphics2D
-
-            return circularImage; // devuelve la imagen circular resultante
+            InputStream is = getClass().getResourceAsStream(imagePath);
+            if (is != null) {
+                originalImage = ImageIO.read(is);
+            } else {
+                File file = new File(imagePath);
+                if (file.exists()) {
+                    originalImage = ImageIO.read(file);
+                } else {
+                    System.err.println("Imagen no encontrada: " + imagePath);
+                    return null;
+                }
+            }
         } catch (IOException e) {
-            System.out.println("Error al cargar la imagen: " + e.getMessage()); // muestra error si falla la carga
-            return null; // devuelve null en caso de error
+            System.err.println("Error al cargar la imagen: " + e.getMessage());
+            return null;
         }
+
+        if (originalImage == null) {
+            System.err.println("Error: la imagen no se pudo cargar.");
+            return null;
+        }
+
+        Image scaledImage = originalImage.getScaledInstance(diameter, diameter, Image.SCALE_SMOOTH);
+        BufferedImage circularImage = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = circularImage.createGraphics();
+        g.setClip(new Ellipse2D.Float(0, 0, diameter, diameter));
+        g.drawImage(scaledImage, 0, 0, null);
+        g.setClip(null);
+        g.setColor(borderColor);
+        g.setStroke(new BasicStroke(3));
+        g.drawOval(0, 0, diameter - 1, diameter - 1);
+        g.dispose();
+
+        return circularImage;
     }
+
 
 
     // --- CAMBIO DE COLOR ---

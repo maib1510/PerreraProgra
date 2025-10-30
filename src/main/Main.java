@@ -72,8 +72,8 @@ public class Main {
 
 		Roedor[] roedores = new Roedor[6];
 		
-		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, pajaros, roedores);
-		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(ventanaPrincipal);
+		//VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, pajaros, roedores);
+		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos);
 		
 		Roedor roedor1 = new Roedor("Nibbles", "Macho", 1.0f, "Hámster común", 0.12f, "Curioso y simpático", "Pelaje marrón y blanco", false);
 		Roedor roedor2 = new Roedor("Puffy", "Hembra", 0.8f, "Hámster ruso", 0.05f, "Tranquila y dulce", "Pelaje blanco y gris", false);

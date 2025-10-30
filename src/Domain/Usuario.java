@@ -10,9 +10,10 @@ public class Usuario {
 	private String apellido;
 	private ArrayList<Animal> mascotas;
 	private int edad;
-	private int telefono;
+	private String telefono;
 	private String email;
-	private int tarjeta_bancaria;
+	private String tarjeta_bancaria;
+	private String password;
 	
 	
 	public Usuario() {
@@ -21,8 +22,8 @@ public class Usuario {
 	}
 
 
-	public Usuario(String username, String nombre, String apellido, ArrayList<Animal> mascotas, int edad, int telefono,
-			String email, int tarjeta_bancaria) {
+	public Usuario(String username, String nombre, String apellido, ArrayList<Animal> mascotas, int edad, String telefono,
+			String email, String tarjeta_bancaria, String password) {
 		super();
 		this.username = username;
 		this.nombre = nombre;
@@ -32,6 +33,7 @@ public class Usuario {
 		this.telefono = telefono;
 		this.email = email;
 		this.tarjeta_bancaria = tarjeta_bancaria;
+		this.password = password;
 	}
 
 
@@ -85,12 +87,12 @@ public class Usuario {
 	}
 
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
@@ -105,13 +107,23 @@ public class Usuario {
 	}
 
 
-	public int getTarjeta_bancaria() {
+	public String getTarjeta_bancaria() {
 		return tarjeta_bancaria;
 	}
 
 
-	public void setTarjeta_bancaria(int tarjeta_bancaria) {
+	public void setTarjeta_bancaria(String tarjeta_bancaria) {
 		this.tarjeta_bancaria = tarjeta_bancaria;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
@@ -143,7 +155,7 @@ public class Usuario {
 				&& tarjeta_bancaria == other.tarjeta_bancaria && telefono == other.telefono
 				&& Objects.equals(username, other.username);
 	}
-	
+
 	
 	
 	
