@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -79,7 +80,7 @@ public class VentanaGatos extends JFrame {
 
 		//boton atras
 
-		JButton botonAtras = crearBotonRedondeado("Atrás", new Color(135, 155, 110), 20);
+		JButton botonAtras = new JButton("Atrás");
 		botonAtras.setPreferredSize(new Dimension(80, 30));
 		botonAtras.setHorizontalAlignment(botonAtras.CENTER);
 
@@ -153,7 +154,7 @@ public class VentanaGatos extends JFrame {
 
 		//botones para ver mas caracteristicas de cada gato
 		for(int i = 0; i < 12; i++) {
-			JButton boton = crearBotonRedondeado("Ver más", new Color(135, 155, 110), 20);
+			JButton boton = new JButton("Ver más");
 			boton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			paneles[i].add(Box.createVerticalStrut(20));
 			botones[i] = boton;
@@ -303,10 +304,13 @@ public class VentanaGatos extends JFrame {
 		panelAdopt.setBackground(new Color(233, 220, 209));
 
 
-		JButton botonAdopt = crearBotonRedondeado("¡Adóptame!", new Color(135, 155, 110), 20);
+		JButton botonAdopt = new JButton("¡Adóptame!");
 		botonAdopt.setPreferredSize(new Dimension(120, 35));
 		botonAdopt.setHorizontalAlignment(botonAdopt.CENTER);
 
+		botonAdopt.addActionListener(e -> {
+			confirmarAdopcion(indiceGato);
+		});
 		panelAdopt.add(botonAdopt);
 
 		//-----------panel + boton atras izquierda----------
@@ -316,7 +320,7 @@ public class VentanaGatos extends JFrame {
 		panelAtras.setBackground(new Color(233, 220, 209));
 
 
-		JButton botonAtras = crearBotonRedondeado("Atrás", new Color(135, 155, 110), 20);
+		JButton botonAtras = new JButton();
 		botonAtras.setPreferredSize(new Dimension(80, 35));
 		botonAtras.setHorizontalAlignment(botonAtras.CENTER);
 
@@ -351,6 +355,43 @@ public class VentanaGatos extends JFrame {
 		ventanaCarac.add(panelPerfil);  
 		ventanaCarac.add(panelInfo);
 		ventanaCarac.setVisible(true);
+	}
+	
+	//----------------------------------------------------FUNCION PARA CONFIRMAR ADOPCIÓN------------------------------------------------------
+	private void confirmarAdopcion(int indiceGato) {
+		JFrame ventana = new JFrame();
+		ventana.setTitle("Confirmación de la adopción");
+		ventana.setSize(700, 500);
+		ventana.setLocationRelativeTo(null);
+		ventana.setLayout(new BorderLayout());
+		
+		JPanel panel1 = new JPanel();
+		panel1.setBackground(new Color(80, 55, 30));
+		ventana.add(panel1, BorderLayout.NORTH);
+		
+		JPanel panel2 = new JPanel();
+		panel2.setBackground(new Color(80, 55, 30));
+		ventana.add(panel2, BorderLayout.SOUTH);
+		
+		JPanel panel3 = new JPanel();
+		panel3.setBackground(new Color(200, 180, 155));
+		ventana.add(panel3, BorderLayout.CENTER);
+		
+		JPanel paneliz = new JPanel();
+		paneliz.setBackground(new Color(80, 55, 30));
+		ventana.add(paneliz, BorderLayout.WEST);
+		JPanel panelder = new JPanel();
+		panelder.setBackground(new Color(80, 55, 30));
+		ventana.add(panelder, BorderLayout.EAST);
+		
+		JPanel panelTexto = new JPanel();
+		panelTexto.setBackground(new Color(233, 220, 209));
+		JLabel label = new JLabel("¡¡¡Gracias por adoptarme y darme un hogar!!!");
+		panelTexto.add(label);
+		
+		panel3.add(panelTexto);
+	
+		ventana.setVisible(true);
 	}
 
 	//---------------------------------------------------FUNCION CREAR IMAGEN CIRCULO-----------------------------------------------------------
@@ -390,38 +431,6 @@ public class VentanaGatos extends JFrame {
 		return label;
 	}
 
-	//----------------------------------FUNCION PARA BORDES REDONDEADOS DE BOTONES----------------------------------------------------------------
-
-	// Función para crear un botón redondeado y estilizado
-	public JButton crearBotonRedondeado(String texto, Color colorFondo, int radio) {
-		JButton boton = new JButton(texto) {
-			@Override
-			protected void paintComponent(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g.create();
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(colorFondo);
-				g2.fillRoundRect(0, 0, getWidth(), getHeight(), radio, radio);
-				super.paintComponent(g);
-				g2.dispose();
-			}
-			@Override
-			public void paintBorder(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g.create();
-				g2.setColor(colorFondo.darker());
-				g2.setStroke(new BasicStroke(2));
-				g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radio, radio);
-				g2.dispose();
-			}
-		};
-		boton.setFocusPainted(false);
-		boton.setForeground(Color.WHITE);
-		boton.setFont(new Font("Segoe UI", Font.BOLD, 15));
-		boton.setContentAreaFilled(false);
-		boton.setBorderPainted(false);
-		boton.setOpaque(false);
-		boton.setPreferredSize(new Dimension(110, 34));
-		return boton;
-	}
 
 	public static void main(String[] args) {
 				

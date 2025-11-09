@@ -1,14 +1,15 @@
 package main;
 
-import java.io.File;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
 import Domain.Roedor;
-import gui.VentanaGatos;
 import gui.VentanaInicioSesion;
-import gui.VentanaPrincipal;
+
 
 public class Main {
 
@@ -71,10 +72,7 @@ public class Main {
 		//--------------------------------------------------------------ROEDORES-----------------------------------------------------------------------------
 
 		Roedor[] roedores = new Roedor[6];
-		
-		//VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, pajaros, roedores);
-		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos);
-		
+
 		Roedor roedor1 = new Roedor("Nibbles", "Macho", 1.0f, "Hámster común", 0.12f, "Curioso y simpático", "Pelaje marrón y blanco", false);
 		Roedor roedor2 = new Roedor("Puffy", "Hembra", 0.8f, "Hámster ruso", 0.05f, "Tranquila y dulce", "Pelaje blanco y gris", false);
 		Roedor roedor3 = new Roedor("Manchitas", "Hembra", 2.0f, "Cobaya abisinia", 0.9f, "Sociable y tranquila", "Pelaje marrón, blanco y naranja", false);
@@ -88,6 +86,17 @@ public class Main {
 		roedores[3]  = roedor4;
 		roedores[4]  = roedor5;
 		roedores[5]  = roedor6;
+		
+		try {
+			UIManager.setLookAndFeel(new FlatMacLightLaf());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos);
+		
+		
 
 	}
 
