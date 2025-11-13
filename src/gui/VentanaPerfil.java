@@ -268,7 +268,6 @@ public class VentanaPerfil extends JFrame {
         }
     }
 
-    // --- CLASES DE PRUEBA ------
     private static class Perfil {
         private String fotoPerfilPath;
         private Color colorBorde;
