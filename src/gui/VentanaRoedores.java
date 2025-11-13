@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -25,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -306,7 +309,15 @@ public class VentanaRoedores extends JFrame {
 		botonAdopt.setHorizontalAlignment(botonAdopt.CENTER);
 
 		botonAdopt.addActionListener(e -> {
-			confirmarAdopcion(indiceRoedor);
+			if(roedores[indiceRoedor].isAdoptado() == false) {
+				confirmarAdopcionRoedor(indiceRoedor);
+				roedores[indiceRoedor].setAdoptado(true);
+			}else {
+				JOptionPane.showMessageDialog(null,
+			            "¡" + roedores[indiceRoedor].getNombre() + " ya ha sido adoptado!");
+				
+			}
+			
 		});
 		panelAdopt.add(botonAdopt);
 
@@ -317,7 +328,7 @@ public class VentanaRoedores extends JFrame {
 		panelAtras.setBackground(new Color(233, 220, 209));
 
 
-		JButton botonAtras = new JButton();
+		JButton botonAtras = new JButton("Atrás");
 		botonAtras.setPreferredSize(new Dimension(80, 35));
 		botonAtras.setHorizontalAlignment(botonAtras.CENTER);
 
@@ -353,43 +364,124 @@ public class VentanaRoedores extends JFrame {
 		ventanaCarac.add(panelInfo);
 		ventanaCarac.setVisible(true);
 	}
+
 	
 	//----------------------------------------------------FUNCION PARA CONFIRMAR ADOPCIÓN------------------------------------------------------
-	private void confirmarAdopcion(int indiceRoedor) {
-		JFrame ventana = new JFrame();
-		ventana.setTitle("Confirmación de la adopción");
-		ventana.setSize(700, 500);
-		ventana.setLocationRelativeTo(null);
-		ventana.setLayout(new BorderLayout());
-		
-		JPanel panel1 = new JPanel();
-		panel1.setBackground(new Color(80, 55, 30));
-		ventana.add(panel1, BorderLayout.NORTH);
-		
-		JPanel panel2 = new JPanel();
-		panel2.setBackground(new Color(80, 55, 30));
-		ventana.add(panel2, BorderLayout.SOUTH);
-		
-		JPanel panel3 = new JPanel();
-		panel3.setBackground(new Color(200, 180, 155));
-		ventana.add(panel3, BorderLayout.CENTER);
-		
-		JPanel paneliz = new JPanel();
-		paneliz.setBackground(new Color(80, 55, 30));
-		ventana.add(paneliz, BorderLayout.WEST);
-		JPanel panelder = new JPanel();
-		panelder.setBackground(new Color(80, 55, 30));
-		ventana.add(panelder, BorderLayout.EAST);
-		
-		JPanel panelTexto = new JPanel();
-		panelTexto.setBackground(new Color(233, 220, 209));
-		JLabel label = new JLabel("¡¡¡Gracias por adoptarme y darme un hogar!!!");
-		panelTexto.add(label);
-		
-		panel3.add(panelTexto);
-	
-		ventana.setVisible(true);
+	private void confirmarAdopcionRoedor(int indiceRoedor) {
+	    JFrame ventana = new JFrame();
+	    ventana.setTitle("Confirmación de la adopción");
+	    ventana.setSize(700, 500);
+	    ventana.setLocationRelativeTo(null);
+	    ventana.setLayout(new BorderLayout());
+
+	    // Panel principal con borde y fondo
+	    JPanel panel = new JPanel();
+	    panel.setBackground(new Color(233, 220, 209));
+	    panel.setBorder(BorderFactory.createLineBorder(new Color(80, 55, 30), 40));
+	    panel.setLayout(new BorderLayout());
+
+	    // ---------- PANEL FOTO + ARCHIVO ----------
+	    JPanel panelContenido = new JPanel(new GridLayout(1, 2));
+	    panelContenido.setBackground(new Color(233, 220, 209));
+
+	    // Panel izquierdo (foto del roedor)
+	    JPanel panelFoto = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    panelFoto.setBackground(new Color(233, 220, 209));
+	    JLabel foto = crearImagen("imagenes/roedores/roedor" + (indiceRoedor + 1) + ".png", 250, 200);
+	    panelFoto.add(foto);
+
+	    // Panel derecho (archivo + huellitas)
+	    JPanel panelArchivo = new JPanel();
+	    panelArchivo.setBackground(new Color(233, 220, 209));
+	    panelArchivo.setLayout(new BoxLayout(panelArchivo, BoxLayout.Y_AXIS));
+
+	    // Huellitas grandes
+	    JLabel huellas = new JLabel("🐾 🐾 🐾", JLabel.CENTER);
+	    huellas.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 60));
+	    huellas.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+	    // Botón para descargar archivo
+	    JButton botonDescargar = new JButton("Descargar certificado");
+	    botonDescargar.setFont(new Font("Verdana", Font.BOLD, 14));
+	    botonDescargar.setBackground(new Color(180, 150, 120));
+	    botonDescargar.setForeground(Color.WHITE);
+	    botonDescargar.setFocusPainted(false);
+	    botonDescargar.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    botonDescargar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+	    botonDescargar.addActionListener(e -> {
+	        generarCertificadoRoedor(indiceRoedor);
+	    });
+
+	    // Espaciado visual
+	    panelArchivo.add(Box.createVerticalGlue());
+	    panelArchivo.add(huellas);
+	    panelArchivo.add(Box.createRigidArea(new Dimension(0, 30)));
+	    panelArchivo.add(botonDescargar);
+	    panelArchivo.add(Box.createVerticalGlue());
+
+	    panelContenido.add(panelFoto);
+	    panelContenido.add(panelArchivo);
+
+	    // ---------- PANEL TEXTO ----------
+	    JPanel panelTexto = new JPanel();
+	    panelTexto.setLayout(new BorderLayout());
+	    panelTexto.setBackground(new Color(233, 220, 209));
+
+	    JLabel label = new JLabel(
+	        "<html><div style='text-align:center;'>¡¡¡Gracias por adoptar a <b>" 
+	        + roedores[indiceRoedor].getNombre() + "</b> y darle un hogar lleno de cuidado!!!</div></html>",
+	        JLabel.CENTER
+	    );
+	    label.setFont(new Font("Verdana", Font.BOLD, 20));
+	    label.setForeground(new Color(80, 55, 30));
+	    label.setHorizontalAlignment(SwingConstants.CENTER);
+	    label.setVerticalAlignment(SwingConstants.BOTTOM); // lo empuja hacia abajo
+	    label.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0)); // margen inferior
+
+	    panelTexto.add(label, BorderLayout.SOUTH);
+
+	    panel.add(panelContenido, BorderLayout.CENTER);
+	    panel.add(panelTexto, BorderLayout.SOUTH);
+
+	    ventana.add(panel);
+	    ventana.setVisible(true);
 	}
+
+	//---------------------------------------------FUNCION PARA GENERAR Y DESCARGAR CERTIFICADO------------------------------------------------
+
+	private void generarCertificadoRoedor(int indiceRoedor) {
+	    // Carpeta donde se guardarán los certificados
+	    File carpeta = new File("certificados/certificadosRoedores"); 
+	    
+	    // Archivo dentro de la carpeta
+	    File archivo = new File(carpeta, "Certificado_" + roedores[indiceRoedor].getNombre() + ".txt");
+
+	    try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
+	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
+	        writer.println("       Certificado de Adopción       ");
+	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
+	        writer.println();
+	        writer.println("Se confirma que has adoptado a " + roedores[indiceRoedor].getNombre() + " 🐹");
+	        writer.println();
+	        writer.println("Queremos expresarte nuestro agradecimiento por brindarle un hogar seguro y lleno de cuidado.");
+	        writer.println(roedores[indiceRoedor].getNombre() + " podrá disfrutar de una vida protegida y feliz gracias a tu decisión.");
+	        writer.println();
+	        writer.println("Esperamos que cada día junto a tu nuevo compañero sea especial y lleno de alegría.");
+	        writer.println();
+	        writer.println("────────────────────────────");
+	        writer.println("Fecha: " + java.time.LocalDate.now());
+	        writer.println("Refugio: Patitas🐾");
+	        writer.println("────────────────────────────");
+	        writer.println();
+
+	        JOptionPane.showMessageDialog(null,
+	            "¡Certificado de " + roedores[indiceRoedor].getNombre() + " guardado exitosamente!");
+	    } catch (IOException ex) {
+	        JOptionPane.showMessageDialog(null,
+	            "Error al generar el certificado: " + ex.getMessage());
+	    }
+	}
+
 
 	//---------------------------------------------------FUNCION CREAR IMAGEN CIRCULO-----------------------------------------------------------
 
