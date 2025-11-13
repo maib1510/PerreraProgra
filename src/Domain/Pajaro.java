@@ -42,5 +42,10 @@ public class Pajaro extends Animal{
 		// TODO Auto-generated method stub
 		return "pio pio";
 	}
+	@Override
+	public String getImagenPath() {
+		// TODO Auto-generated method stub
+		return "resources/imagenes/" + this.getNombre() + ".png";
+	}
 
 }

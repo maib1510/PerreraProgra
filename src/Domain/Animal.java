@@ -117,6 +117,9 @@ public abstract class Animal {
 	}
 	
 	public abstract String sonidoAnimales();
+
+    public abstract String getImagenPath();
+
 	
 
 }

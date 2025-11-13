@@ -47,4 +47,11 @@ public class Gato extends Animal{
 		return "miau miau";
 	}
 
+	@Override
+	public String getImagenPath() {
+		// TODO Auto-generated method stub
+		return "imagenes/gatos/" + this.getNombre() + ".png";
+	}
+	
+
 }

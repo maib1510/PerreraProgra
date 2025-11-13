@@ -42,5 +42,11 @@ public class Roedor extends Animal{
 		// TODO Auto-generated method stub
 		return "chiik chiik";
 	}
+	@Override
+	public String getImagenPath() {
+		// TODO Auto-generated method stub
+		return "resources/imagenes/" + this.getNombre() + ".png";
+	}
+	
 
 }

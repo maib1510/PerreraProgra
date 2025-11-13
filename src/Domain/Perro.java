@@ -43,6 +43,11 @@ public class Perro extends Animal{
 		return "guau guau";
 	}
 
+	@Override
+	public String getImagenPath() {
+		// TODO Auto-generated method stub
+		return "imagenes/perros/" + this.getNombre() + ".png";
+	}
 	
 
 }

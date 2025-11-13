@@ -1,0 +1,43 @@
+nombre,sexo,edad,raza,peso,descripcion_personalidad,descripcion_fisica,adoptado,propietario,tipo
+Firulais,Macho,3,Labrador,20,Amigable y juguetón,Grande y fuerte,False,Perro,shadowninja
+Mimi,Hembra,2,Siames,5,Curiosa y tranquila,Pequeña y ágil,True,Gato,shadowninja
+Mimi,Hembra,2,Siames,5,Curiosa y tranquila,Pequeña y ágil,True,Gato,agomez
+Rex,Macho,4,Bulldog,25,Leal y protector,Robusto y bajo,False,Perro,agomez
+Rex,Macho,4,Bulldog,25,Leal y protector,Robusto y bajo,False,Perro,jlopez
+Luna,Hembra,1,Gato Persa,4,Tranquila y dormilona,Pequeña y peluda,False,Gato,jlopez
+Luna,Hembra,1,Gato Persa,4,Tranquila y dormilona,Pequeña y peluda,False,Gato,lmartin
+Thor,Macho,5,Golden Retriever,28,Enérgico y cariñoso,Grande y dorado,True,Perro,lmartin
+Thor,Macho,5,Golden Retriever,28,Enérgico y cariñoso,Grande y dorado,True,Perro,cruiz
+Nina,Hembra,2,Siames,6,Juguetona y dulce,Pequeña y elegante,False,Gato,cruiz
+Nina,Hembra,2,Siames,6,Juguetona y dulce,Pequeña y elegante,False,Gato,msanchez
+Max,Macho,3,Pitbull,30,Valiente y protector,Musculoso y fuerte,False,Perro,msanchez
+Max,Macho,3,Pitbull,30,Valiente y protector,Musculoso y fuerte,False,Perro,pfernandez
+Bella,Hembra,4,Gato Común,5,Afable y curiosa,Pequeña y ágil,True,Gato,pfernandez
+Bella,Hembra,4,Gato Común,5,Afable y curiosa,Pequeña y ágil,True,Gato,rmunoz
+Rocky,Macho,6,Pastor Alemán,35,Fiel y activo,Grande y atlético,False,Perro,rmunoz
+Rocky,Macho,6,Pastor Alemán,35,Fiel y activo,Grande y atlético,False,Perro,storres
+Cleo,Hembra,3,Gato Bengalí,5,Juguetona y vivaz,Ágil y musculosa,False,Gato,storres
+Cleo,Hembra,3,Gato Bengalí,5,Juguetona y vivaz,Ágil y musculosa,False,Gato,evidal
+Firulais,Macho,3,Labrador,20,Amigable y juguetón,Grande y fuerte,False,Perro,evidal
+Firulais,Macho,3,Labrador,20,Amigable y juguetón,Grande y fuerte,False,Perro,mherrera
+Mimi,Hembra,2,Siames,5,Curiosa y tranquila,Pequeña y ágil,True,Gato,mherrera
+Mimi,Hembra,2,Siames,5,Curiosa y tranquila,Pequeña y ágil,True,Gato,nruano
+Rex,Macho,4,Bulldog,25,Leal y protector,Robusto y bajo,False,Perro,nruano
+Rex,Macho,4,Bulldog,25,Leal y protector,Robusto y bajo,False,Perro,dmorales
+Luna,Hembra,1,Gato Persa,4,Tranquila y dormilona,Pequeña y peluda,False,Gato,dmorales
+Luna,Hembra,1,Gato Persa,4,Tranquila y dormilona,Pequeña y peluda,False,Gato,sprieto
+Thor,Macho,5,Golden Retriever,28,Enérgico y cariñoso,Grande y dorado,True,Perro,sprieto
+Thor,Macho,5,Golden Retriever,28,Enérgico y cariñoso,Grande y dorado,True,Perro,inunez
+Nina,Hembra,2,Siames,6,Juguetona y dulce,Pequeña y elegante,False,Gato,inunez
+Nina,Hembra,2,Siames,6,Juguetona y dulce,Pequeña y elegante,False,Gato,calonso
+Max,Macho,3,Pitbull,30,Valiente y protector,Musculoso y fuerte,False,Perro,calonso
+Max,Macho,3,Pitbull,30,Valiente y protector,Musculoso y fuerte,False,Perro,rsoto
+Bella,Hembra,4,Gato Común,5,Afable y curiosa,Pequeña y ágil,True,Gato,rsoto
+Bella,Hembra,4,Gato Común,5,Afable y curiosa,Pequeña y ágil,True,Gato,nperez
+Rocky,Macho,6,Pastor Alemán,35,Fiel y activo,Grande y atlético,False,Perro,nperez
+Rocky,Macho,6,Pastor Alemán,35,Fiel y activo,Grande y atlético,False,Perro,obravo
+Cleo,Hembra,3,Gato Bengalí,5,Juguetona y vivaz,Ágil y musculosa,False,Gato,obravo
+Cleo,Hembra,3,Gato Bengalí,5,Juguetona y vivaz,Ágil y musculosa,False,Gato,mibanez
+Firulais,Macho,3,Labrador,20,Amigable y juguetón,Grande y fuerte,False,Perro,mibanez
+Firulais,Macho,3,Labrador,20,Amigable y juguetón,Grande y fuerte,False,Perro,arey
+Mimi,Hembra,2,Siames,5,Curiosa y tranquila,Pequeña y ágil,True,Gato,arey
