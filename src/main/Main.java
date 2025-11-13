@@ -50,6 +50,33 @@ public class Main {
 		//--------------------------------------------------------------PERROS-----------------------------------------------------------------------------
 
 		Perro[] perros = new Perro[12];
+
+		Perro perro1 = new Perro("Rex", "Macho", 3.0f, "Pastor Alemán", 30.5f, "Leal, protector y obediente", "Marrón y negro, ojos oscuros", false);
+		Perro perro2 = new Perro("Luna", "Hembra", 2.5f, "Labrador Retriever", 25.0f, "Juguetona, amable y sociable", "Beige claro, ojos marrones", false);
+		Perro perro3 = new Perro("Toby", "Macho", 1.8f, "Beagle", 12.3f, "Curioso, activo y tierno", "Tricolor, orejas largas, ojos miel", false);
+		Perro perro4 = new Perro("Nala", "Hembra", 4.2f, "Golden Retriever", 28.7f, "Cariñosa, tranquila y noble", "Dorado brillante, ojos marrones", false);
+		Perro perro5 = new Perro("Bruno", "Macho", 5.0f, "Boxer", 30.0f, "Valiente, energético y fiel", "Marrón con máscara negra, ojos oscuros", false);
+		Perro perro6 = new Perro("Kira", "Hembra", 3.3f, "Husky Siberiano", 23.1f, "Independiente, activa y curiosa", "Blanco y gris, ojos azules", false);
+		Perro perro7 = new Perro("Rocky", "Macho", 2.0f, "Border Collie", 18.4f, "Inteligente, trabajador y ágil", "Blanco y negro, ojos marrones", false);
+		Perro perro8 = new Perro("Molly", "Hembra", 1.5f, "Corgi", 11.2f, "Simpática, alegre y muy sociable", "Naranja y blanco, ojos oscuros", false);
+		Perro perro9 = new Perro("Duke", "Macho", 3.7f, "Dálmata", 24.0f, "Activo, juguetón y curioso", "Blanco con manchas negras, ojos oscuros", false);
+		Perro perro10 = new Perro("Bella", "Hembra", 4.0f, "Shiba Inu", 9.8f, "Independiente, leal y alerta", "Naranja rojizo, ojos marrones", false);
+		Perro perro11 = new Perro("Max", "Macho", 2.9f, "French Bulldog", 13.5f, "Tranquilo, cariñoso y simpático", "Gris azulado, ojos oscuros", false);
+		Perro perro12 = new Perro("Coco", "Macho", 1.2f, "Caniche", 6.1f, "Inteligente, amable y juguetón", "Blanco rizado, ojos negros", false);
+
+		perros[0]  = perro1;
+		perros[1]  = perro2;
+		perros[2]  = perro3;
+		perros[3]  = perro4;
+		perros[4]  = perro5;
+		perros[5]  = perro6;
+		perros[6]  = perro7;
+		perros[7]  = perro8;
+		perros[8]  = perro9;
+		perros[9]  = perro10;
+		perros[10] = perro11;
+		perros[11] = perro12;
+
 		
 		//--------------------------------------------------------------PAJAROS-----------------------------------------------------------------------------
 		
@@ -94,7 +121,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos);
+		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos, roedores);
 		
 		
 
