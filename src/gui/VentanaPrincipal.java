@@ -12,26 +12,15 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
-import Domain.Roedor;
 import Domain.Usuario;
 
 
 public class VentanaPrincipal extends JFrame {
 	private Gato[] gatos;
-	private Roedor[] roedores;
 	private Usuario user;
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaPrincipal(Gato[] gatos,Roedor[] roedores, Usuario user) {
-		
-		
-		this.gatos = gatos;
-        this.roedores = roedores;
-        this.user = user;
-		
-		
-		
-		
+	public VentanaPrincipal(Gato[] gatos, Usuario user) {
 		this.setTitle("ventana principal - perrera");
 		this.setSize(500, 600);
 		this.setLocationRelativeTo(null);
@@ -104,7 +93,7 @@ public class VentanaPrincipal extends JFrame {
 		panelPajaros.add(labelPajaro);
 		panelPajaros.add(botonPajaros);
 		panelAnimales.add(panelPajaros);
-	 
+
 		// ----------------------------------------- panel roedores ----------------------------------------- 
 		
 		JPanel panelRoedores = new JPanel();
@@ -118,17 +107,6 @@ public class VentanaPrincipal extends JFrame {
 		JLabel labelRoedor = crearImagen("imagenes/fotosVentanaPrincipal/hamstercitoMenu.png.jpeg", 175, 175);
 		JButton botonRoedor = new JButton("Adoptar");
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		
-		botonRoedor.addActionListener(e -> {
-            VentanaRoedores ventanaRoedores = new VentanaRoedores(this, roedores);
-            ventanaRoedores.setVisible(false);
-            SwingUtilities.invokeLater(() -> ventanaRoedores.setVisible(true));
-            this.setVisible(false);
-        });
-		
-		
-		
 
 		panelRoedores.add(labelRoedor);
 		panelRoedores.add(botonRoedor);
@@ -152,6 +130,7 @@ public class VentanaPrincipal extends JFrame {
 		JButton animales = new JButton("animales");
 		JButton tienda = new JButton("tienda");
 		JButton perfil = new JButton("perfil");
+		JButton noticias = new JButton("ver noticias");
 		
 		
 		// action listener para ir a la ventana de perfil
@@ -169,10 +148,16 @@ public class VentanaPrincipal extends JFrame {
 			this.setVisible(false);
 		});
 		
+		noticias.addActionListener(e -> {
+			NewsTicker ventanaNoticias = new NewsTicker(this);
+			ventanaNoticias.setVisible(true);
+			this.setVisible(false);
+		});
+		
 		panelMenu.add(perfil);
 		panelMenu.add(animales);
 		panelMenu.add(tienda);
-		
+		panelMenu.add(noticias);
 		
 		frame.add(panelMenu, BorderLayout.NORTH);
 		this.add(frame);

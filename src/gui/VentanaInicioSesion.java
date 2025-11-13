@@ -134,7 +134,7 @@ public class VentanaInicioSesion extends JFrame {
             for (Usuario u : usuarios) {
                 if (u.getUsername().equals(rellenarUsername.getText())) {
                     if (u.getPassword().equals(contraseñaIngresada)) {
-                    	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos,roedores, u);
+                    	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos,u);
                         ventanaPrincipal.setVisible(true);
                         this.dispose();
                         encontrado = true;
