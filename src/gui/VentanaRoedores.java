@@ -1,18 +1,15 @@
 package gui;
 
-
-import java.awt.BorderLayout;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -33,28 +30,25 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import Domain.Gato;
-import Domain.Pajaro;
 import Domain.Roedor;
 
-public class VentanaGatos extends JFrame {
-
+public class VentanaRoedores extends JFrame {
+	
 	private static final long serialVersionUID = 1L;
-	private Gato[] gatos;
+	private Roedor[] roedores;
 
 	private VentanaPrincipal ventanaPrincipal;
 
-	public VentanaGatos(VentanaPrincipal ventanaPrincipal, Gato[] gatos) {
+	public VentanaRoedores(VentanaPrincipal ventanaPrincipal, Roedor[] roedores) {
+		this.ventanaPrincipal = ventanaPrincipal;
+		this.roedores = roedores;
 
-		this.gatos = gatos;
-
-		setTitle("GATOS");
+		setTitle("ROEDORES");
 		setSize(850, 600);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -69,11 +63,11 @@ public class VentanaGatos extends JFrame {
 		panelTitulo.setBackground(new Color(200, 180, 155));
 		panelTitulo.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(new Color(80, 55, 30)), 
-				"miau miau", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
+				"cui cui", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
 				));
 
 		JLabel titulo = new JLabel();
-		titulo.setText("GATOS PARA ADOPTAR");
+		titulo.setText("ROEDORES PARA ADOPTAR");
 		titulo.setHorizontalAlignment(SwingConstants.CENTER); //para poner en el centro con borderlayout
 		titulo.setFont(new Font("Verdana", Font.BOLD, 20));
 		titulo.setForeground(new Color(80, 55, 30));
@@ -107,7 +101,7 @@ public class VentanaGatos extends JFrame {
 		//-----------------------------------------------------PANEL PRINCIPAL--------------------------------------------------------------------
 
 		JPanel panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(new GridLayout(4, 3, 10, 10));
+		panelPrincipal.setLayout(new GridLayout(2, 3, 10, 10));
 		panelPrincipal.setBackground(new Color(200, 180, 155));
 
 		//jscroll para el panel principal
@@ -116,11 +110,13 @@ public class VentanaGatos extends JFrame {
 
 		//---------------------------------------------------------PANELES PARA CADA GATO----------------------------------------------------------
 
-		//array de paneles para 12 gatos
-		JPanel[] paneles = new JPanel[12];
+		int n = roedores.length; 
+		
+		//array de paneles para 6 roedores
+		JPanel[] paneles = new JPanel[n];
 
-		//paneles para cada gato
-		for (int i = 0; i < 12; i++) {
+		//paneles para cada roedor
+		for (int i = 0; i < n; i++) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setPreferredSize(new Dimension(250, 250)); // casilla grande
@@ -128,7 +124,7 @@ public class VentanaGatos extends JFrame {
 
 			panel.setBorder(BorderFactory.createTitledBorder(
 					BorderFactory.createLineBorder(new Color(80, 55, 30)), 
-					gatos[i].getNombre(), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
+					roedores[i].getNombre(), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
 					));
 			paneles[i] = panel;
 			panelPrincipal.add(panel);
@@ -136,28 +132,28 @@ public class VentanaGatos extends JFrame {
 		}
 
 
-		//---------------------------------------------------LABELS PARA CADA GATO-------------------------------------------------------------------
+		//---------------------------------------------------LABELS PARA CADA ROEDOR-------------------------------------------------------------------
 
-		//array de labels (12 labels)
-		JLabel[] labels = new JLabel[12];
+		//array de labels (6 labels)
+		JLabel[] labels = new JLabel[6];
 
 		//añadir cada label al panel y poner una imagen para cada una
-		for (int i = 0; i < 12; i ++) {
-			JLabel label = crearImagen("imagenes/gatos/gato" + (i+1) + ".png", 200, 150);
+		for (int i = 0; i < 6; i ++) {
+			JLabel label = crearImagen("imagenes/roedores/roedor" + (i+1) + ".png", 200, 150);
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			paneles[i].add(Box.createVerticalStrut(15));
 			labels[i] = label;
 			paneles[i].add(label);
 		}
 
-		//---------------------------------------------------------BUTTONS VER MAS PARA CADA GATO-----------------------------------------------------
+		//---------------------------------------------------------BUTTONS VER MAS PARA CADA ROEDOR-----------------------------------------------------
 
-		//array de botones (12 botones) para adoptar
-		JButton[] botones = new JButton[12];
+		//array de botones (6 botones) para adoptar
+		JButton[] botones = new JButton[6];
 
 
 		//botones para ver mas caracteristicas de cada gato
-		for(int i = 0; i < 12; i++) {
+		for(int i = 0; i < 6; i++) {
 			JButton boton = new JButton("Ver más");
 			boton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			paneles[i].add(Box.createVerticalStrut(20));
@@ -166,12 +162,12 @@ public class VentanaGatos extends JFrame {
 		}
 
 		//----------------------------------------LISTENER PARA LOS BOTONES VER MAS--------------------------------------------------------
-		for(int i = 0; i < 12; i++) {
-			final int indiceGato = i; // 
+		for(int i = 0; i < n; i++) {
+			final int indiceRoedor = i; // 
 			botones[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mostrarCaracteristicas(indiceGato);
+					mostrarCaracteristicas(indiceRoedor);
 				}
 			});
 		}
@@ -182,14 +178,14 @@ public class VentanaGatos extends JFrame {
 
 	}
 
-	//----------------------------------FUNCION PARA MOSTRAR CARACTERISTICAS DE CADA GATO---------------------------------------------------------
+	//----------------------------------FUNCION PARA MOSTRAR CARACTERISTICAS DE CADA ROEDOR---------------------------------------------------------
 
 
-	//---------------------------------------------------ventana caracteristicas gato-------------------------------------------------------------
-	//panel que se abre despues de darle al boton 'ver mas' para ver mejor las caracteristicas de cada gato
+	//---------------------------------------------------ventana caracteristicas roedor-------------------------------------------------------------
+	//panel que se abre despues de darle al boton 'ver mas' para ver mejor las caracteristicas de cada roedor
 
-	private void mostrarCaracteristicas(int indiceGato) {
-		JFrame ventanaCarac = new JFrame("Características del gato");
+	private void mostrarCaracteristicas(int indiceRoedor) {
+		JFrame ventanaCarac = new JFrame("Características del roedor");
 		ventanaCarac.setSize(700, 500);
 		ventanaCarac.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		ventanaCarac.setLocationRelativeTo(null);
@@ -201,14 +197,14 @@ public class VentanaGatos extends JFrame {
 		panelPerfil.setPreferredSize(new Dimension(500, 140));
 		panelPerfil.setBackground(new Color(200, 180, 155)); 
 
-		ImageIcon fotoPerfilGato = new ImageIcon(createCircleImage("imagenes/gatos/gato" + (indiceGato+1) + ".png", 110, new Color(80, 55, 30))); // un terracota elegante
-		JLabel fotoLabelGato = new JLabel(fotoPerfilGato);
-		fotoLabelGato.setHorizontalAlignment(JLabel.CENTER);
-		panelPerfil.add(fotoLabelGato);
+		ImageIcon fotoPerfilRoedor = new ImageIcon(createCircleImage("imagenes/roedores/roedor" + (indiceRoedor+1) + ".png", 110, new Color(80, 55, 30))); // un terracota elegante
+		JLabel fotoLabelRoedor = new JLabel(fotoPerfilRoedor);
+		fotoLabelRoedor.setHorizontalAlignment(JLabel.CENTER);
+		panelPerfil.add(fotoLabelRoedor);
 
 		panelPerfil.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(new Color(80, 55, 30)), 
-				gatos[indiceGato].sonidoAnimales(), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
+				roedores[indiceRoedor].sonidoAnimales(), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
 				));
 
 		//----------------------------------------------------------panel info-------------------------------------------------------------------------
@@ -218,14 +214,14 @@ public class VentanaGatos extends JFrame {
 		panelInfo.setBackground(new Color(233, 220, 209)); 
 		panelInfo.setLayout(new BorderLayout(20, 20));
 
-		Gato gato = gatos[indiceGato];
+		Roedor roedor = roedores[indiceRoedor];
 
-		// -----------titulo del gato en grande--------
+		// -----------titulo del roedor en grande--------
 
-		JLabel nombreGato = new JLabel(gato.getNombre(), JLabel.CENTER);
-		nombreGato.setFont(new Font("Verdana", Font.BOLD, 36));
-		nombreGato.setForeground(new Color(80, 55, 30)); 
-		panelInfo.add(nombreGato, BorderLayout.NORTH);
+		JLabel nombreRoedor = new JLabel(roedor.getNombre(), JLabel.CENTER);
+		nombreRoedor.setFont(new Font("Verdana", Font.BOLD, 36));
+		nombreRoedor.setForeground(new Color(80, 55, 30)); 
+		panelInfo.add(nombreRoedor, BorderLayout.NORTH);
 
 		//-----------datos en caja en dos columnas--------
 
@@ -241,45 +237,45 @@ public class VentanaGatos extends JFrame {
 		// -----------etiquetas para cada dato--------
 
 		//edad (para que no aparezca float si es entero)
-		double edad = gato.getEdad();
-		String gatoEdad;
+		double edad = roedor.getEdad();
+		String roedorEdad;
 		if (edad == Math.floor(edad)) {
 			//número entero (sin decimales)
-			gatoEdad = String.format("%.0f", edad);
+			roedorEdad = String.format("%.0f", edad);
 		} else {
 			//número decimal no entero
-			gatoEdad = String.format("%.1f", edad);
+			roedorEdad = String.format("%.1f", edad);
 		}
 
-		JLabel edadLabel = new JLabel("<html><b>Edad:</b> " + gatoEdad + " años</html>", JLabel.CENTER);// poner en negrita edad
+		JLabel edadLabel = new JLabel("<html><b>Edad:</b> " + roedorEdad + " años</html>", JLabel.CENTER);// poner en negrita edad
 		edadLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		edadLabel.setBorder(bordeDatos);
 		edadLabel.setForeground(new Color(80, 55, 30));
 		panelDatos.add(edadLabel);
 
 		//sexo
-		JLabel sexoLabel = new JLabel("<html><b>Sexo:</b> " + gato.getSexo() + "</html>", JLabel.CENTER);
+		JLabel sexoLabel = new JLabel("<html><b>Sexo:</b> " + roedor.getSexo() + "</html>", JLabel.CENTER);
 		sexoLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		sexoLabel.setBorder(bordeDatos);
 		sexoLabel.setForeground(new Color(80, 55, 30));
 		panelDatos.add(sexoLabel);
 
 		//raza
-		JLabel razaLabel = new JLabel("<html><b>Raza:</b> " + gato.getRaza() + "</html>", JLabel.CENTER);
+		JLabel razaLabel = new JLabel("<html><b>Raza:</b> " + roedor.getRaza() + "</html>", JLabel.CENTER);
 		razaLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		razaLabel.setBorder(bordeDatos);
 		razaLabel.setForeground(new Color(80, 55, 30));
 		panelDatos.add(razaLabel);
 
 		//peso
-		JLabel pesoLabel = new JLabel("<html><b>Peso:</b> " + gato.getPeso() + " kg</html>", JLabel.CENTER);
+		JLabel pesoLabel = new JLabel("<html><b>Peso:</b> " + roedor.getPeso() + " kg</html>", JLabel.CENTER);
 		pesoLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		pesoLabel.setBorder(bordeDatos);
 		pesoLabel.setForeground(new Color(80, 55, 30));
 		panelDatos.add(pesoLabel);
 
 		//personalidad
-		JLabel personalidadLabel = new JLabel("<html><b>Personalidad:</b> " + gato.getDescripcion_personalidad() + "</html>", JLabel.CENTER);
+		JLabel personalidadLabel = new JLabel("<html><b>Personalidad:</b> " + roedor.getDescripcion_personalidad() + "</html>", JLabel.CENTER);
 		personalidadLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		personalidadLabel.setForeground(new Color(80, 55, 30));
 		personalidadLabel.setBorder(BorderFactory.createCompoundBorder(
@@ -289,7 +285,7 @@ public class VentanaGatos extends JFrame {
 		panelDatos.add(personalidadLabel);
 
 		//rasgos
-		JLabel rasgosLabel = new JLabel("<html><b>Rasgos:</b> " + gato.getDescripcion_fisica() + "</html>", JLabel.CENTER);
+		JLabel rasgosLabel = new JLabel("<html><b>Rasgos:</b> " + roedor.getDescripcion_fisica() + "</html>", JLabel.CENTER);
 		rasgosLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		rasgosLabel.setForeground(new Color(80, 55, 30));
 		rasgosLabel.setBorder(BorderFactory.createCompoundBorder(
@@ -313,14 +309,15 @@ public class VentanaGatos extends JFrame {
 		botonAdopt.setHorizontalAlignment(botonAdopt.CENTER);
 
 		botonAdopt.addActionListener(e -> {
-			if(gatos[indiceGato].isAdoptado() == false) {
-				confirmarAdopcion(indiceGato);
-				gatos[indiceGato].setAdoptado(true);
-			} else {
+			if(roedores[indiceRoedor].isAdoptado() == false) {
+				confirmarAdopcionRoedor(indiceRoedor);
+				roedores[indiceRoedor].setAdoptado(true);
+			}else {
 				JOptionPane.showMessageDialog(null,
-			            "¡" + gatos[indiceGato].getNombre() + " ya ha sido adoptado!");
+			            "¡" + roedores[indiceRoedor].getNombre() + " ya ha sido adoptado!");
 				
 			}
+			
 		});
 		panelAdopt.add(botonAdopt);
 
@@ -354,8 +351,8 @@ public class VentanaGatos extends JFrame {
 
 		//------------listener boton atras-------------
 		botonAtras.addActionListener(e -> {
-			//VentanaGatos ventanaGatos = new VentanaGatos(gatos);
-			//ventanaGatos.setVisible(false);
+			//VentanaRoedores ventanaRoedores = new VentanaGatos(roedores);
+			//VentanaRoedores.setVisible(false);
 			//SwingUtilities.invokeLater(() -> ventanaPrincipal.setVisible(true));
 			ventanaCarac.setVisible(false);
 			this.setVisible(true);
@@ -367,9 +364,10 @@ public class VentanaGatos extends JFrame {
 		ventanaCarac.add(panelInfo);
 		ventanaCarac.setVisible(true);
 	}
+
 	
 	//----------------------------------------------------FUNCION PARA CONFIRMAR ADOPCIÓN------------------------------------------------------
-	private void confirmarAdopcion(int indiceGato) {
+	private void confirmarAdopcionRoedor(int indiceRoedor) {
 	    JFrame ventana = new JFrame();
 	    ventana.setTitle("Confirmación de la adopción");
 	    ventana.setSize(700, 500);
@@ -386,10 +384,10 @@ public class VentanaGatos extends JFrame {
 	    JPanel panelContenido = new JPanel(new GridLayout(1, 2));
 	    panelContenido.setBackground(new Color(233, 220, 209));
 
-	    // Panel izquierdo (foto del gato)
+	    // Panel izquierdo (foto del roedor)
 	    JPanel panelFoto = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    panelFoto.setBackground(new Color(233, 220, 209));
-	    JLabel foto = crearImagen("imagenes/gatos/gato" + (indiceGato + 1) + ".png", 250, 200);
+	    JLabel foto = crearImagen("imagenes/roedores/roedor" + (indiceRoedor + 1) + ".png", 250, 200);
 	    panelFoto.add(foto);
 
 	    // Panel derecho (archivo + huellitas)
@@ -411,8 +409,7 @@ public class VentanaGatos extends JFrame {
 	    botonDescargar.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    botonDescargar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 	    botonDescargar.addActionListener(e -> {
-	    		generarCertificadoGato(indiceGato);
-	    	
+	        generarCertificadoRoedor(indiceRoedor);
 	    });
 
 	    // Espaciado visual
@@ -432,7 +429,7 @@ public class VentanaGatos extends JFrame {
 
 	    JLabel label = new JLabel(
 	        "<html><div style='text-align:center;'>¡¡¡Gracias por adoptar a <b>" 
-	        + gatos[indiceGato].getNombre() + "</b> y darle un hogar lleno de amor!!!</div></html>",
+	        + roedores[indiceRoedor].getNombre() + "</b> y darle un hogar lleno de cuidado!!!</div></html>",
 	        JLabel.CENTER
 	    );
 	    label.setFont(new Font("Verdana", Font.BOLD, 20));
@@ -449,32 +446,27 @@ public class VentanaGatos extends JFrame {
 	    ventana.add(panel);
 	    ventana.setVisible(true);
 	}
-	
+
 	//---------------------------------------------FUNCION PARA GENERAR Y DESCARGAR CERTIFICADO------------------------------------------------
-	//IMPORTANTE!!!!!! -> para descargar el fichero es necesario refrescar el proyecto
-	
-	private void generarCertificadoGato(int indiceGato) { 
-	    // carpeta donde se guardarán los certificados
-	    File carpeta = new File("certificados/certificadosGatos"); 
+
+	private void generarCertificadoRoedor(int indiceRoedor) {
+	    // Carpeta donde se guardarán los certificados
+	    File carpeta = new File("certificados/certificadosRoedores"); 
 	    
-	    // archivo dentro de la carpeta
-	    File archivo = new File(carpeta, "Certificado_" + gatos[indiceGato].getNombre() + ".txt");
+	    // Archivo dentro de la carpeta
+	    File archivo = new File(carpeta, "Certificado_" + roedores[indiceRoedor].getNombre() + ".txt");
 
 	    try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
 	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
 	        writer.println("       Certificado de Adopción       ");
 	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
 	        writer.println();
-	        writer.println("¡Qué alegría! 🎉");
+	        writer.println("Se confirma que has adoptado a " + roedores[indiceRoedor].getNombre() + " 🐹");
 	        writer.println();
-	        writer.println("Se confirma que has adoptado a " + gatos[indiceGato].getNombre() + " 🐱");
+	        writer.println("Queremos expresarte nuestro agradecimiento por brindarle un hogar seguro y lleno de cuidado.");
+	        writer.println(roedores[indiceRoedor].getNombre() + " podrá disfrutar de una vida protegida y feliz gracias a tu decisión.");
 	        writer.println();
-	        writer.println("Estamos muy felices por ti y por " + gatos[indiceGato].getNombre() + ".");
-	        writer.println("Gracias a tu decisión, " + gatos[indiceGato].getNombre() + " tendrá un hogar lleno de amor y cuidado.");
-	        writer.println("Este es un momento muy especial y queremos celebrarlo contigo.");
-	        writer.println();
-	        writer.println("Disfruta cada instante junto a tu nuevo compañero,");
-	        writer.println("y recuerda que tu gesto significa un mundo para él.");
+	        writer.println("Esperamos que cada día junto a tu nuevo compañero sea especial y lleno de alegría.");
 	        writer.println();
 	        writer.println("────────────────────────────");
 	        writer.println("Fecha: " + java.time.LocalDate.now());
@@ -483,15 +475,12 @@ public class VentanaGatos extends JFrame {
 	        writer.println();
 
 	        JOptionPane.showMessageDialog(null,
-	            "¡Certificado de " + gatos[indiceGato].getNombre() + " guardado exitosamente!");
+	            "¡Certificado de " + roedores[indiceRoedor].getNombre() + " guardado exitosamente!");
 	    } catch (IOException ex) {
 	        JOptionPane.showMessageDialog(null,
 	            "Error al generar el certificado: " + ex.getMessage());
 	    }
 	}
-
-
-
 
 
 	//---------------------------------------------------FUNCION CREAR IMAGEN CIRCULO-----------------------------------------------------------
