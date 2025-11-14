@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
 import Domain.Pajaro;
+import Domain.Perro;
 import Domain.Roedor;
 import Domain.Usuario;
 
@@ -21,14 +22,17 @@ public class VentanaPrincipal extends JFrame {
 	private Gato[] gatos;
 	private Roedor[] roedores;
 	private Pajaro[] pajaros;
+	private Perro[] perros;
 	private Usuario user;
 	
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaPrincipal(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Usuario user) {
+	public VentanaPrincipal(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, Usuario user) {
 		
 		this.gatos = gatos;
         this.roedores = roedores;
+        this.pajaros= pajaros;
+        this.perros=perros;
         this.user = user;
         
         
@@ -111,7 +115,7 @@ public class VentanaPrincipal extends JFrame {
 		panelPajaros.add(labelPajaro);
 		panelPajaros.add(botonPajaros);
 		panelAnimales.add(panelPajaros);
-
+		
 		// ----------------------------------------- panel roedores ----------------------------------------- 
 		
 		JPanel panelRoedores = new JPanel();
