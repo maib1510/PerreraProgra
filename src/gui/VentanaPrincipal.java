@@ -100,6 +100,13 @@ public class VentanaPrincipal extends JFrame {
 		JLabel labelPajaro = crearImagen("imagenes/fotosVentanaPrincipal/loritoMenu.png.jpeg", 175, 175);
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonGatos.addActionListener(e -> {
+			VentanaPajaros ventanaPajaros = new VentanaPajaros(this,pajaros);
+			ventanaPajaros.setVisible(false);
+			SwingUtilities.invokeLater(() -> ventanaPajaros.setVisible(true));
+			this.setVisible(false);
+		});
 
 		panelPajaros.add(labelPajaro);
 		panelPajaros.add(botonPajaros);
