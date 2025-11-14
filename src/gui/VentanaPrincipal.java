@@ -101,7 +101,7 @@ public class VentanaPrincipal extends JFrame {
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		botonGatos.addActionListener(e -> {
+		botonPajaros.addActionListener(e -> {
 			VentanaPajaros ventanaPajaros = new VentanaPajaros(this,pajaros);
 			ventanaPajaros.setVisible(false);
 			SwingUtilities.invokeLater(() -> ventanaPajaros.setVisible(true));
