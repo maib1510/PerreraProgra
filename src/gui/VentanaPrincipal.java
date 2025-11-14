@@ -61,6 +61,13 @@ public class VentanaPrincipal extends JFrame {
 		JLabel labelPerro = crearImagen("imagenes/fotosVentanaPrincipal/perritoMenu.png.jpeg", 175, 175);
 		JButton botonPerros = new JButton("Adoptar");
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonPerros.addActionListener(e -> {
+			VentanaPerros ventanaPerros = new VentanaPerros(this,perros);
+			ventanaPerros.setVisible(false);
+			SwingUtilities.invokeLater(() -> ventanaPerros.setVisible(true));
+			this.setVisible(false);
+		});
 
 		panelPerros.add(labelPerro);
 		panelPerros.add(botonPerros);

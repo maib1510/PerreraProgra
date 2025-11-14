@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perfil;
+import Domain.Perro;
 import Domain.Roedor;
 import Domain.Usuario;
 
@@ -20,8 +21,9 @@ public class VentanaInicioSesion extends JFrame {
 	private Gato[] gatos;
 	private Roedor[] roedores;
 	private Pajaro[] pajaros;
+	private Perro[] perros;
 
-    public VentanaInicioSesion(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros) {
+    public VentanaInicioSesion(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros,Perro[] perros) {
     	//this.ventanaPrincipal = ventanaPrincipal;
         // configuración de la ventana -------------------------------------------------------------------------
         this.setTitle("Inicio de Sesión");
@@ -136,7 +138,7 @@ public class VentanaInicioSesion extends JFrame {
             for (Usuario u : usuarios) {
                 if (u.getUsername().equals(rellenarUsername.getText())) {
                     if (u.getPassword().equals(contraseñaIngresada)) {
-                    	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros,u);
+                    	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros,u);
                         ventanaPrincipal.setVisible(true);
                         this.dispose();
                         encontrado = true;
