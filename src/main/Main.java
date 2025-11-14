@@ -121,7 +121,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos, roedores);
+		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos, roedores, pajaros);
 		
 		
 
