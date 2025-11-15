@@ -231,7 +231,7 @@ public class VentanaPerros extends JFrame {
 
 		// -----------borde tipo caja para los datos--------
 		Border bordeDatos = BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(new Color(135, 155, 110), 2, true), 
+				BorderFactory.createLineBorder(new Color(80, 55, 30), 2, true), 
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)
 				);
 
@@ -280,7 +280,7 @@ public class VentanaPerros extends JFrame {
 		personalidadLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		personalidadLabel.setForeground(new Color(80, 55, 30));
 		personalidadLabel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(new Color(135, 155, 110), 2, true),
+				BorderFactory.createLineBorder(new Color(80, 55, 30), 2, true),
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)
 				));
 		panelDatos.add(personalidadLabel);
@@ -290,7 +290,7 @@ public class VentanaPerros extends JFrame {
 		rasgosLabel.setFont(new Font("Verdana", Font.PLAIN, 16));
 		rasgosLabel.setForeground(new Color(80, 55, 30));
 		rasgosLabel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(new Color(135, 155, 110), 2, true), 
+				BorderFactory.createLineBorder(new Color(80, 55, 30), 2, true), 
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)
 				));
 
@@ -367,115 +367,132 @@ public class VentanaPerros extends JFrame {
 	
 	//----------------------------------------------------FUNCION PARA CONFIRMAR ADOPCIÓN------------------------------------------------------
 	private void confirmarAdopcion(int indicePerro) {
-	    JFrame ventana = new JFrame();
-	    ventana.setTitle("Confirmación de la adopción");
+	    JFrame ventana = new JFrame("Confirmación de la adopción");
 	    ventana.setSize(700, 500);
 	    ventana.setLocationRelativeTo(null);
-	    ventana.setLayout(new BorderLayout());
 
-	    // Panel principal con borde y fondo
-	    JPanel panel = new JPanel();
-	    panel.setBackground(new Color(233, 220, 209));
-	    panel.setBorder(BorderFactory.createLineBorder(new Color(80, 55, 30), 40));
-	    panel.setLayout(new BorderLayout());
+	    JPanel panelPrincipal = new JPanel(new BorderLayout());
+	    panelPrincipal.setBackground(new Color(233, 220, 209));
+	    panelPrincipal.setBorder(BorderFactory.createLineBorder(new Color(80, 55, 30), 30));
 
-	    // ---------- PANEL FOTO + ARCHIVO ----------
-	    JPanel panelContenido = new JPanel(new GridLayout(1, 2));
-	    panelContenido.setBackground(new Color(233, 220, 209));
+	    // ---- Central: foto + botón ----
+	    JPanel panelCentral = new JPanel(new GridLayout(1, 2, 30, 10));
+	    panelCentral.setBackground(new Color(233, 220, 209));
 
-	    // Panel izquierdo (foto del perro)
-	    JPanel panelFoto = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    JPanel panelFoto = new JPanel();
 	    panelFoto.setBackground(new Color(233, 220, 209));
-	    JLabel foto = crearImagen("imagenes/perros/perro" + (indicePerro + 1) + ".png", 250, 200);
+	    panelFoto.setLayout(new BoxLayout(panelFoto, BoxLayout.Y_AXIS));
+	    ImageIcon icono = new ImageIcon(createCircleImage("imagenes/perros/perro" + (indicePerro + 1) + ".png", 180, new Color(80, 55, 30)));
+	    JLabel foto = new JLabel(icono);
+	    foto.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    panelFoto.add(Box.createVerticalGlue());
 	    panelFoto.add(foto);
+	    panelFoto.add(Box.createVerticalGlue());
 
-	    // Panel derecho (archivo + huellitas)
-	    JPanel panelArchivo = new JPanel();
-	    panelArchivo.setBackground(new Color(233, 220, 209));
-	    panelArchivo.setLayout(new BoxLayout(panelArchivo, BoxLayout.Y_AXIS));
+	    JPanel panelDer = new JPanel();
+	    panelDer.setBackground(new Color(233, 220, 209));
+	    panelDer.setLayout(new BoxLayout(panelDer, BoxLayout.Y_AXIS));
 
-	    // Huellitas grandes
-	    JLabel huellas = new JLabel("🐾 🐾 🐾", JLabel.CENTER);
-	    huellas.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 60));
+	    JLabel huellas = new JLabel("🐾  🐾  🐾");
+	    huellas.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 44));
 	    huellas.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	    // Botón para descargar archivo
 	    JButton botonDescargar = new JButton("Descargar certificado");
-	    botonDescargar.setFont(new Font("Verdana", Font.BOLD, 14));
-	    botonDescargar.setBackground(new Color(180, 150, 120));
+	    botonDescargar.setFont(new Font("Verdana", Font.BOLD, 15));
+	    botonDescargar.setBackground(new Color(206, 171, 139));
 	    botonDescargar.setForeground(Color.WHITE);
 	    botonDescargar.setFocusPainted(false);
 	    botonDescargar.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    botonDescargar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-	    botonDescargar.addActionListener(e -> {
-	    		generarCertificadoperro(indicePerro);
-	    	
-	    });
+	    botonDescargar.setBorder(BorderFactory.createEmptyBorder(12, 24, 12, 24));
+	    botonDescargar.addActionListener(e -> generarCertificadoPerro(indicePerro));
 
-	    // Espaciado visual
-	    panelArchivo.add(Box.createVerticalGlue());
-	    panelArchivo.add(huellas);
-	    panelArchivo.add(Box.createRigidArea(new Dimension(0, 30)));
-	    panelArchivo.add(botonDescargar);
-	    panelArchivo.add(Box.createVerticalGlue());
+	    JPanel panelMensajeDescarga = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    panelMensajeDescarga.setBackground(new Color(233, 220, 209));
+	    JLabel mensajeDescarga = new JLabel("¡Guarda tu certificado!");
+	    mensajeDescarga.setFont(new Font("Verdana", Font.ITALIC, 14));
+	    mensajeDescarga.setForeground(new Color(95, 65, 45));
+	    panelMensajeDescarga.add(mensajeDescarga);
 
-	    panelContenido.add(panelFoto);
-	    panelContenido.add(panelArchivo);
+	    panelDer.add(Box.createVerticalGlue());
+	    panelDer.add(huellas);
+	    panelDer.add(Box.createRigidArea(new Dimension(0, 10)));
+	    panelDer.add(botonDescargar);
+	    panelDer.add(panelMensajeDescarga);
+	    panelDer.add(Box.createVerticalGlue());
 
-	    // ---------- PANEL TEXTO ----------
-	    JPanel panelTexto = new JPanel();
-	    panelTexto.setLayout(new BorderLayout());
-	    panelTexto.setBackground(new Color(233, 220, 209));
+	    panelCentral.add(panelFoto);
+	    panelCentral.add(panelDer);
+	    panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
-	    JLabel label = new JLabel(
-	        "<html><div style='text-align:center;'>¡¡¡Gracias por adoptar a <b>" 
-	        + perros[indicePerro].getNombre() + "</b> y darle un hogar lleno de amor!!!</div></html>",
-	        JLabel.CENTER
+	    // ---- Mensaje final: dos JLabel perfectamente centrados ----
+	    JPanel panelMensajes = new JPanel();
+	    panelMensajes.setBackground(new Color(233, 220, 209));
+	    panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.Y_AXIS));
+
+	    // COLOR INTENSO para el nombre
+	    String colorNombre = "#FF7300"; // NARANJA VIBRANTE
+
+	    JLabel labelAgradecimiento = new JLabel(
+	        "<html>¡Gracias por adoptar a <span style='color:" + colorNombre + "; font-weight:bold;'>" +
+	        perros[indicePerro].getNombre() +
+	        "</span> y darle un nuevo hogar lleno de amor!</html>"
 	    );
-	    label.setFont(new Font("Verdana", Font.BOLD, 20));
-	    label.setForeground(new Color(80, 55, 30));
-	    label.setHorizontalAlignment(SwingConstants.CENTER);
-	    label.setVerticalAlignment(SwingConstants.BOTTOM); // lo empuja hacia abajo
-	    label.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0)); // margen inferior
+	    labelAgradecimiento.setFont(new Font("Verdana", Font.BOLD, 15));
+	    labelAgradecimiento.setForeground(new Color(80, 55, 30));
+	    labelAgradecimiento.setHorizontalAlignment(SwingConstants.CENTER);
+	    labelAgradecimiento.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	    panelTexto.add(label, BorderLayout.SOUTH);
+	    JLabel labelCambioVida = new JLabel(
+	        "<html>Tu adopción ha cambiado una vida.</html>"
+	    );
+	    labelCambioVida.setFont(new Font("Verdana", Font.BOLD, 15));
+	    labelCambioVida.setForeground(new Color(80, 55, 30));
+	    labelCambioVida.setHorizontalAlignment(SwingConstants.CENTER);
+	    labelCambioVida.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	    panel.add(panelContenido, BorderLayout.CENTER);
-	    panel.add(panelTexto, BorderLayout.SOUTH);
+	    JLabel labelCierre = new JLabel(
+	        "<html><div style='font-style:italic; color:#5F412D; font-size:12pt;'>¡Gracias por creer en el amor animal!</div></html>"
+	    );
+	    labelCierre.setFont(new Font("Georgia", Font.ITALIC, 14));
+	    labelCierre.setHorizontalAlignment(SwingConstants.CENTER);
+	    labelCierre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	    ventana.add(panel);
+	    panelMensajes.add(labelAgradecimiento);
+	    panelMensajes.add(labelCambioVida);
+	    panelMensajes.add(Box.createRigidArea(new Dimension(0, 5)));
+	    panelMensajes.add(labelCierre);
+
+	    panelPrincipal.add(panelMensajes, BorderLayout.SOUTH);
+
+	    ventana.add(panelPrincipal);
 	    ventana.setVisible(true);
 	}
+
 	
 	//---------------------------------------------FUNCION PARA GENERAR Y DESCARGAR CERTIFICADO------------------------------------------------
 	//IMPORTANTE!!!!!! -> para descargar el fichero es necesario refrescar el proyecto
 	
-	private void generarCertificadoperro(int indicePerro) { 
-	    // carpeta donde se guardarán los certificados
-	    File carpeta = new File("certificados/certificadosperros"); 
+	private void generarCertificadoPerro(int indicePerro) {
+		// Carpeta donde se guardarán los certificados
+	    File carpeta = new File("certificados/certificadosPerros"); 
 	    
-	    // archivo dentro de la carpeta
-	    File archivo = new File(carpeta, "Certificado_" + perros[indicePerro].getNombre() + ".txt");
+	    File archivo = new File("Certificado_" + perros[indicePerro].getNombre() + ".txt");
 
 	    try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
-	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
+	        writer.println("       🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
 	        writer.println("       Certificado de Adopción       ");
-	        writer.println("🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
+	        writer.println("       🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");
 	        writer.println();
-	        writer.println("¡Qué alegría! 🎉");
+	        writer.println("Se confirma que has adoptado a " + perros[indicePerro].getNombre() + " 🐶");
 	        writer.println();
-	        writer.println("Se confirma que has adoptado a " + perros[indicePerro].getNombre() + " 🐱");
+	        writer.println("Agradecemos enormemente tu decisión de darle un hogar lleno de amor y cuidado.");
+	        writer.println(perros[indicePerro].getNombre() + " ahora tendrá la oportunidad de disfrutar una vida feliz y segura gracias a ti.");
 	        writer.println();
-	        writer.println("Estamos muy felices por ti y por " + perros[indicePerro].getNombre() + ".");
-	        writer.println("Gracias a tu decisión, " + perros[indicePerro].getNombre() + " tendrá un hogar lleno de amor y cuidado.");
-	        writer.println("Este es un momento muy especial y queremos celebrarlo contigo.");
-	        writer.println();
-	        writer.println("Disfruta cada instante junto a tu nuevo compañero,");
-	        writer.println("y recuerda que tu gesto significa un mundo para él.");
+	        writer.println("Deseamos que esta adopción sea el comienzo de muchos momentos felices y memorables juntos.");
 	        writer.println();
 	        writer.println("────────────────────────────");
 	        writer.println("Fecha: " + java.time.LocalDate.now());
-	        writer.println("Refugio: Patitas🐾");
+	        writer.println("Refugio: 🐾Colas y Plumas🐾");
 	        writer.println("────────────────────────────");
 	        writer.println();
 
@@ -486,6 +503,7 @@ public class VentanaPerros extends JFrame {
 	            "Error al generar el certificado: " + ex.getMessage());
 	    }
 	}
+
 
 
 

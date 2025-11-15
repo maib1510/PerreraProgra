@@ -51,18 +51,19 @@ public class Main {
 
 		Perro[] perros = new Perro[12];
 
-		Perro perro1 = new Perro("Rex", "Macho", 3.0f, "Pastor Alemán", 30.5f, "Leal, protector y obediente", "Marrón y negro, ojos oscuros", false);
-		Perro perro2 = new Perro("Luna", "Hembra", 2.5f, "Labrador Retriever", 25.0f, "Juguetona, amable y sociable", "Beige claro, ojos marrones", false);
-		Perro perro3 = new Perro("Toby", "Macho", 1.8f, "Beagle", 12.3f, "Curioso, activo y tierno", "Tricolor, orejas largas, ojos miel", false);
-		Perro perro4 = new Perro("Nala", "Hembra", 4.2f, "Golden Retriever", 28.7f, "Cariñosa, tranquila y noble", "Dorado brillante, ojos marrones", false);
-		Perro perro5 = new Perro("Bruno", "Macho", 5.0f, "Boxer", 30.0f, "Valiente, energético y fiel", "Marrón con máscara negra, ojos oscuros", false);
-		Perro perro6 = new Perro("Kira", "Hembra", 3.3f, "Husky Siberiano", 23.1f, "Independiente, activa y curiosa", "Blanco y gris, ojos azules", false);
-		Perro perro7 = new Perro("Rocky", "Macho", 2.0f, "Border Collie", 18.4f, "Inteligente, trabajador y ágil", "Blanco y negro, ojos marrones", false);
-		Perro perro8 = new Perro("Molly", "Hembra", 1.5f, "Corgi", 11.2f, "Simpática, alegre y muy sociable", "Naranja y blanco, ojos oscuros", false);
-		Perro perro9 = new Perro("Duke", "Macho", 3.7f, "Dálmata", 24.0f, "Activo, juguetón y curioso", "Blanco con manchas negras, ojos oscuros", false);
-		Perro perro10 = new Perro("Bella", "Hembra", 4.0f, "Shiba Inu", 9.8f, "Independiente, leal y alerta", "Naranja rojizo, ojos marrones", false);
-		Perro perro11 = new Perro("Max", "Macho", 2.9f, "French Bulldog", 13.5f, "Tranquilo, cariñoso y simpático", "Gris azulado, ojos oscuros", false);
-		Perro perro12 = new Perro("Coco", "Macho", 1.2f, "Caniche", 6.1f, "Inteligente, amable y juguetón", "Blanco rizado, ojos negros", false);
+		Perro perro1 = new Perro("Kiara", "Hembra", 2.0f, "Mestiza de Podenco", 14.5f, "Activa, cariñosa y muy curiosa", "Canela claro, orejas grandes", false);
+		Perro perro2 = new Perro("Rufo", "Macho", 4.5f, "Cruce de Pastor Vasco", 22.3f, "Guardian, tranquilo y leal", "Negro con manchas blancas", false);
+		Perro perro3 = new Perro("Lola", "Hembra", 1.7f, "Terrier Ibicenco mestizo", 11.8f, "Sociable, lista y divertida", "Beige y blanco, hocico alargado", false);
+		Perro perro4 = new Perro("Tango", "Macho", 3.3f, "Mestizo de Galgo y Pointer", 18.9f, "Deportista, obediente y sensible", "Atigrado oscuro, patas largas", false);
+		Perro perro5 = new Perro("Asia", "Hembra", 2.3f, "Podenca Andaluza mestiza", 12.7f, "Tímida, cariñosa y tranquila", "Marrón rojizo, orejas puntiagudas", false);
+		Perro perro6 = new Perro("Eros", "Macho", 5.0f, "X de Sabueso Español", 25.2f, "Paciente, noble y buen compañero", "Tricolor, orejas caídas, mirada dulce", false);
+		Perro perro7 = new Perro("Jara", "Hembra", 3.8f, "Mestiza de Ratonero", 8.5f, "Vivaz, inteligente y graciosa", "Negra y fuego, pequeña y ágil", false);
+		Perro perro8 = new Perro("Simba", "Macho", 4.1f, "Cruce de Setter", 20.4f, "Extrovertido, fiel y juguetón", "Blanco y marrón, pelaje largo", false);
+		Perro perro9 = new Perro("Mía", "Hembra", 2.6f, "Mestiza de Mastín", 29.7f, "Soñadora, protectora y dulce", "Color leonado, maciza y fuerte", false);
+		Perro perro10 = new Perro("Coco", "Macho", 1.5f, "Mestizo pequeño", 6.9f, "Alegre, simpático y adaptable", "Gris claro, pelo corto, ojos vivos", false);
+		Perro perro11 = new Perro("India", "Hembra", 3.2f, "Mestiza de Braco", 17.6f, "Atlética, exploradora y cercana", "Marrón oscuro, pecho blanco", false);
+		Perro perro12 = new Perro("Jazz", "Macho", 2.0f, "Mestizo mediano", 15.8f, "Amistoso, juguetón y versátil", "Beige tostado, orejas semi-caídas", false);
+
 
 		perros[0]  = perro1;
 		perros[1]  = perro2;
@@ -82,12 +83,13 @@ public class Main {
 		
 		Pajaro[] pajaros = new Pajaro[6];
 		
-		Pajaro pajaro1 = new Pajaro("Lima", "Macho", 1.5f, "Periquito australiano", 0.035f, "Curioso y sociable", "Plumaje verde brillante con cabeza amarilla y rayas negras", false); 
-		Pajaro pajaro2 = new Pajaro("Kiwi", "Hembra", 3.0f, "Amazona frentiazul", 0.450f, "Inteligente y juguetona", "Plumaje verde con tonos amarillos, azul en alas y toques rojos", false);
-		Pajaro pajaro3 = new Pajaro("Sol", "Macho", 2.0f, "Canario", 0.025f, "Alegre y cantarín", "Plumaje amarillo brillante con pequeñas zonas verdosas", false);
-		Pajaro pajaro4 = new Pajaro("Luz", "Hembra", 4.0f, "Cacatúa amarilla", 0.850f, "Extrovertida y divertida", "Cresta y cabeza amarilla, cuerpo blanco, pico negro robusto", false);
-		Pajaro pajaro5 = new Pajaro("Fuego", "Macho", 5.0f, "Guacamayo híbrido", 1.200f, "Llamativo y sociable", "Cabeza roja-naranja, cuerpo multicolor amarillo-verde-azul", false);
-		Pajaro pajaro6 = new Pajaro("Mandarina", "Macho", 2.5f, "Canario rojo", 0.027f, "Activo y vivaz", "Plumaje naranja brillante, patas y pico amarillos", false);
+		Pajaro pajaro1 = new Pajaro("Lima", "Macho", 1.5f, "Periquito australiano", 0.035f, "Curioso y sociable", "Verde con cabeza amarilla y rayas negras", false); 
+		Pajaro pajaro3 = new Pajaro("Kiwi", "Hembra", 3.0f, "Amazona frentiazul", 0.450f, "Inteligente y juguetona", "Verde con amarillo, azul y toques rojos", false);
+		Pajaro pajaro5 = new Pajaro("Sol", "Macho", 2.0f, "Canario", 0.025f, "Alegre y cantarín", "Amarillo brillante con algo de verde", false);
+		Pajaro pajaro4 = new Pajaro("Luz", "Hembra", 4.0f, "Cacatúa amarilla", 0.850f, "Extrovertida y divertida", "Cresta y cabeza amarilla, cuerpo blanco, pico negro", false);
+		Pajaro pajaro6 = new Pajaro("Fuego", "Macho", 5.0f, "Guacamayo híbrido", 1.200f, "Llamativo y sociable", "Verde con tonos amarillos, azul en las alas y detalles rojos", false);
+		Pajaro pajaro2 = new Pajaro("Mandarina", "Macho", 2.5f, "Canario rojo", 0.027f, "Activo y vivaz", "Naranja brillante, pico y patas amarillos", false);
+
 		
 		pajaros[0]  = pajaro1;
 		pajaros[1]  = pajaro2;
