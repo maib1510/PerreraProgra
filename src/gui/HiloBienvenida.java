@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+//JWindow AI generated
 public class HiloBienvenida extends JWindow implements Runnable {
     private String imagePath;
     private int segundos;
