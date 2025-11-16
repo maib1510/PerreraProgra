@@ -1,5 +1,6 @@
 package gui;
 
+//dato: todas las imágenes de animales y bienvenida han sido generadas con IA
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;

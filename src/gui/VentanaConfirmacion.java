@@ -148,7 +148,7 @@ public class VentanaConfirmacion extends JFrame {
 	
 	private void generarCertificado(int indiceAnimal, Animal[] animales) {
 		// carpeta donde se guardarán los certificados (puedes hacer la ruta dinámica si también tienes perros)
-		File carpeta = new File("certificados/certificadosAnimales");
+		File carpeta = new File(devolverRutaCertificadoAnimal(indiceAnimal, animales));
 
 		// archivo dentro de la carpeta
 		File archivo = new File(carpeta, "Certificado_" + animales[indiceAnimal].getNombre() + ".txt");
@@ -199,6 +199,25 @@ public class VentanaConfirmacion extends JFrame {
 			  
 		  } else if (animales[indiceAnimal] instanceof Roedor) {
 			  ruta = "imagenes/roedores/roedor"+ (indiceAnimal + 1) + ".png";
+		  }
+		  return ruta;
+	  }
+	  
+	  
+	  private String devolverRutaCertificadoAnimal(int indiceAnimal, Animal[] animales) {
+		  
+		  String ruta = "";
+		  if(animales[indiceAnimal] instanceof Gato) {
+			  ruta = "certificados/certificadosGatos";
+		  }
+		  else if(animales[indiceAnimal] instanceof Pajaro) {
+			  ruta = "certificados/certificadosPajaros";
+
+		  }else if (animales[indiceAnimal] instanceof Perro) {
+			  ruta = "certificados/certificadosPerros";
+			  
+		  } else if (animales[indiceAnimal] instanceof Roedor) {
+			  ruta = "certificados/certificadosRoedores";
 		  }
 		  return ruta;
 	  }
