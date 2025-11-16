@@ -27,38 +27,58 @@ public class VentanaMascotas extends JFrame {
         setLayout(new BorderLayout());
         getContentPane().setBackground(new Color(255, 240, 245)); // rosa suave
 
+        Font fuenteTexto = new Font("Arial", Font.BOLD, 12);
+        Font fuenteTitulos = new Font("Arial", Font.BOLD, 14);
+        Color forestGreen = new Color(30, 77, 69);
+        Color tealGreen = new Color(0, 127, 110);
+        
         // --- PANEL SUPERIOR: MENÚ -------------------------------------------------
         JPanel panelMenu = new JPanel();
-        panelMenu.setBackground(new Color(204, 236, 247));
-        panelMenu.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(Color.BLACK),
-            "Menú",
-            TitledBorder.CENTER,
-            TitledBorder.TOP
-        ));
+        
+        // borde
+        TitledBorder bordeMenu = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.WHITE,2),
+                "MENÚ",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                fuenteTitulos
+        );
+        
+        bordeMenu.setTitleColor(Color.WHITE);
+        panelMenu.setBorder(bordeMenu);
+        
+        
+        // fondo del panel menu 
+        panelMenu.setBackground(forestGreen);
+        panelMenu.setLayout(new FlowLayout());
 
         JButton perfilBtn = new JButton("Perfil");
         perfilBtn.addActionListener(e -> {
             ventanaPerfil.setVisible(true);
             dispose();
         });
-
+        perfilBtn.setFont(fuenteTitulos);  
+        perfilBtn.setForeground(forestGreen);
+        
         panelMenu.add(perfilBtn);
         add(panelMenu, BorderLayout.NORTH);
 
         // --- PANEL CENTRAL CON MASCOTAS -----------------------------------------
         panelMascotas = new JPanel();
         panelMascotas.setLayout(new GridLayout(0, 2, 10, 10));
-        panelMascotas.setBackground(new Color(255, 250, 250));
+        panelMascotas.setBackground(forestGreen);
         panelMascotas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JScrollPane scroll = new JScrollPane(panelMascotas);
-        scroll.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(Color.BLACK),
-            "Tus Mascotas",
-            TitledBorder.CENTER,
-            TitledBorder.TOP
-        ));
+        scroll.setBackground(forestGreen);
+        TitledBorder bordeScroll = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(tealGreen,2),
+                "Tus Mascotas",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                fuenteTitulos);
+        bordeScroll.setTitleColor(tealGreen);
+        scroll.setBorder(bordeScroll);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
 
         add(scroll, BorderLayout.CENTER);
@@ -92,7 +112,7 @@ public class VentanaMascotas extends JFrame {
     private JPanel crearTarjetaMascota(Animal mascota) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(Color.WHITE);
+        card.setBackground(new Color(0, 127, 110));
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(180, 180, 180), 1),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
@@ -107,14 +127,18 @@ public class VentanaMascotas extends JFrame {
         card.add(Box.createVerticalStrut(10));
 
         JLabel nombreLbl = new JLabel("<html><b>" + mascota.getNombre() + "</b></html>", JLabel.CENTER);
-        nombreLbl.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        nombreLbl.setFont(new Font("Arial", Font.PLAIN, 14));
+        nombreLbl.setForeground(Color.WHITE);
         nombreLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(nombreLbl);
 
         JLabel tipoLbl = new JLabel("Tipo: " + mascota.getRaza(), JLabel.CENTER);
         tipoLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tipoLbl.setForeground(Color.WHITE);
         JLabel edadLbl = new JLabel("Edad: " + mascota.getEdad() + " años", JLabel.CENTER);
         edadLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        edadLbl.setForeground(Color.WHITE);
+
 
         card.add(tipoLbl);
         card.add(edadLbl);

@@ -26,6 +26,7 @@ public class VentanaPerfil extends JFrame {
     
     public VentanaPerfil(JFrame ventanaAnterior, Usuario user) {
         this.ventanaAnimales = ventanaAnterior;
+        this.user = user;
 
         // ------- CONFIGURACIÓN DE VENTANA -------------------------------------------------------------------------------------------
         setTitle("Perfil de Usuario");
@@ -34,31 +35,57 @@ public class VentanaPerfil extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        // ---------------------------------------------------------------------------
+        Font fuenteTexto = new Font("Arial", Font.BOLD, 12);
+        Font fuenteTitulos = new Font("Arial", Font.BOLD, 14);
+        Color forestGreen = new Color(30, 77, 69);
+        Color tealGreen = new Color(0, 127, 110);
+
         // -------- PANEL SUPERIOR: MENÚ ----------------------------------------------------------------------------------------------
         JPanel panelMenu = new JPanel();
         
         // borde
-        panelMenu.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK),
-                "Menú",
+        TitledBorder bordeMenu = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.WHITE,2),
+                "MENÚ",
                 TitledBorder.CENTER,
-                TitledBorder.TOP)
+                TitledBorder.TOP,
+                fuenteTitulos
         );
         
+        bordeMenu.setTitleColor(Color.WHITE);
+        panelMenu.setBorder(bordeMenu);
+        
+        
         // fondo del panel menu 
-        panelMenu.setBackground(new Color(204, 236, 247));
+        panelMenu.setBackground(forestGreen);
         panelMenu.setLayout(new FlowLayout());
 
         JButton animales = new JButton("Animales");
         JButton tienda = new JButton("Tienda");
-        JButton perfilBtn = new JButton("Perfil");
-
-        // volver a la ventana anterior 
+        JButton perfilBtn = new JButton("Perfil");	
+        
+        animales.setFont(fuenteTitulos);
+        animales.setForeground(forestGreen);
+        
+        tienda.setFont(fuenteTitulos);
+        tienda.setForeground(forestGreen);
+        
+        perfilBtn.setFont(fuenteTitulos);  
+        perfilBtn.setForeground(forestGreen);
+        
+        
         animales.addActionListener(e -> {
             ventanaAnimales.setVisible(true);
             dispose();
         });
         
+        
+        tienda.addActionListener(e -> {
+        	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, user);
+        	ventanaTienda.setVisible(true);
+        	dispose();
+        });       
         // añadir los botones 
         panelMenu.add(perfilBtn);
         panelMenu.add(animales);
@@ -70,7 +97,7 @@ public class VentanaPerfil extends JFrame {
         
         
         // --- FOTO DE PERFIL ------------------------------------------------------------------------------------------------------------
-        fotoPerfil = new ImageIcon(createCircleImage(perfil.getFotoPerfilPath(), 80, perfil.getColorBorde()));
+        fotoPerfil = new ImageIcon(createCircleImage(perfil.getFotoPerfilPath(), 70, perfil.getColorBorde()));
         fotoLabel = new JLabel(fotoPerfil);
         fotoLabel.setHorizontalAlignment(JLabel.CENTER);
         
@@ -79,19 +106,29 @@ public class VentanaPerfil extends JFrame {
      // ------- PANEL MEDIO CON FOTO DE PERFIL E INFO ---------------------------------------------------------------
         JPanel centroPanel = new JPanel();
         centroPanel.setLayout(new BoxLayout(centroPanel, BoxLayout.Y_AXIS));
-        centroPanel.setBackground(new Color(255, 182, 193)); // rosa pastel suave
+        centroPanel.setBackground(tealGreen); // rosa pastel suave
         
-        centroPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(Color.BLACK),
-                    "Información",
-                    TitledBorder.CENTER,
-                    TitledBorder.TOP
-                ),
-                BorderFactory.createEmptyBorder(10, 20, 10, 20) // margen interno
-        ));
+     // Creamos el borde con título
+        TitledBorder infoBorder = new TitledBorder(
+                BorderFactory.createLineBorder(Color.WHITE,2),
+                "INFORMACIÓN",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                fuenteTitulos
+        );
+
+        // Le pintamos el título de blanco porque alguien tiene que darle estilo
+        infoBorder.setTitleColor(Color.WHITE);
+
+        // Lo metemos dentro del compound con su margen interno
+        centroPanel.setBorder(
+                BorderFactory.createCompoundBorder(
+                        infoBorder,
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                )
+        );
+
         
-        //centroPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // FOTO CENTRADA
         fotoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -104,7 +141,7 @@ public class VentanaPerfil extends JFrame {
         infoPanel.setBackground(Color.WHITE);
         
         infoPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(Color.BLACK),
+                    BorderFactory.createLineBorder(Color.WHITE),
                 BorderFactory.createEmptyBorder(10, 20, 10, 20) // margen interno
             ));
 
@@ -115,11 +152,10 @@ public class VentanaPerfil extends JFrame {
         infoPanel.add(new JLabel("<html><b>Tarjeta:</b> " + user.getTarjeta_bancaria() + "</html>"));
 
         // estilo de fuente y color
-        Font infoFont = new Font("SansSerif", Font.PLAIN, 13);
         for (Component c : infoPanel.getComponents()) {
             if (c instanceof JLabel) {
-                c.setFont(infoFont);
-                c.setForeground(new Color(60, 60, 60));
+                c.setFont(fuenteTexto);
+                c.setForeground(tealGreen);
             }
         }
 
@@ -129,10 +165,14 @@ public class VentanaPerfil extends JFrame {
 
         // BOTÓN “ver mascotas”
         JButton mascotasButton = new JButton("Ver mascotas");
+        
+        mascotasButton.setForeground(forestGreen);
+        mascotasButton.setFont(fuenteTitulos);
         mascotasButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         mascotasButton.addActionListener(e -> {
-        	VentanaMascotas mascotas = new VentanaMascotas(this, user);
-        	mascotas.setVisible(true);
+        	VentanaMascotas ventanaMascotas = new VentanaMascotas(this, user);
+        	ventanaMascotas.setVisible(true);
         	this.setVisible(false);
         });
         centroPanel.add(mascotasButton);
@@ -141,21 +181,30 @@ public class VentanaPerfil extends JFrame {
         // PANEL DE BOTONES ABAJO
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         
-        buttonPanel.setBorder(
-                BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(Color.BLACK),
-                    "Personalización",
-                    TitledBorder.CENTER,
-                    TitledBorder.TOP
-                )
+        TitledBorder borderPers = new TitledBorder(
+                BorderFactory.createLineBorder(Color.WHITE,2),
+                "PERSONALIZACIÓN",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                fuenteTitulos
         );
+
+        borderPers.setTitleColor(Color.WHITE);
+
+        buttonPanel.setBorder(borderPers);
+
         
-        buttonPanel.setBackground(new Color(204, 236, 247));
+        buttonPanel.setBackground(forestGreen);
         JButton changeColorButton = new JButton("color círculo");
+        changeColorButton.setForeground(forestGreen);
+        changeColorButton.setFont(fuenteTitulos);
         changeColorButton.addActionListener(new ChangeColorListener());
         
         
         JButton changeImageButton = new JButton("Cambiar imagen");
+        changeImageButton.setForeground(forestGreen);
+        changeImageButton.setFont(fuenteTitulos);
+        
         changeImageButton.addActionListener(new ChangeImageListener());
         
         buttonPanel.add(changeColorButton);
@@ -251,7 +300,7 @@ public class VentanaPerfil extends JFrame {
                     try {
                         BufferedImage nuevaImagen = ImageIO.read(archivoSeleccionado);
                         if (nuevaImagen != null) {
-                            String imagePath = "imagenes/" + user.getNombre() + ".jpg";
+                            String imagePath = "imagenes/fotosPerfil" + user.getUsername() + ".jpg";
                             File destino = new File(imagePath);
                             destino.getParentFile().mkdirs();
                             ImageIO.write(nuevaImagen, "jpg", destino);
@@ -272,6 +321,7 @@ public class VentanaPerfil extends JFrame {
         }
     }
 
+    // --- CLASES DE PRUEBA ------
     private static class Perfil {
         private String fotoPerfilPath;
         private Color colorBorde;

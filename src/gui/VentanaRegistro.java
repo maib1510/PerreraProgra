@@ -14,25 +14,21 @@ public class VentanaRegistro extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setLayout(new BorderLayout(10, 10));
+       
+        Font fuenteTexto = new Font("Arial", Font.BOLD, 16);
+        Font fuenteTitulo = new Font("Arial", Font.BOLD, 24);
 
-        // crear fuentes ---------------------------------------------------------------------------------------
-        Font fuenteTexto = new Font("Arial", Font.PLAIN, 16);
-        Font fuenteTitulo = new Font("Arial", Font.BOLD, 22);
-
-        // crear colores ---------------------------------------------------------------------------------------
-        Color rosa = new Color(255, 182, 193);
-        Color azul = new Color(204, 236, 247);
-
-
-
+        // Colores
+        Color azulClaro = new Color(115, 181, 201);
+        Color celeste = new Color(200, 230, 240); // Celeste pastel
         // ------------------------------------------------------------------------------------------------------
-
+        this.setBackground(azulClaro);
         // panel superior ---------------------------------------------------------------------------------------
         JPanel superiorPanel = new JPanel();
-        superiorPanel.setBackground(rosa);
+        superiorPanel.setBackground(azulClaro);
 
         // borde del panel ------------------------------------
-        superiorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //superiorPanel.setBorder(BorderFactory.createLineBorder(celeste,2));
 
         // label con titulo ------------------------------------
         JLabel informacion = new JLabel("REGISTRATE");
@@ -48,22 +44,21 @@ public class VentanaRegistro extends JFrame {
 
         // panel de registro (centro) ------------------------------------------
         JPanel registerPanel = new JPanel();
-        registerPanel.setBackground(azul);
+        registerPanel.setBackground(azulClaro);
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.Y_AXIS));
 
         // borde del panel -----------------------------------------------------
+        TitledBorder bordeReg = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(celeste,2),
+                "Introduce tus datos para iniciar sesión",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                fuenteTexto
+        );
+        bordeReg.setTitleColor(celeste);
         registerPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(
-                        BorderFactory.createLineBorder(Color.BLACK),
-                        "Introduce tus datos para iniciar sesión",
-                        TitledBorder.CENTER,
-                        TitledBorder.TOP,
-                        fuenteTexto
-                    ),
-                    BorderFactory.createEmptyBorder(20, 50, 20, 30) // margen interno
-            ));
-
-
+        		bordeReg,
+        		BorderFactory.createEmptyBorder(20, 50, 20, 30))); // margen interno));
         // -----------------------------------------------------
         JLabel nombre = new JLabel("Nombre");
         nombre.setFont(fuenteTexto);
@@ -141,17 +136,17 @@ public class VentanaRegistro extends JFrame {
         // panel de botón de acceso -----------------------------------------------------------------------------
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(rosa);
+        bottomPanel.setBackground(azulClaro);
 
         // borde del panel -----------------------------------------------------
-        bottomPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK),
+        TitledBorder bordeBottom = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(celeste,2),
                 "Completar y volver a la ventana de inicio de sesión",
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
-                fuenteTexto
-            ));
-
+                fuenteTexto);
+        bordeBottom.setTitleColor(celeste);
+        
         // botones  ------------------------------------------------------------
         JButton compButton = new JButton("Completar");
 

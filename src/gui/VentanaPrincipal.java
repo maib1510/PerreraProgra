@@ -41,26 +41,34 @@ public class VentanaPrincipal extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-
+		Font fuenteTitulos = new Font("Arial", Font.BOLD, 14);
+		
 		JPanel frame = new JPanel(new BorderLayout());
 		frame.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-		frame.setBackground(new Color(255, 182, 193));
+		frame.setBackground(new Color(80, 55, 30));
 		// panel animales
 		JPanel panelAnimales = new JPanel(new GridLayout(2, 2, 20, 10));
 		panelAnimales.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-		panelAnimales.setBackground(new Color(255, 182, 193));
+		panelAnimales.setBackground(new Color(80, 55, 30));
 		
 		// ----------------------------------------- panel perros ----------------------------------------- 
 		JPanel panelPerros = new JPanel();
-		panelPerros.setBorder(BorderFactory.createTitledBorder(
-		        BorderFactory.createLineBorder(Color.BLACK), "Perros", TitledBorder.LEFT, TitledBorder.TOP
-		));
+		TitledBorder bordePerros = BorderFactory.createTitledBorder(
+		        BorderFactory.createLineBorder(new Color(80, 55, 30),2), "PERROS", TitledBorder.CENTER, TitledBorder.TOP);
+		
+		bordePerros.setTitleFont(fuenteTitulos);
+		bordePerros.setTitleColor(new Color(80, 55, 30));
+		panelPerros.setBorder(bordePerros);
+		
 		panelPerros.setLayout(new BoxLayout(panelPerros, BoxLayout.Y_AXIS));
-		panelPerros.setBackground(new Color(204, 236, 247));
+		panelPerros.setBackground(new Color(200, 180, 155));
 
 		JLabel labelPerro = crearImagen("imagenes/fotosVentanaPrincipal/perritoMenu.png.jpeg", 175, 175);
 		JButton botonPerros = new JButton("Adoptar");
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonPerros.setFont(fuenteTitulos);
+		botonPerros.setForeground(new Color(80, 55, 30));
 		
 		botonPerros.addActionListener(e -> {
 		    this.setVisible(false);
@@ -82,16 +90,23 @@ public class VentanaPrincipal extends JFrame {
 		// ----------------------------------------- panel gatos ----------------------------------------- 
 		
 		JPanel panelGatos = new JPanel();
-		panelGatos.setBorder(BorderFactory.createTitledBorder(
-		        BorderFactory.createLineBorder(Color.BLACK), "Gatos", TitledBorder.LEFT, TitledBorder.TOP
-		));
+		
+		TitledBorder bordeGatos = BorderFactory.createTitledBorder(
+		        BorderFactory.createLineBorder(new Color(80, 55, 30),2), "GATOS", TitledBorder.CENTER, TitledBorder.TOP);
+		bordeGatos.setTitleFont(fuenteTitulos);
+		bordeGatos.setTitleColor(new Color(80, 55, 30));
+		panelGatos.setBorder(bordeGatos);
+		
 		panelGatos.setLayout(new BoxLayout(panelGatos, BoxLayout.Y_AXIS));
-		panelGatos.setBackground(new Color(204, 236, 247));
+		panelGatos.setBackground(new Color(200, 180, 155));
 
 
 		JLabel labelGato = crearImagen("imagenes/fotosVentanaPrincipal/gatitoMenu.png.jpeg", 175, 175);
 		JButton botonGatos = new JButton("Adoptar");
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		botonGatos.setFont(fuenteTitulos);
+		botonGatos.setForeground(new Color(80, 55, 30));
 		
 		botonGatos.addActionListener(e -> {
 			this.setVisible(false);
@@ -112,16 +127,23 @@ public class VentanaPrincipal extends JFrame {
 		// ----------------------------------------- panel pajaros ----------------------------------------- 
 		
 		JPanel panelPajaros = new JPanel();
-		panelPajaros.setBorder(BorderFactory.createTitledBorder(
-		        BorderFactory.createLineBorder(Color.BLACK), "Pajaros", TitledBorder.LEFT, TitledBorder.TOP
-		));
+		
+		TitledBorder bordePajaros = BorderFactory.createTitledBorder(
+		        BorderFactory.createLineBorder(new Color(80, 55, 30),2), "PÁJAROS", TitledBorder.CENTER, TitledBorder.TOP);
+		bordePajaros.setTitleFont(fuenteTitulos);
+		bordePajaros.setTitleColor(new Color(80, 55, 30));
+		panelPajaros.setBorder(bordePajaros);
+		
 		panelPajaros.setLayout(new BoxLayout(panelPajaros, BoxLayout.Y_AXIS));
-		panelPajaros.setBackground(new Color(204, 236, 247));
+		panelPajaros.setBackground(new Color(200, 180, 155));
 
 
 		JLabel labelPajaro = crearImagen("imagenes/fotosVentanaPrincipal/loritoMenu.png.jpeg", 175, 175);
 		JButton botonPajaros = new JButton("Adoptar");
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonPajaros.setFont(fuenteTitulos);
+		botonPajaros.setForeground(new Color(80, 55, 30));
 		
 		botonPajaros.addActionListener(e -> {
 			this.setVisible(false);
@@ -142,16 +164,23 @@ public class VentanaPrincipal extends JFrame {
 		// ----------------------------------------- panel roedores ----------------------------------------- 
 		
 		JPanel panelRoedores = new JPanel();
-		panelRoedores.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(Color.BLACK), "Roedores", TitledBorder.LEFT, TitledBorder.TOP
-		));
+		
+		TitledBorder bordeRoedores = BorderFactory.createTitledBorder(
+		        BorderFactory.createLineBorder(new Color(80, 55, 30),2), "ROEDORES", TitledBorder.CENTER, TitledBorder.TOP);
+		bordeRoedores.setTitleFont(fuenteTitulos);
+		bordeRoedores.setTitleColor(new Color(80, 55, 30));
+		panelRoedores.setBorder(bordeRoedores);
+		
 		panelRoedores.setLayout(new BoxLayout(panelRoedores, BoxLayout.Y_AXIS));
-		panelRoedores.setBackground(new Color(204, 236, 247));
+		panelRoedores.setBackground(new Color(200, 180, 155));
 
 
 		JLabel labelRoedor = crearImagen("imagenes/fotosVentanaPrincipal/hamstercitoMenu.png.jpeg", 175, 175);
 		JButton botonRoedor = new JButton("Adoptar");
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		botonRoedor.setFont(fuenteTitulos);
+		botonRoedor.setForeground(new Color(80, 55, 30));
 		
 		botonRoedor.addActionListener(e -> {
 			this.setVisible(false);
@@ -173,14 +202,14 @@ public class VentanaPrincipal extends JFrame {
 		
 		// -------------------------------------- panel menu / botones a otros -----------------------------------
 		JPanel panelMenu = new JPanel();
-		panelMenu.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(Color.BLACK),
-				"Menu", 
-				TitledBorder.CENTER, 
-				TitledBorder.TOP)
-		);
 		
-		panelMenu.setBackground(new Color(204, 236, 247)); 
+		TitledBorder bordeMenu = BorderFactory.createTitledBorder(
+		        BorderFactory.createLineBorder(new Color(80, 55, 30),2), "MENÚ", TitledBorder.CENTER, TitledBorder.TOP);
+		bordeMenu.setTitleFont(fuenteTitulos);
+		bordeMenu.setTitleColor(new Color(80, 55, 30));
+		panelMenu.setBorder(bordeMenu);
+		
+		panelMenu.setBackground(new Color(200, 180, 155)); 
 		panelMenu.setLayout(new FlowLayout()); // para que la barra se ajuste bien
 		
 		// botones
@@ -189,6 +218,15 @@ public class VentanaPrincipal extends JFrame {
 		JButton perfil = new JButton("perfil");
 		JButton noticias = new JButton("ver noticias");
 		
+		animales.setFont(fuenteTitulos);
+		tienda.setFont(fuenteTitulos);
+		perfil.setFont(fuenteTitulos);
+		noticias.setFont(fuenteTitulos);
+		
+		animales.setForeground(new Color(80, 55, 30));
+		tienda.setForeground(new Color(80, 55, 30));
+		perfil.setForeground(new Color(80, 55, 30));
+		noticias.setForeground(new Color(80, 55, 30));
 		
 		// action listener para ir a la ventana de perfil
 		perfil.addActionListener(e -> {
