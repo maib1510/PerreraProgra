@@ -40,7 +40,7 @@ public class Roedor extends Animal{
 	@Override
 	public String sonidoAnimales() {
 		// TODO Auto-generated method stub
-		return "chiik chiik";
+		return "cui cui";
 	}
 	@Override
 	public String getImagenPath() {

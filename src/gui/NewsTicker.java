@@ -6,7 +6,7 @@ public class NewsTicker extends JFrame {
     private static final long serialVersionUID = 1L;
     /*
      * Muestra un carrusel de textos (noticias) e imágenes en JLabels,
-     * cambiando cada 5 segundos. Al pausar, muestra 'Noticias pausadas' durante 4 segundos.
+     * cambiando cada 5 segundos. Al pausar, muestra 'has pausado las noticias' y se puede volver a reanudar.
      */
     private static String[] noticias = {
         "¡Han llegado nuevas mascotas!",
@@ -49,17 +49,23 @@ public class NewsTicker extends JFrame {
         btnPause.addActionListener(e -> {
             if (!pausado) {
                 // Pausa las noticias
-            	hiloNoticias.interrupt();
+                detenerNoticias();
                 pausarNoticias();
                 btnPause.setText("Reanudar");
                 pausado = true;
             } else {
                 // Reanuda las noticias
-            	hiloPausa.interrupt();
+                if (hiloPausa != null) {
+                    hiloPausa.interrupt();
+                }
                 iniciarNoticias();
                 btnPause.setText("Pausar");
                 pausado = false;
             }
+        });
+
+        btnStop.addActionListener(e -> {
+            salir();
         });
 
         iniciarNoticias();
@@ -93,25 +99,29 @@ public class NewsTicker extends JFrame {
     }
 
     private void pausarNoticias() {
-       
         hiloPausa = new Thread(() -> {
             SwingUtilities.invokeLater(() -> {
-            	 String ruta = "news/newspausa.png";
-                 ImageIcon iconoOriginal = new ImageIcon(ruta);
-                 Image imgEscalada = iconoOriginal.getImage().getScaledInstance(
-                     lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
-                 lblImage.setIcon(new ImageIcon(imgEscalada));
-                 
+                String ruta = "news/newspausa.png";
+                ImageIcon iconoOriginal = new ImageIcon(ruta);
+                Image imgEscalada = iconoOriginal.getImage().getScaledInstance(
+                    lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
+                lblImage.setIcon(new ImageIcon(imgEscalada));
             });
-            
-            
         });
         hiloPausa.start();
-        
     }
 
     private void detenerNoticias() {
-        hiloNoticias.interrupt();
+        if (hiloNoticias != null) {
+            hiloNoticias.interrupt();
+        }
+    }
+
+    private void salir() {
+        detenerNoticias();
+        if (hiloPausa != null) {
+            hiloPausa.interrupt();
+        }
         this.dispose();
         ventanaPrincipal.setVisible(true);
     }

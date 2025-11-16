@@ -40,7 +40,7 @@ public class Perro extends Animal{
 	@Override
 	public String sonidoAnimales() {
 		// TODO Auto-generated method stub
-		return "guau guau";
+		return "woof woof";
 	}
 
 	@Override

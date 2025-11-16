@@ -2,12 +2,14 @@ package main;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
 import Domain.Roedor;
+import gui.HiloBienvenida;
 import gui.VentanaInicioSesion;
 
 
@@ -124,10 +126,25 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gatos, roedores, pajaros, perros);
 		
-		
+		// Crear y lanzar el hilo de bienvenida
+		HiloBienvenida bienvenida = new HiloBienvenida("imagenes/fotosPerfil/bienvenida.png", 4);
+		Thread hilo = new Thread(bienvenida);
+		hilo.start();
 
+		// Esperar a que termine la bienvenida ANTES de abrir VentanaPrincipal
+		try {
+			hilo.join();  // Aquí el main se queda esperando hasta que el hilo termine
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Ahora mostrar la ventana principal
+		javax.swing.SwingUtilities.invokeLater(() -> {
+			new VentanaInicioSesion(gatos, roedores, pajaros, perros).setVisible(true);
+		});
 	}
 
+
 }
+
