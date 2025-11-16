@@ -63,11 +63,17 @@ public class VentanaPrincipal extends JFrame {
 		botonPerros.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonPerros.addActionListener(e -> {
-			VentanaPerros ventanaPerros = new VentanaPerros(this,perros);
-			ventanaPerros.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaPerros.setVisible(true));
-			this.setVisible(false);
+		    this.setVisible(false);
+		    HiloCargar carga = new HiloCargar(
+		        this,
+		        () -> SwingUtilities.invokeLater(() -> {
+		            VentanaPerros ventanaPerros = new VentanaPerros(this, perros);
+		            ventanaPerros.setVisible(true);
+		        })
+		    );
+		    new Thread(carga).start();
 		});
+
 
 		panelPerros.add(labelPerro);
 		panelPerros.add(botonPerros);
@@ -88,10 +94,15 @@ public class VentanaPrincipal extends JFrame {
 		botonGatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonGatos.addActionListener(e -> {
-			VentanaGatos ventanaGatos = new VentanaGatos(this,gatos);
-			ventanaGatos.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaGatos.setVisible(true));
 			this.setVisible(false);
+		    HiloCargar carga = new HiloCargar(
+		        this,
+		        () -> SwingUtilities.invokeLater(() -> {
+		            VentanaGatos ventanaGatos = new VentanaGatos(this, gatos);
+		            ventanaGatos.setVisible(true);
+		        })
+		    );
+		    new Thread(carga).start();
 		});
 
 		panelGatos.add(labelGato);
@@ -113,10 +124,15 @@ public class VentanaPrincipal extends JFrame {
 		botonPajaros.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonPajaros.addActionListener(e -> {
-			VentanaPajaros ventanaPajaros = new VentanaPajaros(this,pajaros);
-			ventanaPajaros.setVisible(false);
-			SwingUtilities.invokeLater(() -> ventanaPajaros.setVisible(true));
 			this.setVisible(false);
+		    HiloCargar carga = new HiloCargar(
+		        this,
+		        () -> SwingUtilities.invokeLater(() -> {
+		            VentanaPajaros ventanaPajaros = new VentanaPajaros(this, pajaros);
+		            ventanaPajaros.setVisible(true);
+		        })
+		    );
+		    new Thread(carga).start();
 		});
 
 		panelPajaros.add(labelPajaro);
@@ -138,10 +154,15 @@ public class VentanaPrincipal extends JFrame {
 		botonRoedor.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		botonRoedor.addActionListener(e -> {
-            VentanaRoedores ventanaRoedores = new VentanaRoedores(this, roedores);
-            ventanaRoedores.setVisible(false);
-            SwingUtilities.invokeLater(() -> ventanaRoedores.setVisible(true));
-            this.setVisible(false);
+			this.setVisible(false);
+		    HiloCargar carga = new HiloCargar(
+		        this,
+		        () -> SwingUtilities.invokeLater(() -> {
+		            VentanaRoedores ventanaRoedores = new VentanaRoedores(this, roedores);
+		            ventanaRoedores.setVisible(true);
+		        })
+		    );
+		    new Thread(carga).start();
         });
 
 		panelRoedores.add(labelRoedor);

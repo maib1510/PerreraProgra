@@ -476,7 +476,7 @@ public class VentanaPajaros extends JFrame {
 		 // carpeta donde se guardarán los certificados
 	    File carpeta = new File("certificados/certificadosPajaros"); 
 		
-	    File archivo = new File("Certificado_" + pajaros[indicePajaro].getNombre() + ".txt");
+	    File archivo = new File(carpeta, "Certificado_" + pajaros[indicePajaro].getNombre() + ".txt");
 
 	    try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
 	        writer.println("       🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");

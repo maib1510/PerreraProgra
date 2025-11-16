@@ -476,7 +476,7 @@ public class VentanaPerros extends JFrame {
 		// Carpeta donde se guardarán los certificados
 	    File carpeta = new File("certificados/certificadosPerros"); 
 	    
-	    File archivo = new File("Certificado_" + perros[indicePerro].getNombre() + ".txt");
+	    File archivo = new File(carpeta, "Certificado_" + perros[indicePerro].getNombre() + ".txt");
 
 	    try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
 	        writer.println("       🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾");

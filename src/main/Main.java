@@ -116,6 +116,7 @@ public class Main {
 		roedores[4]  = roedor5;
 		roedores[5]  = roedor6;
 		
+		//mejorar botones visualmente (IA generated)
 		try {
 			UIManager.setLookAndFeel(new FlatMacLightLaf());
 		} catch (UnsupportedLookAndFeelException e) {
