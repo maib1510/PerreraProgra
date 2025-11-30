@@ -118,26 +118,26 @@ public class VentanaInicioSesion extends JFrame {
 
         // Acción de login
         btnAcceder.addActionListener(e -> {
-    		String usernameIngresado = txtUsername.getText();
-    		String contraseñaIngresada = new String(txtPassword.getPassword());
+    String usernameIngresado = txtUsername.getText();
+    String contraseñaIngresada = new String(txtPassword.getPassword());
 
-    		if (usernameIngresado.isEmpty() || contraseñaIngresada.isEmpty()) {
-        		JOptionPane.showMessageDialog(this, "Rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
-        		return;
-    		}
+    if (usernameIngresado.isEmpty() || contraseñaIngresada.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-    		// Llamada al método que comprueba la base de datos
-    		boolean loginCorrecto = comprobarLogin(usernameIngresado, contraseñaIngresada);
+    // Llamada al método que obtiene el usuario con su perfil desde la BD
+    Usuario user = obtenerUsuarioConPerfil(usernameIngresado, contraseñaIngresada);
 
-    		if (loginCorrecto) {
-	        	Usuario user = obtenerUsuario(usernameIngresado); 
-	        	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user);
-	        	ventanaPrincipal.setVisible(true);
-	        	this.dispose();
-			} else {
-        		JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-   			}
+    if (user != null) {
+        VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user);
+        ventanaPrincipal.setVisible(true);
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 });
+
 
         //getRootPane().setDefaultButton(btnAcceder);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
