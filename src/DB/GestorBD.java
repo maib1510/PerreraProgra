@@ -19,25 +19,25 @@ public class GestorBD {
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 
 	public GestorBD() {		
-		try {
-			//Cargar el driver SQLite
-			Class.forName(DRIVER_NAME);
-		} catch (ClassNotFoundException ex) {
-			System.err.format("\n* Error al cargar el driver de BBDD: %s", ex.getMessage());
-			ex.printStackTrace();
-		}
-
+	    try {
+	        Class.forName(DRIVER_NAME);
+	    } catch (ClassNotFoundException ex) {
+	        System.err.println("Error cargando el driver: " + ex.getMessage());
+	    }
 	}
+
 	// ============================== CREAR BASE DE DATOS =========================================================================================================
 	public void crearBBDD() {
 	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
 	         Statement stmt = con.createStatement()) {
 
 	        // TABLA PERFIL ==============================================================================
-	        String sqlPerfil = "CREATE TABLE IF NOT EXISTS perfil ("
+	    	String sqlPerfil = "CREATE TABLE IF NOT EXISTS perfil ("
 	                + "id_perfil INTEGER PRIMARY KEY AUTOINCREMENT, "
 	                + "username TEXT UNIQUE NOT NULL, " // text -> SQLlite ignora el tamaño. VARCHAR(x) también vale, pero lo va a ignorar
-	                + "password TEXT NOT NULL"
+	                + "password TEXT NOT NULL, "
+	                + "id_usuario INTEGER NOT NULL, "
+	                + "FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE" // ON DELETE CASCADE -> cuando se elimina un perfil, se elimina automáticamente el usuario
 	                + ");";
 	        stmt.execute(sqlPerfil);
 	        System.out.println("- Tabla PERFIL creada");
@@ -51,8 +51,7 @@ public class GestorBD {
 	                + "edad INTEGER, "
 	                + "email TEXT UNIQUE NOT NULL, "
 	                + "telefono TEXT, "
-	                + "tarjeta TEXT, "
-	                + "FOREIGN KEY (id_perfil) REFERENCES perfil(id_perfil) ON DELETE CASCADE" // ON DELETE CASCADE -> cuando se elimina un perfil, se elimina automáticamente el usuario
+	                + "tarjeta_bancaria TEXT "
 	                + ");";
 	        stmt.execute(sqlUsuario);
 	        System.out.println("- Tabla USUARIO creada");
@@ -212,7 +211,9 @@ public class GestorBD {
 	            perfil.setPassword(rs.getString("password"));
 	            u.setPerfil(perfil);
 	
+	            System.out.println("Usuario encontrado con exito");
 	            return u;
+	            
 	        } else {
 	            return null; // No se encontró el usuario o contraseña incorrecta
 	        }
@@ -230,7 +231,6 @@ public class GestorBD {
 	                     + "VALUES (?, ?, ?)";
 
 	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING)) {
-	        con.setAutoCommit(false);
 
 	        int idUsuario = 0;
 
@@ -257,7 +257,7 @@ public class GestorBD {
 	            stmt.executeUpdate();
 	        }
 
-	        con.commit();
+	        System.out.println("usuario insertado con éxito");
 	        return true;
 
 	    } catch (SQLException e) {

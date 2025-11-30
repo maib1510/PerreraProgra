@@ -150,9 +150,17 @@ public class Main {
 
 		// =============== INICIALIZAR BASE DE DATOS ============================================
 		GestorBD gestor = new GestorBD();
-		ArrayList<Usuario> lista = leerCSV("ruta.csv");
+		try {
+		    Class.forName("org.sqlite.JDBC");
+		    System.out.println("Driver cargado correctamente");
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+
+		ArrayList<Usuario> lista = leerCSV("resources/db/usuarios.csv");
 		for (Usuario u : lista) {
-		    gestor.insertarUsuario(u); // si tienes este método
+		    gestor.insertarUsuario(u); 
+		    System.out.println("usuario - " + u.getNombre() + " insertado");
 		}
 
 		gestor.crearBBDD();
@@ -192,8 +200,8 @@ public class Main {
 	            user.setTarjeta_bancaria(valores[6].trim());
 
 	            perfil.setPassword(valores[7].trim());
-
 	            user.setPerfil(perfil);
+	            perfil.setUsuario(user);
 	            usuarios.add(user);
 	        }
 

@@ -7,6 +7,7 @@ public class Perfil {
 	private int id_perfil;
 	private String username;
 	private String password;
+	private Usuario usuario;
 	
 	
 	public Perfil() {
@@ -55,6 +56,16 @@ public class Perfil {
 
 	public void setId_perfil(int id_perfil) {
 		this.id_perfil = id_perfil;
+	}
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	
