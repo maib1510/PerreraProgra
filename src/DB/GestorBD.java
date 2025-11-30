@@ -175,24 +175,50 @@ public class GestorBD {
 
 	}
 
-	public boolean comprobarLogin(String username, String password) {
-    String sql = "SELECT username FROM PERFIL WHERE username = ? AND password = ?";
-    
+	public Usuario obtenerUsuarioConPerfil(String username, String password) {
+    String sql = "SELECT u.id_usuario, u.nombre, u.apellido, u.email, u.telefono, u.tarjeta_bancaria, " +
+                 "p.id_perfil, p.username, p.password " +
+                 "FROM USUARIO u " +
+                 "JOIN PERFIL p ON u.id_perfil = p.id_perfil " +
+                 "WHERE p.username = ? AND p.password = ?";
+
     try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
          PreparedStatement stmt = con.prepareStatement(sql)) {
-        
+
         stmt.setString(1, username);
         stmt.setString(2, password);
-        
+
         ResultSet rs = stmt.executeQuery();
-        
-        return rs.next(); // Si hay resultado, login correcto
-    
+
+        if (rs.next()) {
+            Usuario u = new Usuario();
+            u.setId(rs.getInt("id_usuario"));
+            u.setNombre(rs.getString("nombre"));
+            u.setApellido(rs.getString("apellido"));
+            u.setEmail(rs.getString("email"));
+            u.setTelefono(rs.getString("telefono"));
+            u.setTarjeta_bancaria(rs.getString("tarjeta_bancaria"));
+            u.setUsername(rs.getString("username"));
+            u.setPassword(rs.getString("password"));
+
+            // Si tienes un objeto Perfil, puedes mapearlo también
+            Perfil perfil = new Perfil();
+            perfil.setId(rs.getInt("id_perfil"));
+            perfil.setUsername(rs.getString("username"));
+            perfil.setPassword(rs.getString("password"));
+            u.setPerfil(perfil);
+
+            return u;
+        } else {
+            return null; // No se encontró el usuario o contraseña incorrecta
+        }
+
     } catch (SQLException e) {
         e.printStackTrace();
-        return false;
+        return null;
     }
 }
+
 
 	
 	
