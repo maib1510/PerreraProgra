@@ -6,7 +6,6 @@ import java.util.Objects;
 public class Usuario {
 	
 	private int id_usuario;
-	private String username;
 	private String nombre;
 	private String apellido;
 	private ArrayList<Animal> mascotas;
@@ -14,7 +13,6 @@ public class Usuario {
 	private String telefono;
 	private String email;
 	private String tarjeta_bancaria;
-	private String password;
 	private Perfil perfil;
 	
 	
@@ -27,7 +25,6 @@ public class Usuario {
 	public Usuario(String username, String nombre, String apellido, ArrayList<Animal> mascotas, int edad, String telefono,
 			String email, String tarjeta_bancaria, String password) {
 		super();
-		this.username = username;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.mascotas = mascotas;
@@ -35,18 +32,9 @@ public class Usuario {
 		this.telefono = telefono;
 		this.email = email;
 		this.tarjeta_bancaria = tarjeta_bancaria;
-		this.password = password;
 	}
 
 
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 
 	public String getNombre() {
@@ -119,19 +107,12 @@ public class Usuario {
 	}
 
 
-	public String getPassword() {
-		return password;
-	}
 
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 
 	@Override
 	public String toString() {
-		return "Usuario [username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + ", mascotas="
+		return "Usuario [username=" + ", nombre=" + nombre + ", apellido=" + apellido + ", mascotas="
 				+ mascotas + ", edad=" + edad + ", telefono=" + telefono + ", email=" + email + ", tarjeta_bancaria="
 				+ tarjeta_bancaria + "]";
 	}
@@ -139,7 +120,7 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido, edad, email, mascotas, nombre, tarjeta_bancaria, telefono, username);
+		return Objects.hash(apellido, edad, email, mascotas, nombre, tarjeta_bancaria, telefono);
 	}
 
 
@@ -154,8 +135,7 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(apellido, other.apellido) && edad == other.edad && Objects.equals(email, other.email)
 				&& Objects.equals(mascotas, other.mascotas) && Objects.equals(nombre, other.nombre)
-				&& tarjeta_bancaria == other.tarjeta_bancaria && telefono == other.telefono
-				&& Objects.equals(username, other.username);
+				&& tarjeta_bancaria == other.tarjeta_bancaria && telefono == other.telefono;
 	}
 
 

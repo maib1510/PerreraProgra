@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import Domain.Gato;
 import Domain.Pajaro;
+import Domain.Perfil;
 import Domain.Perro;
 import Domain.Roedor;
 import Domain.Usuario;
@@ -23,6 +24,7 @@ public class VentanaInicioSesion extends JFrame {
 	private Perro[] perros;
 	private Usuario user;
 	private GestorBD gestor;
+	private Perfil perfil;
 
     public VentanaInicioSesion(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, GestorBD gestor) {
         this.gatos = gatos;
@@ -52,8 +54,6 @@ public class VentanaInicioSesion extends JFrame {
         this.getContentPane().setBackground(azulClaro);
 
         // Leer usuarios desde CSV
-        ArrayList<Usuario> usuarios = leerCSV("usuarios.csv");
-
         // Panel superior con título
         JPanel superiorPanel = new JPanel();
         superiorPanel.setBackground(azulClaro);
@@ -165,36 +165,8 @@ public class VentanaInicioSesion extends JFrame {
         txtPassword.addActionListener(e -> btnAcceder.doClick());
 
         this.setVisible(true);
-    }
+    }}
 
-    private ArrayList<Usuario> leerCSV(String rutaArchivo) {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
-            String linea;
-            boolean primeraLinea = true;
-
-            while ((linea = br.readLine()) != null) {
-                if (primeraLinea) { primeraLinea = false; continue; }
-                String[] valores = linea.split(",");
-                if (valores.length < 8) continue;
-
-                Usuario user = new Usuario();
-                user.setNombre(valores[0].trim());
-                user.setApellido(valores[1].trim());
-                user.setEdad(Integer.parseInt(valores[2]));
-                user.setUsername(valores[3].trim());
-                user.setEmail(valores[4].trim());
-                user.setTelefono(valores[5].trim());
-                user.setTarjeta_bancaria(valores[6]);
-                user.setPassword(valores[7].trim());
-                usuarios.add(user);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "No se pudo leer el archivo: " + e.getMessage(),
-                    "Error de lectura", JOptionPane.ERROR_MESSAGE);
-        }
-        return usuarios;
-    }
-}
+ 
 
 

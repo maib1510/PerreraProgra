@@ -181,48 +181,91 @@ public class GestorBD {
 	}
 
 	public Usuario obtenerUsuarioConPerfil(String username, String password) {
-    String sql = "SELECT u.id_usuario, u.nombre, u.apellido, u.email, u.telefono, u.tarjeta_bancaria, " +
-                 "p.id_perfil, p.username, p.password " +
-                 "FROM USUARIO u " +
-                 "JOIN PERFIL p ON u.id_perfil = p.id_perfil " +
-                 "WHERE p.username = ? AND p.password = ?";
+	    String sql = "SELECT u.id_usuario, u.nombre, u.apellido, u.email, u.telefono, u.tarjeta_bancaria, " +
+	                 "p.id_perfil, p.username, p.password " +
+	                 "FROM USUARIO u " +
+	                 "JOIN PERFIL p ON u.id_perfil = p.id_perfil " +
+	                 "WHERE p.username = ? AND p.password = ?";
+	
+	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+	
+	        stmt.setString(1, username);
+	        stmt.setString(2, password);
+	
+	        ResultSet rs = stmt.executeQuery();
+	
+	        if (rs.next()) {
+	            Usuario u = new Usuario();
+	            u.setId_usuario(rs.getInt("id_usuario"));
+	            u.setNombre(rs.getString("nombre"));
+	            u.setApellido(rs.getString("apellido"));
+	            u.setEmail(rs.getString("email"));
+	            u.setTelefono(rs.getString("telefono"));
+	            u.setTarjeta_bancaria(rs.getString("tarjeta_bancaria"));
+	   
+	
+	            // Si tienes un objeto Perfil, puedes mapearlo también
+	            Perfil perfil = new Perfil();
+	            perfil.setId_perfil(rs.getInt("id_perfil"));
+	            perfil.setUsername(rs.getString("username"));
+	            perfil.setPassword(rs.getString("password"));
+	            u.setPerfil(perfil);
+	
+	            return u;
+	        } else {
+	            return null; // No se encontró el usuario o contraseña incorrecta
+	        }
+	
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	public boolean insertarUsuario(Usuario u) {
+	    String sqlUsuario = "INSERT INTO usuario (nombre, apellido, edad, email, telefono, tarjeta_bancaria) "
+	                      + "VALUES (?, ?, ?, ?, ?, ?)";
 
-    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
-         PreparedStatement stmt = con.prepareStatement(sql)) {
+	    String sqlPerfil = "INSERT INTO perfil (username, password, id_usuario) "
+	                     + "VALUES (?, ?, ?)";
 
-        stmt.setString(1, username);
-        stmt.setString(2, password);
+	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING)) {
+	        con.setAutoCommit(false);
 
-        ResultSet rs = stmt.executeQuery();
+	        int idUsuario = 0;
 
-        if (rs.next()) {
-            Usuario u = new Usuario();
-            u.setId_usuario(rs.getInt("id_usuario"));
-            u.setNombre(rs.getString("nombre"));
-            u.setApellido(rs.getString("apellido"));
-            u.setEmail(rs.getString("email"));
-            u.setTelefono(rs.getString("telefono"));
-            u.setTarjeta_bancaria(rs.getString("tarjeta_bancaria"));
-            u.setUsername(rs.getString("username"));
-            u.setPassword(rs.getString("password"));
+	        // Insertar usuario
+	        try (PreparedStatement stmt = con.prepareStatement(sqlUsuario, Statement.RETURN_GENERATED_KEYS)) {
+	            stmt.setString(1, u.getNombre());
+	            stmt.setString(2, u.getApellido());
+	            stmt.setInt(3, u.getEdad());
+	            stmt.setString(4, u.getEmail());
+	            stmt.setString(5, u.getTelefono());
+	            stmt.setString(6, u.getTarjeta_bancaria());
+	            stmt.executeUpdate();
 
-            // Si tienes un objeto Perfil, puedes mapearlo también
-            Perfil perfil = new Perfil();
-            perfil.setId_perfil(rs.getInt("id_perfil"));
-            perfil.setUsername(rs.getString("username"));
-            perfil.setPassword(rs.getString("password"));
-            u.setPerfil(perfil);
+	            try (ResultSet rs = stmt.getGeneratedKeys()) {
+	                if (rs.next()) idUsuario = rs.getInt(1);
+	            }
+	        }
 
-            return u;
-        } else {
-            return null; // No se encontró el usuario o contraseña incorrecta
-        }
+	        // Insertar perfil asociado
+	        try (PreparedStatement stmt = con.prepareStatement(sqlPerfil)) {
+	            stmt.setString(1, u.getPerfil().getUsername());
+	            stmt.setString(2, u.getPerfil().getPassword());
+	            stmt.setInt(3, idUsuario);
+	            stmt.executeUpdate();
+	        }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
-    }
-}
+	        con.commit();
+	        return true;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 
 
 	

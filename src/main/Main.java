@@ -1,5 +1,11 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -8,8 +14,10 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import DB.GestorBD;
 import Domain.Gato;
 import Domain.Pajaro;
+import Domain.Perfil;
 import Domain.Perro;
 import Domain.Roedor;
+import Domain.Usuario;
 import gui.HiloBienvenida;
 import gui.VentanaInicioSesion;
 
@@ -127,7 +135,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		
+		// =========== HILO DE BIENVENIDA =======================================================
 		// Crear y lanzar el hilo de bienvenida
 		HiloBienvenida bienvenida = new HiloBienvenida("imagenes/fotosPerfil/bienvenida.png", 4);
 		Thread hilo = new Thread(bienvenida);
@@ -140,7 +148,13 @@ public class Main {
 			e.printStackTrace();
 		}
 
+		// =============== INICIALIZAR BASE DE DATOS ============================================
 		GestorBD gestor = new GestorBD();
+		ArrayList<Usuario> lista = leerCSV("ruta.csv");
+		for (Usuario u : lista) {
+		    gestor.insertarUsuario(u); // si tienes este método
+		}
+
 		gestor.crearBBDD();
 		// Ahora mostrar la ventana principal
 		javax.swing.SwingUtilities.invokeLater(() -> {
@@ -148,6 +162,45 @@ public class Main {
 		});
 	}
 
+	private static ArrayList<Usuario> leerCSV(String rutaArchivo) {
+	    ArrayList<Usuario> usuarios = new ArrayList<>();
 
+	    try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+	        String linea;
+	        boolean primeraLinea = true;
+
+	        while ((linea = br.readLine()) != null) {
+	            if (primeraLinea) {
+	                primeraLinea = false;
+	                continue; // Saltar cabecera
+	            }
+
+	            String[] valores = linea.split(",");
+	            if (valores.length < 8) continue; // Control básico
+
+	            Usuario user = new Usuario();
+	            Perfil perfil = new Perfil(); // ESTO era lo que faltaba
+
+	            user.setNombre(valores[0].trim());
+	            user.setApellido(valores[1].trim());
+	            user.setEdad(Integer.parseInt(valores[2].trim()));
+
+	            perfil.setUsername(valores[3].trim());
+
+	            user.setEmail(valores[4].trim());
+	            user.setTelefono(valores[5].trim());
+	            user.setTarjeta_bancaria(valores[6].trim());
+
+	            perfil.setPassword(valores[7].trim());
+
+	            user.setPerfil(perfil);
+	            usuarios.add(user);
+	        }
+
+	    } catch (IOException e) {
+	       e.printStackTrace();
+	    }
+	    return usuarios;
+	}
 }
 

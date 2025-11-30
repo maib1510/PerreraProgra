@@ -300,7 +300,7 @@ public class VentanaPerfil extends JFrame {
                     try {
                         BufferedImage nuevaImagen = ImageIO.read(archivoSeleccionado);
                         if (nuevaImagen != null) {
-                            String imagePath = "imagenes/fotosPerfil" + user.getUsername() + ".jpg";
+                            String imagePath = "imagenes/fotosPerfil" + user.getPerfil().getUsername() + ".jpg";
                             File destino = new File(imagePath);
                             destino.getParentFile().mkdirs();
                             ImageIO.write(nuevaImagen, "jpg", destino);

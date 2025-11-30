@@ -183,7 +183,7 @@ public class VentanaMascotas extends JFrame {
                 boolean adoptado = Boolean.parseBoolean(datos[7]);
                 String tipo = datos[8];
 
-                if (datos[9].equals(user.getUsername())) {
+                if (datos[9].equals(user.getPerfil().getUsername())) {
                 	Animal m;
                     switch (tipo.toLowerCase()) {
                         case "perro":
