@@ -23,133 +23,82 @@ public class GestorBD {
 		}
 
 	}
-
+	// ============================== CREAR BASE DE DATOS =========================================================================================================
 	public void crearBBDD() {
-		// Se abre la conexión y se obtiene el Statement
-		// Al abrir la conexión, si no existía el fichero, se crea la base de datos
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
-				Statement stmt = con.createStatement()) {
+	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+	         Statement stmt = con.createStatement()) {
 
-			// Tabla PERFIL (login)
-			String sqlPerfil = "CREATE TABLE IF NOT EXISTS PERFIL (\n"
-					+ " ID_PERFIL INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-					+ " USERNAME TEXT UNIQUE NOT NULL,\n"
-					+ " PASSWORD TEXT NOT NULL\n"
-					+ ");";
-			if (!stmt.execute(sqlPerfil)) {
-				System.out.println("- Tabla PERFIL creada");
-			}
+	        // TABLA PERFIL ==============================================================================
+	        String sqlPerfil = "CREATE TABLE IF NOT EXISTS perfil ("
+	                + "id_perfil INTEGER PRIMARY KEY AUTOINCREMENT, "
+	                + "username TEXT UNIQUE NOT NULL, " // text -> SQLlite ignora el tamaño. VARCHAR(x) también vale, pero lo va a ignorar
+	                + "password TEXT NOT NULL"
+	                + ");";
+	        stmt.execute(sqlPerfil);
+	        System.out.println("- Tabla PERFIL creada");
 
-			// Tabla USUARIO
-			String sqlUsuario = "CREATE TABLE IF NOT EXISTS USUARIO (\n"
-					+ " ID INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-					+ " NOMBRE TEXT NOT NULL,\n"
-					+ " APELLIDO TEXT NOT NULL,\n"
-					+ " EDAD INTEGER,\n"
-					+ " USERNAME TEXT UNIQUE NOT NULL,\n"
-					+ " EMAIL TEXT NOT NULL,\n"
-					+ " TELEFONO TEXT,\n"
-					+ " TARJETA TEXT,\n"
-					+ " PASSWORD TEXT NOT NULL\n"
-					+ ");";
-			if (!stmt.execute(sqlUsuario)) {
-				System.out.println("- Tabla USUARIO creada");
-			}
+	        // TABLA USUARIO ==============================================================================
+	        String sqlUsuario = "CREATE TABLE IF NOT EXISTS usuario ("
+	                + "id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, "
+	                + "id_perfil INTEGER NOT NULL, "
+	                + "nombre TEXT NOT NULL, "
+	                + "apellido TEXT NOT NULL, "
+	                + "edad INTEGER, "
+	                + "email TEXT UNIQUE NOT NULL, "
+	                + "telefono TEXT, "
+	                + "tarjeta TEXT, "
+	                + "FOREIGN KEY (id_perfil) REFERENCES perfil(id_perfil) ON DELETE CASCADE" // ON DELETE CASCADE -> cuando se elimina un perfil, se elimina automáticamente el usuario
+	                + ");";
+	        stmt.execute(sqlUsuario);
+	        System.out.println("- Tabla USUARIO creada");
 
-			// Tabla ANIMAL
-			String sqlAnimal = "CREATE TABLE IF NOT EXISTS ANIMAL (\n"
-					+ " ID_ANIMAL TEXT PRIMARY KEY,\n"
-					+ " NOMBRE TEXT NOT NULL,\n"
-					+ " TIPO_ANIMAL TEXT NOT NULL,\n"
-					+ " SEXO TEXT,\n"
-					+ " EDAD REAL,\n"
-					+ " ESPECIE TEXT,\n"
-					+ " PESO REAL,\n"
-					+ " PERSONALIDAD TEXT,\n"
-					+ " RASGOS TEXT,\n"
-					+ " ADOPTADO INTEGER DEFAULT 0\n"
-					+ ");";
-			if (!stmt.execute(sqlAnimal)) {
-				System.out.println("- Tabla ANIMAL creada");
-			}
+	        // TABLA ANIMAL ==============================================================================
+	        String sqlAnimal = "CREATE TABLE IF NOT EXISTS animal ("
+	                + "id_animal INTEGER PRIMARY KEY AUTOINCREMENT, "
+	                + "nombre TEXT NOT NULL, "
+	                + "tipo_animal TEXT NOT NULL, "
+	                + "sexo TEXT, "
+	                + "edad INTEGER, "
+	                + "raza TEXT, "
+	                + "peso REAL, "
+	                + "desc_personalidad TEXT, "
+	                + "desc_fisica TEXT, "
+	                + "adoptado INTEGER DEFAULT 0"
+	                + ");";
+	        stmt.execute(sqlAnimal);
+	        System.out.println("- Tabla ANIMAL creada");
 
-			// Tabla ADOPCION
-			String sqlAdopcion = "CREATE TABLE IF NOT EXISTS ADOPCION (\n"
-					+ " ID_MASCOTA INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-					+ " USERNAME TEXT NOT NULL,\n"
-					+ " ID_ANIMAL TEXT NOT NULL,\n"
-					+ " FECHA_ADOPCION TEXT,\n"
-					+ " FOREIGN KEY (USERNAME) REFERENCES USUARIO(USERNAME),\n"
-					+ " FOREIGN KEY (ID_ANIMAL) REFERENCES ANIMAL(ID_ANIMAL)\n"
-					+ ");";
-			if (!stmt.execute(sqlAdopcion)) {
-				System.out.println("- Tabla ADOPCION creada");
-			}
+	        // TABLA ADOPCION ==============================================================================
+	        String sqlAdopcion = "CREATE TABLE IF NOT EXISTS adopcion ("
+	                + "id_adopcion INTEGER PRIMARY KEY AUTOINCREMENT, "
+	                + "id_usuario INTEGER NOT NULL, "
+	                + "id_animal INTEGER NOT NULL, "
+	                + "fecha_adopcion TEXT, "
+	                + "FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, "
+	                + "FOREIGN KEY (id_animal) REFERENCES animal(id_animal) ON DELETE CASCADE"
+	                + ");";
+	        stmt.execute(sqlAdopcion);
+	        System.out.println("- Tabla ADOPCION creada");
 
-			// Tabla PRODUCTO
-			String sqlProducto = "CREATE TABLE IF NOT EXISTS PRODUCTO (\n"
-					+ " ID_PRODUCTO TEXT PRIMARY KEY,\n"
-					+ " NOMBRE TEXT NOT NULL,\n"
-					+ " CATEGORIA_ANIMAL TEXT,\n"
-					+ " PRECIO REAL NOT NULL,\n"
-					+ " UNIDADES INTEGER NOT NULL,\n"
-					+ " AGOTADO INTEGER DEFAULT 0\n"
-					+ ");";
-			if (!stmt.execute(sqlProducto)) {
-				System.out.println("- Tabla PRODUCTO creada");
-			}
+	        // TABLA PRODUCTO ==============================================================================
+	        String sqlProducto = "CREATE TABLE IF NOT EXISTS producto ("
+	                + "id_producto INTEGER PRIMARY KEY AUTOINCREMENT, "
+	                + "nombre TEXT NOT NULL, "
+	                + "categoria_animal TEXT, "
+	                + "precio REAL NOT NULL, "
+	                + "unidades_disp INTEGER NOT NULL, "
+	                + "agotado INTEGER DEFAULT 0"
+	                + ");";
+	        stmt.execute(sqlProducto);
+	        System.out.println("- Tabla PRODUCTO creada");
 
-		} catch (Exception ex) {
-			System.err.format("* Error al crear la BBDD: %s", ex.getMessage());
-			ex.printStackTrace();
-		}
-
+	    } catch (Exception ex) {
+	        System.err.format("* Error al crear la BBDD: %s", ex.getMessage());
+	        ex.printStackTrace();
+	    }
 	}
+	// ============================================================================================================================================================
 
-	public void borrarBBDD() {
-		// Se abre la conexión y se obtiene el Statement
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
-				Statement stmt = con.createStatement()) {
-
-			String sqlAdopcion = "DROP TABLE IF EXISTS ADOPCION;";
-			if (!stmt.execute(sqlAdopcion)) {
-				System.out.println("\n- Se ha borrado la tabla ADOPCION");
-			}
-
-			String sqlProducto = "DROP TABLE IF EXISTS PRODUCTO;";
-			if (!stmt.execute(sqlProducto)) {
-				System.out.println("- Se ha borrado la tabla PRODUCTO");
-			}
-
-			String sqlAnimal = "DROP TABLE IF EXISTS ANIMAL;";
-			if (!stmt.execute(sqlAnimal)) {
-				System.out.println("- Se ha borrado la tabla ANIMAL");
-			}
-
-			String sqlUsuario = "DROP TABLE IF EXISTS USUARIO;";
-			if (!stmt.execute(sqlUsuario)) {
-				System.out.println("- Se ha borrado la tabla USUARIO");
-			}
-
-			if (!stmt.execute("DROP TABLE IF EXISTS PERFIL;")) {
-				System.out.println("- Se ha borrado la tabla PERFIL");
-			}
-
-		} catch (Exception ex) {
-			System.err.format("\n* Error al borrar la BBDD: %s", ex.getMessage());
-			ex.printStackTrace();
-		}
-
-		try {
-			// Se borra el fichero de la BBDD
-			Files.delete(Paths.get(DATABASE_FILE));
-			System.out.println("\n- Se ha borrado el fichero de la BBDD");
-		} catch (Exception ex) {
-			System.err.format("\n* Error al borrar el archivo de la BBDD: %s", ex.getMessage());
-			ex.printStackTrace();
-		}
-
-	}
 	
 	//---------------------------------------------LEER CSV---------------------------------------------
 	
