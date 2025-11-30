@@ -118,29 +118,27 @@ public class VentanaInicioSesion extends JFrame {
 
         // Acción de login
         btnAcceder.addActionListener(e -> {
-            String contraseñaIngresada = new String(txtPassword.getPassword());
+    		String usernameIngresado = txtUsername.getText();
+    		String contraseñaIngresada = new String(txtPassword.getPassword());
 
-            if (txtUsername.getText().isEmpty() || contraseñaIngresada.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+    		if (usernameIngresado.isEmpty() || contraseñaIngresada.isEmpty()) {
+        		JOptionPane.showMessageDialog(this, "Rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+        		return;
+    		}
 
-            boolean encontrado = false;
-            for (Usuario u : usuarios) {
-                if (u.getUsername().equals(txtUsername.getText()) && u.getPassword().equals(contraseñaIngresada)) {
-                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, u);
-                    ventanaPrincipal.setVisible(true);
-                    this.dispose();
-                    encontrado = true;
-                    break;
-                }
-            }
+    		// Llamada al método que comprueba la base de datos
+    		boolean loginCorrecto = comprobarLogin(usernameIngresado, contraseñaIngresada);
 
-            if (!encontrado) {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-     // Después de crear btnAcceder
+    		if (loginCorrecto) {
+	        	Usuario user = obtenerUsuario(usernameIngresado); 
+	        	VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user);
+	        	ventanaPrincipal.setVisible(true);
+	        	this.dispose();
+			} else {
+        		JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+   			}
+});
+
         //getRootPane().setDefaultButton(btnAcceder);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
