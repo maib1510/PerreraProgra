@@ -174,6 +174,27 @@ public class GestorBD {
 		}
 
 	}
+
+	public boolean comprobarLogin(String username, String password) {
+    String sql = "SELECT username FROM PERFIL WHERE username = ? AND password = ?";
+    
+    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+        
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        return rs.next(); // Si hay resultado, login correcto
+    
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+	
 	
 
 }
