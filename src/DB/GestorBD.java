@@ -99,6 +99,51 @@ public class GestorBD {
 	}
 	// ============================================================================================================================================================
 
+	// =============== BORRAR LA BASE DE DATOS ====================================================================================================================
+		public void borrarBBDD() {
+		// Se abre la conexión y se obtiene el Statement
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+				Statement stmt = con.createStatement()) {
+
+			String sqlAdopcion = "DROP TABLE IF EXISTS ADOPCION;";
+			if (!stmt.execute(sqlAdopcion)) {
+				System.out.println("\n- Se ha borrado la tabla ADOPCION");
+			}
+
+			String sqlProducto = "DROP TABLE IF EXISTS PRODUCTO;";
+			if (!stmt.execute(sqlProducto)) {
+				System.out.println("- Se ha borrado la tabla PRODUCTO");
+			}
+
+			String sqlAnimal = "DROP TABLE IF EXISTS ANIMAL;";
+			if (!stmt.execute(sqlAnimal)) {
+				System.out.println("- Se ha borrado la tabla ANIMAL");
+			}
+
+			String sqlUsuario = "DROP TABLE IF EXISTS USUARIO;";
+			if (!stmt.execute(sqlUsuario)) {
+				System.out.println("- Se ha borrado la tabla USUARIO");
+			}
+
+			if (!stmt.execute("DROP TABLE IF EXISTS PERFIL;")) {
+				System.out.println("- Se ha borrado la tabla PERFIL");
+			}
+
+		} catch (Exception ex) {
+			System.err.format("\n* Error al borrar la BBDD: %s", ex.getMessage());
+			ex.printStackTrace();
+		}
+
+		try {
+			// Se borra el fichero de la BBDD
+			Files.delete(Paths.get(DATABASE_FILE));
+			System.out.println("\n- Se ha borrado el fichero de la BBDD");
+		} catch (Exception ex) {
+			System.err.format("\n* Error al borrar el archivo de la BBDD: %s", ex.getMessage());
+			ex.printStackTrace();
+		}
+
+	}
 	
 	//---------------------------------------------LEER CSV---------------------------------------------
 	
