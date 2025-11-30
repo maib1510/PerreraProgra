@@ -5,6 +5,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
+import DB.GestorBD;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
@@ -139,9 +140,11 @@ public class Main {
 			e.printStackTrace();
 		}
 
+		GestorBD gestor = new GestorBD();
+		gestor.crearBBDD();
 		// Ahora mostrar la ventana principal
 		javax.swing.SwingUtilities.invokeLater(() -> {
-			new VentanaInicioSesion(gatos, roedores, pajaros, perros).setVisible(true);
+			new VentanaInicioSesion(gatos, roedores, pajaros, perros, gestor).setVisible(true);
 		});
 	}
 

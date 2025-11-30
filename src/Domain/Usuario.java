@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Usuario {
-
+	
+	private int id_usuario;
 	private String username;
 	private String nombre;
 	private String apellido;
@@ -14,6 +15,7 @@ public class Usuario {
 	private String email;
 	private String tarjeta_bancaria;
 	private String password;
+	private Perfil perfil;
 	
 	
 	public Usuario() {
@@ -155,6 +157,29 @@ public class Usuario {
 				&& tarjeta_bancaria == other.tarjeta_bancaria && telefono == other.telefono
 				&& Objects.equals(username, other.username);
 	}
+
+
+	public int getId_usuario() {
+		return id_usuario;
+	}
+
+
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+
+
 
 	
 	

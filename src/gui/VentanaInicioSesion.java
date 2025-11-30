@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.*;
+import DB.GestorBD;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,9 +22,14 @@ public class VentanaInicioSesion extends JFrame {
 	private Pajaro[] pajaros;
 	private Perro[] perros;
 	private Usuario user;
+	private GestorBD gestor;
 
-    public VentanaInicioSesion(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros) {
+    public VentanaInicioSesion(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, GestorBD gestor) {
         this.gatos = gatos;
+        this.perros = perros;
+        this.pajaros = pajaros;
+        this.roedores = roedores;
+        this.gestor = gestor;
 
         // Configuración de la ventana
         this.setTitle("Inicio de Sesión");
@@ -127,7 +133,7 @@ public class VentanaInicioSesion extends JFrame {
     }
 
     // Llamada al método que obtiene el usuario con su perfil desde la BD
-    Usuario user = obtenerUsuarioConPerfil(usernameIngresado, contraseñaIngresada);
+    Usuario user = gestor.obtenerUsuarioConPerfil(usernameIngresado, contraseñaIngresada);
 
     if (user != null) {
         VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user);

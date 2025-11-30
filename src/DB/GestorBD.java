@@ -5,7 +5,12 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+
+import Domain.Perfil;
+import Domain.Usuario;
 
 public class GestorBD {
 
@@ -192,7 +197,7 @@ public class GestorBD {
 
         if (rs.next()) {
             Usuario u = new Usuario();
-            u.setId(rs.getInt("id_usuario"));
+            u.setId_usuario(rs.getInt("id_usuario"));
             u.setNombre(rs.getString("nombre"));
             u.setApellido(rs.getString("apellido"));
             u.setEmail(rs.getString("email"));
@@ -203,7 +208,7 @@ public class GestorBD {
 
             // Si tienes un objeto Perfil, puedes mapearlo también
             Perfil perfil = new Perfil();
-            perfil.setId(rs.getInt("id_perfil"));
+            perfil.setId_perfil(rs.getInt("id_perfil"));
             perfil.setUsername(rs.getString("username"));
             perfil.setPassword(rs.getString("password"));
             u.setPerfil(perfil);
