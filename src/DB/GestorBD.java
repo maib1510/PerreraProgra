@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import Domain.Animal;
 import Domain.Perfil;
 import Domain.Usuario;
 
@@ -45,7 +46,7 @@ public class GestorBD {
 	        // TABLA USUARIO ==============================================================================
 	        String sqlUsuario = "CREATE TABLE IF NOT EXISTS usuario ("
 	                + "id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, "
-	                + "id_perfil INTEGER NOT NULL, "
+	                
 	                + "nombre TEXT NOT NULL, "
 	                + "apellido TEXT NOT NULL, "
 	                + "edad INTEGER, "
@@ -265,10 +266,36 @@ public class GestorBD {
 	        return false;
 	    }
 	}
-
-
-
 	
+	
+	public boolean insertarAnimal(Animal a) {
+	    String sqlAnimal = "INSERT INTO animal (nombre, tipo_animal, sexo, edad, raza, peso, desc_personalidad, desc_fisica, adoptado) "
+	                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = con.prepareStatement(sqlAnimal)) {
+
+	        stmt.setString(1, a.getNombre());
+	        stmt.setString(2, a.getTipoAnimal());      // perro/gato/pajaro/roedor
+	        stmt.setString(3, a.getSexo());
+	        stmt.setFloat(4, a.getEdad());
+	        stmt.setString(5, a.getRaza());
+	        stmt.setDouble(6, a.getPeso());
+	        stmt.setString(7, a.getDescripcion_personalidad());
+	        stmt.setString(8, a.getDescripcion_fisica());
+	        stmt.setInt(9, a.isAdoptado() ? 1 : 0);
+
+	        stmt.executeUpdate();
+
+	        System.out.println("animal insertado con exito");
+	        return true;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 	
 
 }

@@ -5,13 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import DB.GestorBD;
+import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perfil;
@@ -28,7 +28,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		//--------------------------------------------------------------GATOS-----------------------------------------------------------------------------
-		
+		/*
 		Gato[] gatos = new Gato[12];
 		
 		Gato gato1 = new Gato("Misu", "Hembra", 1.5f, "Bengala", 4.2f, "Curiosa, atenta y cariñosa", "Atigrado, manchas tipo leopardo, ojos verdes", false);
@@ -126,6 +126,7 @@ public class Main {
 		roedores[3]  = roedor4;
 		roedores[4]  = roedor5;
 		roedores[5]  = roedor6;
+		*/
 		
 		//mejorar botones visualmente (IA generated)
 		try {
@@ -156,17 +157,31 @@ public class Main {
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
+		
+		gestor.crearBBDD();
 
 		ArrayList<Usuario> lista = leerCSV("resources/db/usuarios.csv");
 		for (Usuario u : lista) {
 		    gestor.insertarUsuario(u); 
 		    System.out.println("usuario - " + u.getNombre() + " insertado");
 		}
+		
+		ArrayList<Gato> gatos    = new ArrayList<>();
+		ArrayList<Perro> perros  = new ArrayList<>();
+		ArrayList<Pajaro> pajaros = new ArrayList<>();
+		ArrayList<Roedor> roedores = new ArrayList<>();
 
-		gestor.crearBBDD();
+		leerCSVAnimales("resources/db/animales.csv", gatos, perros, pajaros, roedores, gestor);
+
+		Gato[] gatosArr = gatos.toArray(new Gato[0]);
+		Roedor[] roedoresArr = roedores.toArray(new Roedor[0]);
+		Pajaro[] pajarosArr = pajaros.toArray(new Pajaro[0]);
+		Perro[] perrosArr = perros.toArray(new Perro[0]);
+
+		
 		// Ahora mostrar la ventana principal
 		javax.swing.SwingUtilities.invokeLater(() -> {
-			new VentanaInicioSesion(gatos, roedores, pajaros, perros, gestor).setVisible(true);
+		    new VentanaInicioSesion(gatosArr, roedoresArr, pajarosArr, perrosArr, gestor).setVisible(true);
 		});
 	}
 
@@ -210,5 +225,78 @@ public class Main {
 	    }
 	    return usuarios;
 	}
+
+	private static void leerCSVAnimales(String rutaArchivo,
+			ArrayList<Gato> gatos,
+			ArrayList<Perro> perros,
+			ArrayList<Pajaro> pajaros,
+			ArrayList<Roedor> roedores,
+			GestorBD gestor) {
+
+		try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+			String linea;
+			boolean primeraLinea = true;
+
+			while ((linea = br.readLine()) != null) {
+				if (primeraLinea) {
+					primeraLinea = false;   // Saltar cabecera
+					continue;
+				}
+
+				String[] v = linea.split(",");
+				if (v.length < 10) continue; // Control básico
+
+				// idAnimal,Nombre,TipoAnimal,Sexo,Edad,Especie,Peso,Personalidad,Rasgos,Adoptado
+				String tipo = v[2];  // "Gato", "Perro", "Pajaro", "Roedor"
+
+				Animal a;
+
+				switch (tipo) {
+				case "Gato":
+					a = new Gato();
+					break;
+				case "Perro":
+					a = new Perro();
+					break;
+				case "Pajaro":
+					a = new Pajaro();
+					break;
+				case "Roedor":
+					a = new Roedor();
+					break;
+				default:
+					System.out.println("Tipo animal desconocido: " + tipo);
+					continue;
+				}
+
+				a.setNombre(v[1]);
+				a.setTipoAnimal(tipo);
+				a.setSexo(v[3]);
+				a.setEdad((int) Float.parseFloat(v[4]));
+				a.setRaza(v[5]);
+				a.setPeso(Float.parseFloat(v[6]));
+				a.setDescripcion_personalidad(v[7]);
+				a.setDescripcion_fisica(v[8]);
+				a.setAdoptado(v[9].equalsIgnoreCase("TRUE"));
+
+				// Añadir a la lista correspondiente
+				if (a instanceof Gato) {
+					gatos.add((Gato) a);
+				} else if (a instanceof Perro) {
+					perros.add((Perro) a);
+				} else if (a instanceof Pajaro) {
+					pajaros.add((Pajaro) a);
+				} else if (a instanceof Roedor) {
+					roedores.add((Roedor) a);
+				}
+				gestor.insertarAnimal(a);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 }
 

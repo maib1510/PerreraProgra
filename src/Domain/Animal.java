@@ -12,8 +12,9 @@ public abstract class Animal {
 	private String descripcion_personalidad;
 	private String descripcion_fisica;
 	private boolean adoptado;
+	private String tipoAnimal;
 	
-	
+
 	public Animal(String nombre,String sexo, float edad, String raza, float peso, String descripcion_personalidad,
 			String descripcion_fisica, boolean adoptado) {
 		super();
@@ -80,6 +81,14 @@ public abstract class Animal {
 	}
 	public void setAdoptado(boolean adoptado) {
 		this.adoptado = adoptado;
+	}
+	
+	public String getTipoAnimal() {
+		return tipoAnimal;
+	}
+	
+	public void setTipoAnimal(String tipoAnimal) {
+		this.tipoAnimal = tipoAnimal;
 	}
 	
 	
