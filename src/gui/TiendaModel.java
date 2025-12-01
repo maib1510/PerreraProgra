@@ -39,7 +39,7 @@ public class TiendaModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Producto p = productos.get(rowIndex);
         return switch (columnIndex) {
-            case 0 -> p.getId();
+            case 0 -> p.getId_producto();
             case 1 -> p.getNombre();
             case 2 -> p.getCategoria();
             case 3 -> p.getPrecio();

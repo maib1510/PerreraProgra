@@ -16,6 +16,7 @@ import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perfil;
 import Domain.Perro;
+import Domain.Producto;
 import Domain.Roedor;
 import Domain.Usuario;
 import gui.HiloBienvenida;
@@ -160,12 +161,14 @@ public class Main {
 		
 		gestor.crearBBDD();
 
-		ArrayList<Usuario> lista = leerCSV("resources/db/usuarios.csv");
+		// INSERTAR USUARIOS =====================================================================
+		ArrayList<Usuario> lista = leerCSV_usuarios("resources/db/usuarios.csv");
 		for (Usuario u : lista) {
 		    gestor.insertarUsuario(u); 
 		    System.out.println("usuario - " + u.getNombre() + " insertado");
 		}
 		
+		// INSERTAR ANIMALES =====================================================================
 		ArrayList<Gato> gatos    = new ArrayList<>();
 		ArrayList<Perro> perros  = new ArrayList<>();
 		ArrayList<Pajaro> pajaros = new ArrayList<>();
@@ -178,14 +181,18 @@ public class Main {
 		Pajaro[] pajarosArr = pajaros.toArray(new Pajaro[0]);
 		Perro[] perrosArr = perros.toArray(new Perro[0]);
 
-		
+		// INSERTAR PRODUCTOS =====================================================================
+		ArrayList<Producto> productos = leerCSV_productos("resources/db/productos.csv");
+		for (Producto p : productos) {
+			gestor.insertarProducto(p);
+		}
 		// Ahora mostrar la ventana principal
 		javax.swing.SwingUtilities.invokeLater(() -> {
 		    new VentanaInicioSesion(gatosArr, roedoresArr, pajarosArr, perrosArr, gestor).setVisible(true);
 		});
 	}
 
-	private static ArrayList<Usuario> leerCSV(String rutaArchivo) {
+	private static ArrayList<Usuario> leerCSV_usuarios(String rutaArchivo) {
 	    ArrayList<Usuario> usuarios = new ArrayList<>();
 
 	    try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
@@ -296,6 +303,34 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	
+	private static ArrayList<Producto> leerCSV_productos(String rutaCSV) {
+		ArrayList<Producto> productos = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(rutaCSV))) {
+            String linea;
+            boolean primera = true;
+
+            while ((linea = br.readLine()) != null) {
+                if (primera) { primera = false; continue; }
+
+                String[] datos = linea.split(";"); 
+                if (datos.length != 6) continue;
+
+                int id = Integer.parseInt(datos[0]);
+                String nombre = datos[1];
+                String categoria = datos[2];
+                double precio = Double.parseDouble(datos[3]);
+                int unidades = Integer.parseInt(datos[4]);
+                boolean agotado = Boolean.parseBoolean(datos[5]);
+
+                productos.add(new Producto(id, nombre, categoria, precio, unidades, agotado));
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al leer productos: " + e.getMessage());
+        }
+		return productos;
+    }
 
 
 }

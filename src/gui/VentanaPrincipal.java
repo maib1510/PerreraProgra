@@ -11,6 +11,7 @@ import java.awt.Image;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
@@ -24,16 +25,18 @@ public class VentanaPrincipal extends JFrame {
 	private Pajaro[] pajaros;
 	private Perro[] perros;
 	private Usuario user;
+	private GestorBD gestor;
 	
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaPrincipal(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, Usuario user) {
+	public VentanaPrincipal(Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, Usuario user, GestorBD gestor) {
 		
 		this.gatos = gatos;
         this.roedores = roedores;
         this.pajaros= pajaros;
         this.perros=perros;
         this.user = user;
+        this.gestor = gestor;
         
         
 		this.setTitle("ventana principal - perrera");
@@ -231,14 +234,14 @@ public class VentanaPrincipal extends JFrame {
 		// action listener para ir a la ventana de perfil
 		perfil.addActionListener(e -> {
 			
-			VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user);
+			VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user, gestor);
 			ventanaPerfil.setVisible(true);
 			this.setVisible(false);
 		});
 		
 
 		tienda.addActionListener(e -> {
-			VentanaTienda ventanaTienda = new VentanaTienda(this, user);
+			VentanaTienda ventanaTienda = new VentanaTienda(this, user, gestor);
 			ventanaTienda.setVisible(true);
 			this.setVisible(false);
 		});

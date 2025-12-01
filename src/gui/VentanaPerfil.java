@@ -15,19 +15,23 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import DB.GestorBD;
+
 public class VentanaPerfil extends JFrame {
     private JLabel fotoLabel;
     private ImageIcon fotoPerfil;
     private JFrame ventanaAnimales;
     private Usuario user;
+    private GestorBD gestor;
 
     // de momento pongo esto, ya crearé las clases 
     private Perfil perfil = new Perfil("imagenes/fotosPerfil/Image.jpeg", Color.BLACK);
     
-    public VentanaPerfil(JFrame ventanaAnterior, Usuario user) {
+    public VentanaPerfil(JFrame ventanaAnterior, Usuario user, GestorBD gestor) {
         this.ventanaAnimales = ventanaAnterior;
         this.user = user;
-
+        this.gestor = gestor;
+    
         // ------- CONFIGURACIÓN DE VENTANA -------------------------------------------------------------------------------------------
         setTitle("Perfil de Usuario");
         setSize(400, 420);
@@ -82,7 +86,7 @@ public class VentanaPerfil extends JFrame {
         
         
         tienda.addActionListener(e -> {
-        	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, user);
+        	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, user, gestor);
         	ventanaTienda.setVisible(true);
         	dispose();
         });       

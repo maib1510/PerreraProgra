@@ -8,9 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Domain.Animal;
 import Domain.Perfil;
+import Domain.Producto;
 import Domain.Usuario;
 
 public class GestorBD {
@@ -154,37 +156,14 @@ public class GestorBD {
 	
 	
 
-	//---------------------------------------------PERFIL---------------------------------------------
+	// ========================================== PERFIL ===============================================
 
-	//insertar perfil
-
-	public void insertarPerfil(String username, String password) {
-		String sql = "INSERT INTO PERFIL (USERNAME, PASSWORD) VALUES (?, ?);";
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-
-			pstmt.setString(1, username);
-			pstmt.setString(2, password);
-
-			int result = pstmt.executeUpdate();
-			if (result == 1) {
-				System.out.format("\n- Perfil insertado: %s", username);
-			} else {
-				System.out.format("\n- No se ha insertado el perfil: %s", username);
-			}
-
-		} catch (Exception ex) {
-			System.err.format("\n* Error al insertar perfil en la BBDD: %s", ex.getMessage());
-			ex.printStackTrace();
-		}
-
-	}
-
+	// funcion para obtenmer usuario a partir del nombre de usuario y contraseña
 	public Usuario obtenerUsuarioConPerfil(String username, String password) {
 	    String sql = "SELECT u.id_usuario, u.nombre, u.apellido, u.email, u.telefono, u.tarjeta_bancaria, " +
 	                 "p.id_perfil, p.username, p.password " +
 	                 "FROM USUARIO u " +
-	                 "JOIN PERFIL p ON u.id_perfil = p.id_perfil " +
+	                 "JOIN PERFIL p ON u.id_usuario = p.id_usuario " +
 	                 "WHERE p.username = ? AND p.password = ?";
 	
 	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
@@ -210,6 +189,7 @@ public class GestorBD {
 	            perfil.setId_perfil(rs.getInt("id_perfil"));
 	            perfil.setUsername(rs.getString("username"));
 	            perfil.setPassword(rs.getString("password"));
+	            perfil.setUsuario(u);
 	            u.setPerfil(perfil);
 	
 	            System.out.println("Usuario encontrado con exito");
@@ -224,6 +204,8 @@ public class GestorBD {
 	        return null;
 	    }
 	}
+	
+	// FUNCION PARA INSTERTAR USUARIO ------------------------------------------------------------------------------------
 	public boolean insertarUsuario(Usuario u) {
 	    String sqlUsuario = "INSERT INTO usuario (nombre, apellido, edad, email, telefono, tarjeta_bancaria) "
 	                      + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -267,7 +249,7 @@ public class GestorBD {
 	    }
 	}
 	
-	
+	// ================================== ANIMALES ======================================================================================
 	public boolean insertarAnimal(Animal a) {
 	    String sqlAnimal = "INSERT INTO animal (nombre, tipo_animal, sexo, edad, raza, peso, desc_personalidad, desc_fisica, adoptado) "
 	                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -295,8 +277,85 @@ public class GestorBD {
 	        return false;
 	    }
 	}
-
 	
+	// ================================== PRODUCTOS ======================================================================================
+
+	public boolean insertarProducto(Producto p) {
+		String sql = "INSERT INTO producto (nombre, categoria_animal, precio, unidades_disp, agotado)" + 
+						"VALUES (?, ?, ?, ?, ?)";
+		
+		try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1,p.getNombre());
+				stmt.setString(2, p.getCategoria());
+				stmt.setDouble(3, p.getPrecio());
+				stmt.setInt(4, p.getUnidadesDisponibles());
+				stmt.setInt(5, p.isAgotado() ? 1 : 0);
+				
+				stmt.executeUpdate();
+				
+				System.out.println("producto insertado con éxito");
+				return true;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public ArrayList<Producto> cargarProductos() {
+		ArrayList<Producto> listaProductos = new ArrayList<>();  
+
+	    String sql = "SELECT * FROM producto";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            Producto p = new Producto(
+	                rs.getInt("id_producto"),
+	                rs.getString("nombre"),
+	                rs.getString("categoria_animal"),
+	                rs.getDouble("precio"),
+	                rs.getInt("unidades_disp"),
+	                rs.getInt("agotado") == 1
+	            );
+
+	            listaProductos.add(p);
+	        }
+
+	        System.out.println("productos cargados desde la BD");
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return listaProductos;
+	}
+	
+	public void actualizarProducto(Producto p) {
+	    String sql = "UPDATE producto SET unidades_disp = ?, agotado = ? WHERE id_producto = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, p.getUnidadesDisponibles());
+	        stmt.setInt(2, p.isAgotado() ? 1 : 0);
+	        stmt.setInt(3, p.getId_producto());
+
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("producto actualizado (unidades y agotado)");
+	        } else {
+	            System.out.println("no existe el producto con id " + p.getId_producto());
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
 }
 

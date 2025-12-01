@@ -136,7 +136,7 @@ public class VentanaInicioSesion extends JFrame {
     Usuario user = gestor.obtenerUsuarioConPerfil(usernameIngresado, contraseñaIngresada);
 
     if (user != null) {
-        VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user);
+        VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(gatos, roedores, pajaros, perros, user, gestor);
         ventanaPrincipal.setVisible(true);
         this.dispose();
     } else {

@@ -1,15 +1,15 @@
 package Domain;
 
 public class Producto {
-    private String id;
+    private int id_producto;
     private String nombre;
     private String categoria;   // perro, gato, pajaro, roedor
     private double precio;
     private boolean agotado;
     private int unidadesDisponibles;
 
-    public Producto(String id, String nombre, String categoria, double precio, int unidadesDisponibles, boolean agotado) {
-        this.id = id;
+    public Producto(int id, String nombre, String categoria, double precio, int unidadesDisponibles, boolean agotado) {
+        this.id_producto = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.precio = precio;
@@ -17,8 +17,8 @@ public class Producto {
         this.agotado = agotado;
     }
 
-    public String getId() {
-        return id;
+    public int getId_producto() {
+        return id_producto;
     }
 
     public String getNombre() {
@@ -35,7 +35,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return id + " - " + nombre + " (" + categoria + ") - " + precio + "€";
+        return id_producto + " - " + nombre + " (" + categoria + ") - " + precio + "€";
     }
 
 	public boolean isAgotado() {
@@ -53,5 +53,7 @@ public class Producto {
 	public void setUnidadesDisponibles(int unidadesDisponibles) {
 		this.unidadesDisponibles = unidadesDisponibles;
 	}
+
+
 }
 

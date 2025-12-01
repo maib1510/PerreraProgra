@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import DB.GestorBD;
 import Domain.Producto;
 import Domain.Usuario;
 
@@ -29,10 +30,12 @@ public class VentanaTienda extends JFrame {
     private Usuario user;
     private JTable tablaProductos;
     private List<Producto> listaProductos;
+    private GestorBD gestor;
 
-    public VentanaTienda(JFrame ventanaAnterior, Usuario user) {
+    public VentanaTienda(JFrame ventanaAnterior, Usuario user, GestorBD gestor) {
         this.ventanaAnimales = ventanaAnterior;
         this.user = user;
+        this.gestor = gestor;
 
         this.setTitle("Tienda de Productos");
         this.setSize(850, 500);
@@ -76,7 +79,7 @@ public class VentanaTienda extends JFrame {
         });
 
         perfilBtn.addActionListener(e -> {
-            VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user);
+            VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user, gestor);
             ventanaPerfil.setVisible(false);
             SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
             this.setVisible(false);
@@ -88,8 +91,7 @@ public class VentanaTienda extends JFrame {
         add(panelMenu, BorderLayout.NORTH);
 
         // -------- TABLA DE PRODUCTOS -----------------------------------------------------------------------------------------------
-        listaProductos = new ArrayList<>();
-        cargarProductos(); // llena la listaProductos desde CSV
+        listaProductos = gestor.cargarProductos(); // llena la listaProductos desde CSV
 
         tablaProductos = new JTable(new TiendaModel(listaProductos));
         tablaProductos.setFillsViewportHeight(true);
@@ -326,12 +328,21 @@ public class VentanaTienda extends JFrame {
                             progresoDialog.setVisible(true);
                             
                             // ----------------------------------------------------------------------------------------
-                            // Actualizar producto
+                         // Actualizar producto
+                         // Actualizar producto en memoria
                             p.setUnidadesDisponibles(p.getUnidadesDisponibles() - cantidad);
-                            if (p.getUnidadesDisponibles() == 0) p.setAgotado(true);
+
+                            if (p.getUnidadesDisponibles() <= 0) {
+                                p.setUnidadesDisponibles(0);     // por si se pasa  
+                                p.setAgotado(true);
+                            }
+
+                            // Guardarlo en BD
+                            gestor.actualizarProducto(p);
+
 
                             ((TiendaModel) tablaProductos.getModel()).fireTableRowsUpdated(fila, fila);
-                            guardarProductosEnCSV();
+                            //guardarProductosEnCSV();
                             // Mensaje de confirmación
                             JOptionPane.showMessageDialog(dialog,
                                     "Has comprado " + cantidad + " unidades de " + p.getNombre()
@@ -399,33 +410,7 @@ public class VentanaTienda extends JFrame {
         this.setVisible(true);
     }
 
-    private void cargarProductos() {
-        String rutaCSV = "productos.csv"; // cámbiala si está en otra carpeta
-
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaCSV))) {
-            String linea;
-            boolean primera = true;
-
-            while ((linea = br.readLine()) != null) {
-                if (primera) { primera = false; continue; }
-
-                String[] datos = linea.split(";"); 
-                if (datos.length != 6) continue;
-
-                String id = datos[0];
-                String nombre = datos[1];
-                String categoria = datos[2];
-                double precio = Double.parseDouble(datos[3]);
-                int unidades = Integer.parseInt(datos[4]);
-                boolean agotado = Boolean.parseBoolean(datos[5]);
-
-                listaProductos.add(new Producto(id, nombre, categoria, precio, unidades, agotado));
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error al leer productos: " + e.getMessage());
-        }
-    }
+    
     public static ImageIcon cargarIcono(String ruta, int ancho, int alto) {
         ImageIcon icono = new ImageIcon(ruta);
         Image img = icono.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
@@ -440,7 +425,7 @@ public class VentanaTienda extends JFrame {
 
             for (Producto prod : listaProductos) {
                 pw.println(
-                    prod.getId() + ";" +
+                    prod.getId_producto() + ";" +
                     prod.getNombre() + ";" +
                     prod.getCategoria() + ";" +
                     prod.getPrecio() + ";" +
@@ -454,6 +439,8 @@ public class VentanaTienda extends JFrame {
             JOptionPane.showMessageDialog(this, "Error guardando productos.csv");
         }
     }
+    
+    
 
 
 
