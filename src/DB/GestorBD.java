@@ -90,7 +90,7 @@ public class GestorBD {
 	        // TABLA PRODUCTO ==============================================================================
 	        String sqlProducto = "CREATE TABLE IF NOT EXISTS producto ("
 	                + "id_producto INTEGER PRIMARY KEY AUTOINCREMENT, "
-	                + "nombre TEXT NOT NULL, "
+	                + "nombre TEXT UNIQUE NOT NULL, "
 	                + "categoria_animal TEXT, "
 	                + "precio REAL NOT NULL, "
 	                + "unidades_disp INTEGER NOT NULL, "
