@@ -35,7 +35,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
 import Domain.Roedor;
+import Domain.Usuario;
 
 public class VentanaRoedores extends JFrame {
 	
@@ -44,7 +46,7 @@ public class VentanaRoedores extends JFrame {
 
 	private VentanaPrincipal ventanaPrincipal;
 
-	public VentanaRoedores(VentanaPrincipal ventanaPrincipal, Roedor[] roedores) {
+	public VentanaRoedores(VentanaPrincipal ventanaPrincipal, Roedor[] roedores, Usuario user, GestorBD gestor) {
 		this.ventanaPrincipal = ventanaPrincipal;
 		this.roedores = roedores;
 
@@ -169,7 +171,7 @@ public class VentanaRoedores extends JFrame {
 			botones[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					VentanaCaracteristicas caracteristicas = new VentanaCaracteristicas(indiceRoedor, roedores);
+					VentanaCaracteristicas caracteristicas = new VentanaCaracteristicas(indiceRoedor, roedores, user, gestor);
 				}
 			});
 		}

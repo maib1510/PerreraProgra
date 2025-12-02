@@ -26,11 +26,13 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
 import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
 import Domain.Roedor;
+import Domain.Usuario;
 
 //--------------------------CLASE APARTE PARA MOSTRAR CARACTERISTICAS DE UN ANIMAL--------------------------
 public class VentanaCaracteristicas {
@@ -38,7 +40,7 @@ public class VentanaCaracteristicas {
   //---------------------------------------------------ventana caracteristicas animal-------------------------------------------------------------
   //panel que se abre despues de darle al boton 'ver mas' para ver mejor las caracteristicas de cada animal
 
-  public VentanaCaracteristicas(int indiceAnimal, Animal[] animales) {
+  public VentanaCaracteristicas(int indiceAnimal, Animal[] animales, Usuario user, GestorBD gestor) {
       JFrame ventanaCarac = new JFrame("Características del " + devolverTipoAnimal(indiceAnimal, animales));
       ventanaCarac.setSize(700, 500);
       ventanaCarac.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -167,7 +169,7 @@ public class VentanaCaracteristicas {
       botonAdopt.addActionListener(e -> {
           if(animal.isAdoptado() == false) {
               // confirmarAdopcion debe estar adaptado en la clase correspondiente, igual que antes
-              VentanaConfirmacion confirmacion = new VentanaConfirmacion(indiceAnimal, animales); 
+              VentanaConfirmacion confirmacion = new VentanaConfirmacion(indiceAnimal, animales, user, gestor); 
               animal.setAdoptado(true);
           } else {
               JOptionPane.showMessageDialog(null,

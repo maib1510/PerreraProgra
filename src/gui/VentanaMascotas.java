@@ -10,15 +10,19 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
+
 public class VentanaMascotas extends JFrame {
 
     private Usuario user;
     private JFrame ventanaPerfil;
     private JPanel panelMascotas;
+    private GestorBD gestor;
 
-    public VentanaMascotas(JFrame ventanaPerfil, Usuario user) {
+    public VentanaMascotas(JFrame ventanaPerfil, Usuario user, GestorBD gestor) {
         this.user = user;
         this.ventanaPerfil = ventanaPerfil;
+        this.gestor = gestor;
 
         setTitle("Mascotas de " + user.getNombre());
         setSize(500, 300);
@@ -92,7 +96,7 @@ public class VentanaMascotas extends JFrame {
     private void cargarMascotas() {
         panelMascotas.removeAll();
 
-        ArrayList<Animal> mascotas = cargarMascotasDesdeCSV();
+        ArrayList<Animal> mascotas = gestor.obtenerMascotasUsuario(user);
         user.setMascotas(mascotas);
 
         if (mascotas.isEmpty()) {
@@ -161,50 +165,6 @@ public class VentanaMascotas extends JFrame {
         }
     }
 
-    // --- Cargar mascotas desde CSV según tipo ---
-    public ArrayList<Animal> cargarMascotasDesdeCSV() {
-    	ArrayList<Animal> mascotasUsuario = new ArrayList<>();
-        String rutaCSV = "mascotas.csv";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaCSV))) {
-            String linea;
-            br.readLine(); // Saltar cabecera
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-                if (datos.length < 9) continue; // esperar columna extra: tipo
-
-                String nombre = datos[0];
-                String sexo = datos[1];
-                float edad = Float.parseFloat(datos[2]);
-                String raza = datos[3];
-                float peso = Float.parseFloat(datos[4]);
-                String descPers = datos[5];
-                String descFis = datos[6];
-                boolean adoptado = Boolean.parseBoolean(datos[7]);
-                String tipo = datos[8];
-
-                if (datos[9].equals(user.getPerfil().getUsername())) {
-                	Animal m;
-                    switch (tipo.toLowerCase()) {
-                        case "perro":
-                            m = new Perro(nombre, sexo, edad, raza, peso, descPers, descFis, adoptado);
-                            break;
-                        case "gato":
-                            m = new Gato(nombre, sexo, edad, raza, peso, descPers, descFis, adoptado);
-                            break;
-                        default:
-                            continue; // ignorar si no se reconoce el tipo
-                    }
-
-                    mascotasUsuario.add(m);
-                }
-                
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return mascotasUsuario;
-    }
+   
 }
 

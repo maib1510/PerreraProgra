@@ -8,11 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Domain.Animal;
+import Domain.Gato;
+import Domain.Pajaro;
 import Domain.Perfil;
+import Domain.Perro;
 import Domain.Producto;
+import Domain.Roedor;
 import Domain.Usuario;
 
 public class GestorBD {
@@ -80,7 +85,7 @@ public class GestorBD {
 	                + "id_adopcion INTEGER PRIMARY KEY AUTOINCREMENT, "
 	                + "id_usuario INTEGER NOT NULL, "
 	                + "id_animal INTEGER NOT NULL, "
-	                + "fecha_adopcion TEXT, "
+	                + "fecha_adopcion DATE, "
 	                + "FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, "
 	                + "FOREIGN KEY (id_animal) REFERENCES animal(id_animal) ON DELETE CASCADE"
 	                + ");";
@@ -355,8 +360,93 @@ public class GestorBD {
 	        e.printStackTrace();
 	    }
 	}
+	
+	
+	// FUNCIONES DE ADOPCIÓN ==============================================================0
+	public boolean insertarMascota(Animal a, Usuario u) {
+		String sql = "INSERT OR IGNORE INTO adopcion (id_usuario, id_animal, fecha_adopcion)" 
+					+ "VALUES (?, ?, ?)";
+		
+		LocalDate hoy = LocalDate.now();
+
+		
+		try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, u.getId_usuario());
+			stmt.setInt(2, a.getId_animal());
+			stmt.setDate(3, java.sql.Date.valueOf(hoy));
+			
+			stmt.execute();
+			
+			System.out.println("Enhorabuena, " + u.getNombre() + " " + u.getApellido() + ", has adoptado a " + a.getNombre());
+			return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public ArrayList<Animal> obtenerMascotasUsuario(Usuario u) {
+	    ArrayList<Animal> mascotas = new ArrayList<>();
+
+	    String sql = "SELECT a.* FROM adopcion d "
+	               + "JOIN animal a ON d.id_animal = a.id_animal "
+	               + "WHERE d.id_usuario = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, u.getId_usuario());
+	        ResultSet rs = stmt.executeQuery();
+	    
+	        while (rs.next()) {
+	            String tipo = rs.getString("tipo_animal");
+	            Animal animal;
+
+	            switch (tipo.toLowerCase()) {
+	                case "perro":
+	                    animal = new Perro();
+	                    break;
+	                case "gato":
+	                    animal = new Gato();
+	                    break;
+	                case "pajaro":
+	                    animal = new Pajaro();
+	                    break;
+	                case "roedor":
+	                    animal = new Roedor();
+	                    break;
+	                default:
+	                    System.out.println("Tipo desconocido: " + tipo + ". Ignorando fila.");
+	                    continue;
+	            }
+
+	            animal.setId_animal(rs.getInt("id_animal"));
+	            animal.setNombre(rs.getString("nombre"));
+	            animal.setSexo(rs.getString("sexo"));
+	            animal.setEdad(rs.getFloat("edad"));
+	            animal.setRaza(rs.getString("raza"));
+	            animal.setPeso(rs.getFloat("peso"));
+	            animal.setDescripcion_personalidad(rs.getString("desc_personalidad"));
+	            animal.setDescripcion_fisica(rs.getString("desc_fisica"));
+	            animal.setAdoptado(rs.getBoolean("adoptado"));
+	            animal.setTipoAnimal(tipo);
+	            System.out.println(animal);
+	            mascotas.add(animal);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return mascotas;
+	}
 
 
+
+ 
 }
 
 

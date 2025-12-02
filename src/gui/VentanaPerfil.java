@@ -175,7 +175,7 @@ public class VentanaPerfil extends JFrame {
         mascotasButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         mascotasButton.addActionListener(e -> {
-        	VentanaMascotas ventanaMascotas = new VentanaMascotas(this, user);
+        	VentanaMascotas ventanaMascotas = new VentanaMascotas(this, user, gestor);
         	ventanaMascotas.setVisible(true);
         	this.setVisible(false);
         });

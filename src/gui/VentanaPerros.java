@@ -36,7 +36,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
 import Domain.Perro;
+import Domain.Usuario;
 
 public class VentanaPerros extends JFrame {
 
@@ -45,7 +47,7 @@ public class VentanaPerros extends JFrame {
 
 	private VentanaPrincipal ventanaPrincipal;
 	
-	public VentanaPerros(VentanaPrincipal ventanaPrincipal, Perro[] perros) {
+	public VentanaPerros(VentanaPrincipal ventanaPrincipal, Perro[] perros, Usuario user, GestorBD gestor) {
 		super();
 
 		this.perros=perros;
@@ -170,7 +172,7 @@ public class VentanaPerros extends JFrame {
 			botones[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					VentanaCaracteristicas caracteristicas = new VentanaCaracteristicas(indicePerro, perros);
+					VentanaCaracteristicas caracteristicas = new VentanaCaracteristicas(indicePerro, perros, user, gestor);
 				}
 			});
 		}

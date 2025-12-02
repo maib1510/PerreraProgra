@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public abstract class Animal {
 	
+	private int id_animal;
 	private String nombre;
 	private String sexo;
 	private float edad;
@@ -128,6 +129,14 @@ public abstract class Animal {
 	public abstract String sonidoAnimales();
 
     public abstract String getImagenPath();
+
+	public int getId_animal() {
+		return id_animal;
+	}
+
+	public void setId_animal(int id_animal) {
+		this.id_animal = id_animal;
+	}
 
 	
 

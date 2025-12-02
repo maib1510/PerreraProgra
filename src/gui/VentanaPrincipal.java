@@ -78,7 +78,7 @@ public class VentanaPrincipal extends JFrame {
 		    HiloCargar carga = new HiloCargar(
 		        this,
 		        () -> SwingUtilities.invokeLater(() -> {
-		            VentanaPerros ventanaPerros = new VentanaPerros(this, perros);
+		            VentanaPerros ventanaPerros = new VentanaPerros(this, perros, user, gestor);
 		            ventanaPerros.setVisible(true);
 		        })
 		    );
@@ -116,7 +116,7 @@ public class VentanaPrincipal extends JFrame {
 		    HiloCargar carga = new HiloCargar(
 		        this,
 		        () -> SwingUtilities.invokeLater(() -> {
-		            VentanaGatos ventanaGatos = new VentanaGatos(this, gatos);
+		            VentanaGatos ventanaGatos = new VentanaGatos(this, gatos, user, gestor);
 		            ventanaGatos.setVisible(true);
 		        })
 		    );
@@ -153,7 +153,7 @@ public class VentanaPrincipal extends JFrame {
 		    HiloCargar carga = new HiloCargar(
 		        this,
 		        () -> SwingUtilities.invokeLater(() -> {
-		            VentanaPajaros ventanaPajaros = new VentanaPajaros(this, pajaros);
+		            VentanaPajaros ventanaPajaros = new VentanaPajaros(this, pajaros, user, gestor);
 		            ventanaPajaros.setVisible(true);
 		        })
 		    );
@@ -190,7 +190,7 @@ public class VentanaPrincipal extends JFrame {
 		    HiloCargar carga = new HiloCargar(
 		        this,
 		        () -> SwingUtilities.invokeLater(() -> {
-		            VentanaRoedores ventanaRoedores = new VentanaRoedores(this, roedores);
+		            VentanaRoedores ventanaRoedores = new VentanaRoedores(this, roedores, user, gestor);
 		            ventanaRoedores.setVisible(true);
 		        })
 		    );

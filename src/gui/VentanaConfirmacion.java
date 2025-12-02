@@ -29,15 +29,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import DB.GestorBD;
 import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
 import Domain.Roedor;
+import Domain.Usuario;
 
 public class VentanaConfirmacion extends JFrame {
 
-	public VentanaConfirmacion(int indiceAnimal, Animal[] animales) {
+	public VentanaConfirmacion(int indiceAnimal, Animal[] animales, Usuario user, GestorBD gestor) {
 
 
 		setTitle("Confirmación de la adopción");
@@ -141,6 +143,8 @@ public class VentanaConfirmacion extends JFrame {
 
 		add(panelPrincipal);
 		setVisible(true);
+		
+		gestor.insertarMascota(animales[indiceAnimal], user);
 
 	}
 
