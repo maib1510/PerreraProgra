@@ -126,7 +126,7 @@ public class VentanaMascotas extends JFrame {
         JLabel fotoLabel = new JLabel();
         fotoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         System.out.println(mascota.getImagenPath());
-        fotoLabel.setIcon(new ImageIcon(createCircularImage(mascota.getImagenPath(), 80)));
+        fotoLabel.setIcon(new ImageIcon(createCircularImage("imagenes/" + mascota.getTipoAnimal().toLowerCase() +"_2/" + mascota.getNombre() + ".png", 80)));
         card.add(fotoLabel);
         card.add(Box.createVerticalStrut(10));
 

@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import DB.GestorBD;
+import Domain.Adopcion;
 import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
@@ -144,7 +145,8 @@ public class VentanaConfirmacion extends JFrame {
 		add(panelPrincipal);
 		setVisible(true);
 		
-		gestor.insertarMascota(animales[indiceAnimal], user);
+		Adopcion adopcionActual = new Adopcion(animales[indiceAnimal], user);
+		gestor.insertarMascota(adopcionActual);
 
 	}
 

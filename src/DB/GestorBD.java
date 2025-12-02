@@ -3,14 +3,18 @@ package DB;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import Domain.Adopcion;
 import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
@@ -411,30 +415,44 @@ public class GestorBD {
 	
 	
 	// FUNCIONES DE ADOPCIÓN ==============================================================
-	public boolean insertarMascota(Animal a, Usuario u) {
-		String sql = "INSERT OR IGNORE INTO adopcion (id_usuario, id_animal, fecha_adopcion)" 
-					+ "VALUES (?, ?, ?)";
-		
-		LocalDate hoy = LocalDate.now();
+	public boolean insertarMascota(Adopcion adopcion) {
+	    LocalDateTime hoy = LocalDateTime.now();
 
-		
-		try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			
-			stmt.setInt(1, u.getId_usuario());
-			stmt.setInt(2, a.getId_animal());
-			stmt.setDate(3, java.sql.Date.valueOf(hoy));
-			
-			stmt.execute();
-			
-			System.out.println("Enhorabuena, " + u.getNombre() + " " + u.getApellido() + ", has adoptado a " + a.getNombre());
-			return true;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
+
+	        String sqlSelect = "SELECT id_animal FROM animal WHERE nombre = ?";
+	        PreparedStatement stmtSelect = conn.prepareStatement(sqlSelect);
+	        stmtSelect.setString(1, adopcion.getAnimal().getNombre());
+	        ResultSet rs = stmtSelect.executeQuery();
+
+	        if (rs.next()) {
+	            int idAnimal = rs.getInt("id_animal");
+	            adopcion.getAnimal().setId_animal(idAnimal); // guardamos el ID en el objeto
+	        } else {
+	            System.out.println("No existe el animal con ese nombre.");
+	            return false;
+	        }
+
+	        String sqlInsert = "INSERT INTO adopcion(id_usuario, id_animal, fecha_adopcion) VALUES (?, ?, ?)";
+	        PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert);
+	        stmtInsert.setInt(1, adopcion.getUsuario().getId_usuario());
+	        stmtInsert.setInt(2, adopcion.getAnimal().getId_animal());
+	        stmtInsert.setTimestamp(3, Timestamp.valueOf(hoy));
+	        stmtInsert.executeUpdate();
+
+	        System.out.println("Enhorabuena, " + adopcion.getUsuario().getNombre() + " " 
+	            + adopcion.getUsuario().getApellido() + ", has adoptado a " + adopcion.getAnimal().getNombre()
+	            + " - fecha: " + Timestamp.valueOf(hoy));
+
+	        return true;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
+
+
 
 	public ArrayList<Animal> obtenerMascotasUsuario(Usuario u) {
 	    ArrayList<Animal> mascotas = new ArrayList<>();
