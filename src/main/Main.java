@@ -43,7 +43,7 @@ public class Main {
 		Gato gato9 = new Gato("Nube", "Hembra", 2.5f, "Europeo", 3.8f, "Tímida, inteligente y curiosa", "Atigrado marrón, ojos azules", false);
 		Gato gato10 = new Gato("Leo", "Macho", 4.5f, "Siberiano", 5.3f, "Tranquilo, independiente y elegante", "Crema y gris, ojos verdes", false);
 		Gato gato11 = new Gato("Shadow", "Macho", 3.2f, "Bombay", 4.3f, "Observador, tranquilo y leal", "Negro, ojos amarillos", false);
-		Gato gato12 = new Gato("Simba", "Macho", 3.5f, "Europeo", 4.6f, "Sociable, juguetón y amigable", "Naranja atigrado, ojos verdes", false);
+		Gato gato12 = new Gato("Taro", "Macho", 3.5f, "Europeo", 4.6f, "Sociable, juguetón y amigable", "Naranja atigrado, ojos verdes", false);
 
 		
 		gatos[0]  = gato1;
@@ -118,7 +118,7 @@ public class Main {
 		Roedor roedor2 = new Roedor("Puffy", "Hembra", 0.8f, "Hámster ruso", 0.05f, "Tranquila y dulce", "Pelaje blanco y gris", false);
 		Roedor roedor3 = new Roedor("Manchitas", "Hembra", 2.0f, "Cobaya abisinia", 0.9f, "Sociable y tranquila", "Pelaje marrón, blanco y naranja", false);
 		Roedor roedor4 = new Roedor("Chocolate", "Macho", 3.0f, "Conejo negro", 2.1f, "Tímido y observador", "Pelaje negro y brillante", false);
-		Roedor roedor5 = new Roedor("Nube", "Hembra", 2.5f, "Conejo gris", 1.8f, "Cariñosa y activa", "Pelaje gris claro y suave", false);
+		Roedor roedor5 = new Roedor("Pip", "Hembra", 2.5f, "Conejo gris", 1.8f, "Cariñosa y activa", "Pelaje gris claro y suave", false);
 		Roedor roedor6 = new Roedor("Ricky", "Macho", 1.4f, "Ratón doméstico", 0.3f, "Inteligente y sociable", "Pelaje gris y suave", false); 
 
 		roedores[0]  = roedor1;

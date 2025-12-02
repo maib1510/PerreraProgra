@@ -207,10 +207,10 @@ public class GestorBD {
 	
 	// FUNCION PARA INSTERTAR USUARIO ------------------------------------------------------------------------------------
 	public boolean insertarUsuario(Usuario u) {
-	    String sqlUsuario = "INSERT INTO usuario (nombre, apellido, edad, email, telefono, tarjeta_bancaria) "
+	    String sqlUsuario = "INSERT OR IGNORE INTO usuario (nombre, apellido, edad, email, telefono, tarjeta_bancaria) "
 	                      + "VALUES (?, ?, ?, ?, ?, ?)";
 
-	    String sqlPerfil = "INSERT INTO perfil (username, password, id_usuario) "
+	    String sqlPerfil = "INSERT OR IGNORE INTO perfil (username, password, id_usuario) "
 	                     + "VALUES (?, ?, ?)";
 
 	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING)) {
@@ -251,7 +251,7 @@ public class GestorBD {
 	
 	// ================================== ANIMALES ======================================================================================
 	public boolean insertarAnimal(Animal a) {
-	    String sqlAnimal = "INSERT INTO animal (nombre, tipo_animal, sexo, edad, raza, peso, desc_personalidad, desc_fisica, adoptado) "
+	    String sqlAnimal = "INSERT OR IGNORE INTO animal (nombre, tipo_animal, sexo, edad, raza, peso, desc_personalidad, desc_fisica, adoptado) "
 	                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
@@ -281,7 +281,7 @@ public class GestorBD {
 	// ================================== PRODUCTOS ======================================================================================
 
 	public boolean insertarProducto(Producto p) {
-		String sql = "INSERT INTO producto (nombre, categoria_animal, precio, unidades_disp, agotado)" + 
+		String sql = "INSERT OR IGNORE INTO producto (nombre, categoria_animal, precio, unidades_disp, agotado)" + 
 						"VALUES (?, ?, ?, ?, ?)";
 		
 		try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
