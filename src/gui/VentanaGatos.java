@@ -128,8 +128,15 @@ public class VentanaGatos extends JFrame {
 			JPanel panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setPreferredSize(new Dimension(250, 250)); // casilla grande
-			panel.setBackground(new Color(233, 220, 209));
 
+			if(!gestor.estaAdoptadoPorId(i+1)) {
+				panel.setBackground(new Color(233, 220, 209));
+			} else {
+				panel.setBackground(Color.LIGHT_GRAY);
+				
+			}
+
+			
 			panel.setBorder(BorderFactory.createTitledBorder(
 					BorderFactory.createLineBorder(new Color(80, 55, 30)), 
 					gatos[i].getNombre(), TitledBorder.LEFT, TitledBorder.TOP, null, new Color(80, 55, 30)
@@ -167,6 +174,9 @@ public class VentanaGatos extends JFrame {
 			boton.setForeground(new Color(80, 55, 30));
 			paneles[i].add(Box.createVerticalStrut(20));
 			botones[i] = boton;
+			if(gestor.estaAdoptadoPorId(i+1)) {
+				botones[i].setEnabled(false);
+			}
 			paneles[i].add(boton);
 		}
 

@@ -283,6 +283,54 @@ public class GestorBD {
 	    }
 	}
 	
+	public boolean actualizarAnimal(int idAnimal) {
+	    String sql = "UPDATE animal SET adoptado = 1 WHERE id_animal = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idAnimal);
+
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("<3");
+	            return true;
+	        } else {
+	            System.out.println("no existe el animal con id " + idAnimal);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+
+	
+	public boolean estaAdoptadoPorId(int i) {
+	    String sql = "SELECT adoptado FROM animal WHERE id_animal = ?";
+
+	    try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        stmt.setInt(1, i);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getInt("adoptado") == 1;
+	        } else {
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+	
 	// ================================== PRODUCTOS ======================================================================================
 
 	public boolean insertarProducto(Producto p) {
@@ -362,7 +410,7 @@ public class GestorBD {
 	}
 	
 	
-	// FUNCIONES DE ADOPCIÓN ==============================================================0
+	// FUNCIONES DE ADOPCIÓN ==============================================================
 	public boolean insertarMascota(Animal a, Usuario u) {
 		String sql = "INSERT OR IGNORE INTO adopcion (id_usuario, id_animal, fecha_adopcion)" 
 					+ "VALUES (?, ?, ?)";

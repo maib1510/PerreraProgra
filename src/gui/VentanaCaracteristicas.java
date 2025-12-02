@@ -168,9 +168,12 @@ public class VentanaCaracteristicas {
 
       botonAdopt.addActionListener(e -> {
           if(animal.isAdoptado() == false) {
-              // confirmarAdopcion debe estar adaptado en la clase correspondiente, igual que antes
               VentanaConfirmacion confirmacion = new VentanaConfirmacion(indiceAnimal, animales, user, gestor); 
               animal.setAdoptado(true);
+              //AQUI INSERTARMASCOTA Y ACTUALIZAR ANIMAL PARA CONFIRMAR QUE ESTA ADOPTADO
+              gestor.actualizarAnimal(indiceAnimal+1);
+              
+              
           } else {
               JOptionPane.showMessageDialog(null,
                   "¡" + animal.getNombre() + " ya ha sido adoptado!");
