@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import Domain.Adopcion;
@@ -416,8 +417,10 @@ public class GestorBD {
 	
 	// FUNCIONES DE ADOPCIÓN ==============================================================
 	public boolean insertarMascota(Adopcion adopcion) {
-	    LocalDateTime hoy = LocalDateTime.now();
-
+		LocalDate hoy = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fechaFormateada = hoy.format(formatter);
+		
 	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING)) {
 
 	        String sqlSelect = "SELECT id_animal FROM animal WHERE nombre = ?";
@@ -437,12 +440,12 @@ public class GestorBD {
 	        PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert);
 	        stmtInsert.setInt(1, adopcion.getUsuario().getId_usuario());
 	        stmtInsert.setInt(2, adopcion.getAnimal().getId_animal());
-	        stmtInsert.setTimestamp(3, Timestamp.valueOf(hoy));
+	        stmtInsert.setString(3, fechaFormateada);
 	        stmtInsert.executeUpdate();
 
 	        System.out.println("Enhorabuena, " + adopcion.getUsuario().getNombre() + " " 
 	            + adopcion.getUsuario().getApellido() + ", has adoptado a " + adopcion.getAnimal().getNombre()
-	            + " - fecha: " + Timestamp.valueOf(hoy));
+	            + " - fecha: " + fechaFormateada);
 
 	        return true;
 
