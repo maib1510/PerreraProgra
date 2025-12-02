@@ -62,7 +62,7 @@ public class GestorBD {
 	        // TABLA ANIMAL ==============================================================================
 	        String sqlAnimal = "CREATE TABLE IF NOT EXISTS animal ("
 	                + "id_animal INTEGER PRIMARY KEY AUTOINCREMENT, "
-	                + "nombre TEXT NOT NULL, "
+	                + "nombre TEXT UNIQUE NOT NULL, "
 	                + "tipo_animal TEXT NOT NULL, "
 	                + "sexo TEXT, "
 	                + "edad INTEGER, "
