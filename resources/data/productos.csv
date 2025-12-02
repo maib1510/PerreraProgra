@@ -1,0 +1,22 @@
+004;Correa Perro;Perro;18.0;12;FALSE
+005;Juguete Perro;Perro;10.0;0;TRUE
+006;Arena Gato;Gato;15.0;40;FALSE
+007;Comedero Perro;Perro;18.0;12;FALSE
+008;Caseta Pajaro;Pajaro;60.0;4;FALSE
+009;Rueda Hamster;Roedor;20.0;0;TRUE
+010;Jaula Hamster;Roedor;35.0;5;FALSE
+011;Cama Gato;Gato;30.0;8;FALSE
+012;Arnes Perro;Perro;22.0;13;FALSE
+013;Comida Roedor;Roedor;7.0;50;FALSE
+014;Juguete Pajaro;Pajaro;12.0;18;FALSE
+015;Transportin Perro;Perro;55.0;7;FALSE
+016;Rascador Gato;Gato;45.0;0;TRUE
+017;Caseta Perro;Perro;75.0;6;FALSE
+018;Comedero Gato;Gato;20.0;15;FALSE
+019;Hamaca Pajaro;Pajaro;25.0;12;FALSE
+020;Cama Roedor;Roedor;15.0;20;FALSE
+021;Juguete Gato;Gato;18.0;19;FALSE
+022;Bolsa Comida Perro;Perro;40.0;18;FALSE
+023;Jaula Pajaro;Pajaro;50.0;0;TRUE
+024;Rueda Roedor;Roedor;12.0;30;FALSE
+025;Transportin Gato;Gato;60.0;5;FALSE
