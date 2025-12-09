@@ -1,13 +1,24 @@
 package gui;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import DB.GestorBD;
+import Domain.Animal;
+import Domain.Perfil;
+import Domain.Usuario;
+
 public class VentanaRegistro extends JFrame {
 	private VentanaInicioSesion ventanaInicioSesion;
+	private GestorBD gestor;
 
-    public VentanaRegistro(VentanaInicioSesion ventanaInicioSesion) {
+    public VentanaRegistro(VentanaInicioSesion ventanaInicioSesion, GestorBD gestor) {
+        this.ventanaInicioSesion = ventanaInicioSesion;
+        this.gestor = gestor;
+
         this.setTitle("registro");
         this.setSize(450,500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -168,10 +179,64 @@ public class VentanaRegistro extends JFrame {
                     "Error de validación",
                     JOptionPane.WARNING_MESSAGE
                 );
-            } else {
-                ventanaInicioSesion.setVisible(true);
-                this.dispose();
+                return;
             }
+
+            // Validar y parsear edad
+            int edadVal;
+            try {
+                edadVal = Integer.parseInt(rellenarEdad.getText().trim());
+                if (edadVal < 0) throw new NumberFormatException("Edad negativa");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Introduce una edad válida (número entero).", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Recuperar username y contraseña
+            String usernameVal = rellenarUsername.getText().trim();
+            String passwordVal = new String(rellenarContraseña.getPassword()).trim();
+
+            if (usernameVal.isEmpty() || passwordVal.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Username y contraseña son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Construir objeto Usuario y Perfil
+            Usuario nuevo = new Usuario();
+            nuevo.setNombre(rellenarNombre.getText().trim());
+            nuevo.setApellido(rellenarApellido.getText().trim());
+            nuevo.setEdad(edadVal);
+            nuevo.setEmail(rellenarEmail.getText().trim());
+            nuevo.setTelefono(rellenarTelf.getText().trim());
+            nuevo.setTarjeta_bancaria(rellenarTarjeta.getText().trim());
+            nuevo.setMascotas(new ArrayList<Animal>()); // vacía al crear
+
+            Perfil perfil = new Perfil();
+            perfil.setUsername(usernameVal);
+            perfil.setPassword(passwordVal);
+            perfil.setUsuario(nuevo);
+            nuevo.setPerfil(perfil);
+
+            // Insertar en BD usando GestorBD
+            boolean ok = false;
+            if (gestor != null) {
+                ok = gestor.insertarUsuario(nuevo);
+            } else {
+                // Si no se pasó GestorBD, mostrar mensaje (modo offline)
+                JOptionPane.showMessageDialog(this, "GestorBD no disponible: el usuario no se guardará en la base de datos. Volviendo al login.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                ok = true; // permitir continuar al login aunque no esté persistido
+            }
+
+            if (ok) {
+                JOptionPane.showMessageDialog(this, "Registro completado correctamente. Ya puedes iniciar sesión.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                if (ventanaInicioSesion != null) {
+                    ventanaInicioSesion.setVisible(true);
+                }
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar el usuario. Revisa la consola para más detalles.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         });
 
 
