@@ -43,6 +43,7 @@ public class VentanaTienda extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout(10, 10));
 
+        // definir colores que vamos a usar
         Color mantequilla = new Color(255, 232, 128); // banda superior
         Color ocre = new Color(187, 144, 38);
         Font fuente = new Font("Arial", Font.BOLD, 15);
@@ -59,8 +60,9 @@ public class VentanaTienda extends JFrame {
         );
         bordeMenu.setTitleColor(ocre);
         panelMenu.setBorder(bordeMenu);
-        
         panelMenu.setBackground(mantequilla);
+        
+        // botones para el menú --------------------------------
         JButton animales = new JButton("Animales");
         JButton tienda = new JButton("Tienda");
         JButton perfilBtn = new JButton("Perfil");
@@ -118,7 +120,7 @@ public class VentanaTienda extends JFrame {
                 JLabel label = new JLabel();
                 label.setHorizontalAlignment(JLabel.CENTER);
 
-                // Ejemplo: color para categoría
+            
                 
                     String categoria = value.toString().toLowerCase();
 

@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.Objects;
+
 public class Producto {
     private int id_producto;
     private String nombre;
@@ -52,6 +54,26 @@ public class Producto {
 
 	public void setUnidadesDisponibles(int unidadesDisponibles) {
 		this.unidadesDisponibles = unidadesDisponibles;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(agotado, categoria, id_producto, nombre, precio, unidadesDisponibles);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Producto other = (Producto) obj;
+		return agotado == other.agotado && Objects.equals(categoria, other.categoria)
+				&& id_producto == other.id_producto && Objects.equals(nombre, other.nombre)
+				&& Double.doubleToLongBits(precio) == Double.doubleToLongBits(other.precio)
+				&& unidadesDisponibles == other.unidadesDisponibles;
 	}
 
 
