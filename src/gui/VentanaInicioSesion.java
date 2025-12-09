@@ -156,7 +156,7 @@ public class VentanaInicioSesion extends JFrame {
         });
         // Acción de registro
         btnRegistrarse.addActionListener(e -> {
-            VentanaRegistro ventanaRegistro = new VentanaRegistro(this);
+            VentanaRegistro ventanaRegistro = new VentanaRegistro(this, gestor);
             ventanaRegistro.setVisible(true);
             this.setVisible(false);
         });
@@ -166,7 +166,3 @@ public class VentanaInicioSesion extends JFrame {
 
         this.setVisible(true);
     }}
-
- 
-
-
