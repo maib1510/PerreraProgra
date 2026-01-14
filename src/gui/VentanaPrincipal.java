@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import DB.GestorBD;
+import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
@@ -40,7 +41,7 @@ public class VentanaPrincipal extends JFrame {
         
         
 		this.setTitle("ventana principal - perrera");
-		this.setSize(500, 600);
+		this.setSize(680, 600);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -213,23 +214,29 @@ public class VentanaPrincipal extends JFrame {
 		panelMenu.setBorder(bordeMenu);
 		
 		panelMenu.setBackground(new Color(200, 180, 155)); 
-		panelMenu.setLayout(new FlowLayout()); // para que la barra se ajuste bien
+		panelMenu.setLayout(new GridLayout(1, 5, 10, 0)); // para que la barra se ajuste bien
 		
 		// botones
 		JButton animales = new JButton("Animales");
 		JButton tienda = new JButton("Tienda");
 		JButton perfil = new JButton("Perfil");
 		JButton noticias = new JButton("Ver noticias");
+		JButton recursividad = new JButton("Buscar");
 		
 		animales.setFont(fuenteTitulos);
 		tienda.setFont(fuenteTitulos);
 		perfil.setFont(fuenteTitulos);
 		noticias.setFont(fuenteTitulos);
+		recursividad.setFont(fuenteTitulos);
+		
+
 		
 		animales.setForeground(new Color(80, 55, 30));
 		tienda.setForeground(new Color(80, 55, 30));
 		perfil.setForeground(new Color(80, 55, 30));
 		noticias.setForeground(new Color(80, 55, 30));
+		recursividad.setForeground(new Color(80, 55, 30));
+		
 		
 		// action listener para ir a la ventana de perfil
 		perfil.addActionListener(e -> {
@@ -252,10 +259,14 @@ public class VentanaPrincipal extends JFrame {
 			this.setVisible(false);
 		});
 		
+		recursividad.addActionListener(e -> mostrarHerramientasRecursivasAnimales());
+
+		
 		panelMenu.add(perfil);
 		panelMenu.add(animales);
 		panelMenu.add(tienda);
 		panelMenu.add(noticias);
+		panelMenu.add(recursividad);
 		
 		frame.add(panelMenu, BorderLayout.NORTH);
 		this.add(frame);
@@ -274,6 +285,213 @@ public class VentanaPrincipal extends JFrame {
 	    label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 	    return label;
 	}
+	
+	// ============================
+	// RECUSIVIDAD 
+	// ============================
+
+	private void mostrarHerramientasRecursivasAnimales() {
+	    if (noHayAnimalesGenerales()) {
+	        JOptionPane.showMessageDialog(this, "No hay animales cargados.");
+	        return;
+	    }
+
+	    String[] opciones = {
+	            "Buscar animal por nombre",
+	            "¿Todos disponibles?",
+	            "¿Todos adoptados?",
+	            "Animal más viejo",
+	            "Animal más joven"
+	    };
+
+	    int op = JOptionPane.showOptionDialog(
+	            this,
+	            "Opciones de busqueda entre los animales de la perrera:",
+	            "Busqueda",
+	            JOptionPane.DEFAULT_OPTION,
+	            JOptionPane.QUESTION_MESSAGE,
+	            null,
+	            opciones,
+	            opciones[0]
+	    );
+
+	    if (op == -1) return;
+
+	    switch (op) {
+	      
+	        case 0: { // Buscar por nombre
+	            String nombre = JOptionPane.showInputDialog(this, "Introduce el nombre del animal:");
+	            if (nombre == null) return;
+	            Animal a = buscarAnimalPorNombreRec(nombre);
+	            JOptionPane.showMessageDialog(this,
+	                    (a == null) ? "No se encontró ningún animal con nombre \"" + nombre + "\"" : formatearAnimalGeneral(a));
+	            break;
+	        }
+	        case 1: { // Todos disponibles
+	            boolean ok = todosDisponiblesRec();
+	            JOptionPane.showMessageDialog(this,
+	                    ok ? "Sí: algunos están disponibles (NO adoptados)." : "Si: todos estan disponibles.");
+	            break;
+	        }
+	        case 2: { // Todos adoptados
+	            boolean ok = todosAdoptadosRec();
+	            JOptionPane.showMessageDialog(this,
+	                    ok ? "Sí: todos están adoptados." : "No: hay alguno NO adoptado.");
+	            break;
+	        }
+	        case 3: { // Más viejo
+	            Animal a = animalMasViejoRec();
+	            JOptionPane.showMessageDialog(this,
+	                    (a == null) ? "No hay animales." : "Animal más viejo:\n\n" + formatearAnimalGeneral(a));
+	            break;
+	        }
+	        case 4: { // Más joven
+	            Animal a = animalMasJovenRec();
+	            JOptionPane.showMessageDialog(this,
+	                    (a == null) ? "No hay animales." : "Animal más joven:\n\n" + formatearAnimalGeneral(a));
+	            break;
+	        }
+	        default:
+	            break;
+	    }
+	}
+
+	private String formatearAnimalGeneral(Animal a) {
+	    boolean adoptado = estaAdoptadoGeneral(a);
+	    return "ID: " + a.getId_animal()
+	            + "\nNombre: " + a.getNombre()
+	            + "\nTipo: " + a.getTipoAnimal()
+	            + "\nRaza: " + a.getRaza()
+	            + "\nEdad: " + a.getEdad()
+	            + "\nAdoptado: " + (adoptado ? "Sí" : "No");
+	}
+
+	private boolean noHayAnimalesGenerales() {
+	    return (gatos == null || gatos.length == 0)
+	            && (roedores == null || roedores.length == 0)
+	            && (pajaros == null || pajaros.length == 0)
+	            && (perros == null || perros.length == 0);
+	}
+
+	// ---------- helpers de estado adopción ----------
+	private boolean estaAdoptadoGeneral(Animal a) {
+	    if (a == null) return false;
+	    // Si tienes BD (como en tus ventanas de tipos), usamos la BD para el estado real:
+	    if (gestor != null) {
+	        return gestor.estaAdoptadoPorId(a.getId_animal());
+	    }
+	    // fallback si no hay gestor:
+	    return a.isAdoptado();
+	}
+
+	
+
+	// ---------- 1) BUSCAR POR NOMBRE ----------
+	private Animal buscarAnimalPorNombreRec(String nombre) {
+	    if (nombre == null) return null;
+	    String obj = nombre.trim();
+	    if (obj.isEmpty()) return null;
+
+	    Animal[][] grupos = new Animal[][] { gatos, roedores, pajaros, perros };
+	    return buscarPorNombreEnGruposRec(grupos, 0, 0, obj);
+	}
+
+	private Animal buscarPorNombreEnGruposRec(Animal[][] grupos, int gIdx, int idx, String nombre) {
+	    if (grupos == null || gIdx >= grupos.length) return null;
+	    Animal[] grupo = grupos[gIdx];
+
+	    if (grupo == null || idx >= grupo.length) {
+	        return buscarPorNombreEnGruposRec(grupos, gIdx + 1, 0, nombre);
+	    }
+
+	    Animal actual = grupo[idx];
+	    if (actual != null && actual.getNombre() != null && actual.getNombre().equalsIgnoreCase(nombre)) return actual;
+
+	    return buscarPorNombreEnGruposRec(grupos, gIdx, idx + 1, nombre);
+	}
+
+	// ---------- 2) TODOS CUMPLEN CONDICIÓN ----------
+	private boolean todosDisponiblesRec() {
+	    Animal[][] grupos = new Animal[][] { gatos, roedores, pajaros, perros };
+	    return todosDisponiblesEnGruposRec(grupos, 0, 0);
+	}
+
+	private boolean todosDisponiblesEnGruposRec(Animal[][] grupos, int gIdx, int idx) {
+	    if (grupos == null || gIdx >= grupos.length) return true;
+	    Animal[] grupo = grupos[gIdx];
+
+	    if (grupo == null || idx >= grupo.length) {
+	        return todosDisponiblesEnGruposRec(grupos, gIdx + 1, 0);
+	    }
+
+	    Animal actual = grupo[idx];
+	    boolean cumple = (actual == null) ? true : !estaAdoptadoGeneral(actual);
+	    return cumple && todosDisponiblesEnGruposRec(grupos, gIdx, idx + 1);
+	}
+
+	private boolean todosAdoptadosRec() {
+	    Animal[][] grupos = new Animal[][] { gatos, roedores, pajaros, perros };
+	    return todosAdoptadosEnGruposRec(grupos, 0, 0);
+	}
+
+	private boolean todosAdoptadosEnGruposRec(Animal[][] grupos, int gIdx, int idx) {
+	    if (grupos == null || gIdx >= grupos.length) return true;
+	    Animal[] grupo = grupos[gIdx];
+
+	    if (grupo == null || idx >= grupo.length) {
+	        return todosAdoptadosEnGruposRec(grupos, gIdx + 1, 0);
+	    }
+
+	    Animal actual = grupo[idx];
+	    boolean cumple = (actual == null) ? true : estaAdoptadoGeneral(actual);
+	    return cumple && todosAdoptadosEnGruposRec(grupos, gIdx, idx + 1);
+	}
+
+	// ---------- 3) MÁS VIEJO / MÁS JOVEN ---------
+	private Animal animalMasViejoRec() {
+	    Animal[][] grupos = new Animal[][] { gatos, roedores, pajaros, perros };
+	    return masViejoEnGruposRec(grupos, 0, 0, null);
+	}
+
+	private Animal masViejoEnGruposRec(Animal[][] grupos, int gIdx, int idx, Animal mejor) {
+	    if (grupos == null || gIdx >= grupos.length) return mejor; // base global
+	    Animal[] grupo = grupos[gIdx];
+
+	    if (grupo == null || idx >= grupo.length) {
+	        return masViejoEnGruposRec(grupos, gIdx + 1, 0, mejor);
+	    }
+
+	    Animal actual = grupo[idx];
+	    if (actual != null) {
+	        if (mejor == null || actual.getEdad() > mejor.getEdad()) {
+	            mejor = actual;
+	        }
+	    }
+	    return masViejoEnGruposRec(grupos, gIdx, idx + 1, mejor);
+	}
+
+	private Animal animalMasJovenRec() {
+	    Animal[][] grupos = new Animal[][] { gatos, roedores, pajaros, perros };
+	    return masJovenEnGruposRec(grupos, 0, 0, null);
+	}
+
+	private Animal masJovenEnGruposRec(Animal[][] grupos, int gIdx, int idx, Animal mejor) {
+	    if (grupos == null || gIdx >= grupos.length) return mejor;
+	    Animal[] grupo = grupos[gIdx];
+
+	    if (grupo == null || idx >= grupo.length) {
+	        return masJovenEnGruposRec(grupos, gIdx + 1, 0, mejor);
+	    }
+
+	    Animal actual = grupo[idx];
+	    if (actual != null) {
+	        if (mejor == null || actual.getEdad() < mejor.getEdad()) {
+	            mejor = actual;
+	        }
+	    }
+	    return masJovenEnGruposRec(grupos, gIdx, idx + 1, mejor);
+	}
+
 
 }
 
