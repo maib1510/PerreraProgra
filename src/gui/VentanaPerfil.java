@@ -68,7 +68,8 @@ public class VentanaPerfil extends JFrame {
 
         JButton animales = new JButton("Animales");
         JButton tienda = new JButton("Tienda");
-        JButton perfilBtn = new JButton("Perfil");	
+        JButton perfilBtn = new JButton("Perfil");
+        JButton noticias = new JButton("Ver noticias");
         
         animales.setFont(fuenteTitulos);
         animales.setForeground(forestGreen);
@@ -78,6 +79,9 @@ public class VentanaPerfil extends JFrame {
         
         perfilBtn.setFont(fuenteTitulos);  
         perfilBtn.setForeground(forestGreen);
+        
+        noticias.setFont(fuenteTitulos);  
+        noticias.setForeground(forestGreen);
         
         
         animales.addActionListener(e -> {
@@ -90,11 +94,22 @@ public class VentanaPerfil extends JFrame {
         	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, gatos, roedores, pajaros, perros, user, gestor);
         	ventanaTienda.setVisible(true);
         	dispose();
-        });       
+        	
+        	
+        });  
+        
+        noticias.addActionListener(e -> {
+            NewsTicker ventanaNoticias = new NewsTicker((VentanaPrincipal) ventanaAnterior);
+            ventanaNoticias.setVisible(true);
+            this.setVisible(false);
+        });
+
+        
         // añadir los botones 
         panelMenu.add(perfilBtn);
         panelMenu.add(animales);
         panelMenu.add(tienda);
+        panelMenu.add(noticias);
         
         // añadir el panel 
         add(panelMenu, BorderLayout.NORTH);

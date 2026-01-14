@@ -216,10 +216,10 @@ public class VentanaPrincipal extends JFrame {
 		panelMenu.setLayout(new FlowLayout()); // para que la barra se ajuste bien
 		
 		// botones
-		JButton animales = new JButton("animales");
-		JButton tienda = new JButton("tienda");
-		JButton perfil = new JButton("perfil");
-		JButton noticias = new JButton("ver noticias");
+		JButton animales = new JButton("Animales");
+		JButton tienda = new JButton("Tienda");
+		JButton perfil = new JButton("Perfil");
+		JButton noticias = new JButton("Ver noticias");
 		
 		animales.setFont(fuenteTitulos);
 		tienda.setFont(fuenteTitulos);

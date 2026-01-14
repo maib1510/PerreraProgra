@@ -70,14 +70,19 @@ public class VentanaTienda extends JFrame {
         JButton animales = new JButton("Animales");
         JButton tienda = new JButton("Tienda");
         JButton perfilBtn = new JButton("Perfil");
+        JButton noticias = new JButton("Noticias");
         
         animales.setForeground(ocre);
         tienda.setForeground(ocre);
         perfilBtn.setForeground(ocre);
+        noticias.setForeground(ocre);
         
         animales.setFont(fuente);
         tienda.setFont(fuente);
         perfilBtn.setFont(fuente);
+        noticias.setFont(fuente);
+        
+        
 
         animales.addActionListener(e -> {
             ventanaAnimales.setVisible(true);
@@ -90,10 +95,17 @@ public class VentanaTienda extends JFrame {
             SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
             this.setVisible(false);
         });
+        
+        noticias.addActionListener(e -> {
+            NewsTicker ventanaNoticias = new NewsTicker((VentanaPrincipal) ventanaAnterior);
+            ventanaNoticias.setVisible(true);
+            this.setVisible(false);
+        });
 
         panelMenu.add(perfilBtn);
         panelMenu.add(animales);
         panelMenu.add(tienda);
+        panelMenu.add(noticias);
         add(panelMenu, BorderLayout.NORTH);
 
         // -------- TABLA DE PRODUCTOS -----------------------------------------------------------------------------------------------
