@@ -234,14 +234,14 @@ public class VentanaPrincipal extends JFrame {
 		// action listener para ir a la ventana de perfil
 		perfil.addActionListener(e -> {
 			
-			VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user, gestor);
+			VentanaPerfil ventanaPerfil = new VentanaPerfil(this, gatos, roedores, pajaros, perros, user, gestor);
 			ventanaPerfil.setVisible(true);
 			this.setVisible(false);
 		});
 		
 
 		tienda.addActionListener(e -> {
-			VentanaTienda ventanaTienda = new VentanaTienda(this, user, gestor);
+			VentanaTienda ventanaTienda = new VentanaTienda(this, gatos, roedores, pajaros, perros, user, gestor);
 			ventanaTienda.setVisible(true);
 			this.setVisible(false);
 		});

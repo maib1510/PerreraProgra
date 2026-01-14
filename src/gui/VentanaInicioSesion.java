@@ -165,4 +165,7 @@ public class VentanaInicioSesion extends JFrame {
         txtPassword.addActionListener(e -> btnAcceder.doClick());
 
         this.setVisible(true);
-    }}
+    }
+
+	public VentanaInicioSesion(GestorBD gestor2) {
+		this.gestor = gestor2;	}}

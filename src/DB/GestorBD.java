@@ -516,6 +516,124 @@ public class GestorBD {
 
 
  
+	// FUNCIONED DE ELIMINACIÓN -> DELETE
+	public boolean eliminarUsuario(int idUsuario) {
+	    String sql = "DELETE FROM usuario WHERE id_usuario = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idUsuario);
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("usuario eliminado con éxito");
+	            return true;
+	        } else {
+	            System.out.println("no existe usuario con id " + idUsuario);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean eliminarAnimal(int idAnimal) {
+	    String sql = "DELETE FROM animal WHERE id_animal = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idAnimal);
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("animal eliminado con éxito");
+	            return true;
+	        } else {
+	            System.out.println("no existe animal con id " + idAnimal);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean eliminarProducto(int idProducto) {
+	    String sql = "DELETE FROM producto WHERE id_producto = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idProducto);
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("producto eliminado con éxito");
+	            return true;
+	        } else {
+	            System.out.println("no existe producto con id " + idProducto);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean eliminarAdopcion(int idUsuario, int idAnimal) {
+	    String sql = "DELETE FROM adopcion WHERE id_usuario = ? AND id_animal = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idUsuario);
+	        stmt.setInt(2, idAnimal);
+
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("adopción eliminada");
+	            return true;
+	        } else {
+	            System.out.println("no existe esa adopción");
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean eliminarPerfil(int idPerfil) {
+	    String sql = "DELETE FROM perfil WHERE id_perfil = ?";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, idPerfil);
+	        int filas = stmt.executeUpdate();
+
+	        if (filas > 0) {
+	            System.out.println("perfil eliminado");
+	            return true;
+	        } else {
+	            System.out.println("no existe perfil con id " + idPerfil);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 }
 
 

@@ -21,7 +21,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import DB.GestorBD;
+import Domain.Gato;
+import Domain.Pajaro;
+import Domain.Perro;
 import Domain.Producto;
+import Domain.Roedor;
 import Domain.Usuario;
 
 public class VentanaTienda extends JFrame {
@@ -32,7 +36,7 @@ public class VentanaTienda extends JFrame {
     private List<Producto> listaProductos;
     private GestorBD gestor;
 
-    public VentanaTienda(JFrame ventanaAnterior, Usuario user, GestorBD gestor) {
+    public VentanaTienda(JFrame ventanaAnterior, Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, Usuario user, GestorBD gestor) {
         this.ventanaAnimales = ventanaAnterior;
         this.user = user;
         this.gestor = gestor;
@@ -81,7 +85,7 @@ public class VentanaTienda extends JFrame {
         });
 
         perfilBtn.addActionListener(e -> {
-            VentanaPerfil ventanaPerfil = new VentanaPerfil(this, user, gestor);
+            VentanaPerfil ventanaPerfil = new VentanaPerfil(this, gatos, roedores, pajaros, perros, user, gestor);
             ventanaPerfil.setVisible(false);
             SwingUtilities.invokeLater(() -> ventanaPerfil.setVisible(true));
             this.setVisible(false);

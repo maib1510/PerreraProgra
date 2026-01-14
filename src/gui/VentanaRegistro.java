@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -12,93 +11,70 @@ import Domain.Perfil;
 import Domain.Usuario;
 
 public class VentanaRegistro extends JFrame {
-	private VentanaInicioSesion ventanaInicioSesion;
-	private GestorBD gestor;
+
+    private VentanaInicioSesion ventanaInicioSesion;
+    private GestorBD gestor;
 
     public VentanaRegistro(VentanaInicioSesion ventanaInicioSesion, GestorBD gestor) {
         this.ventanaInicioSesion = ventanaInicioSesion;
         this.gestor = gestor;
 
-        this.setTitle("registro");
-        this.setSize(450,500);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setLayout(new BorderLayout(10, 10));
-       
+        setTitle("registro");
+        setSize(450, 500);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setLayout(new BorderLayout(10, 10));
+
         Font fuenteTexto = new Font("Arial", Font.BOLD, 16);
         Font fuenteTitulo = new Font("Arial", Font.BOLD, 24);
 
-        // Colores
         Color azulClaro = new Color(115, 181, 201);
-        Color celeste = new Color(200, 230, 240); // Celeste pastel
-        // ------------------------------------------------------------------------------------------------------
-        this.setBackground(azulClaro);
-        // panel superior ---------------------------------------------------------------------------------------
+        Color celeste = new Color(200, 230, 240);
+
+        // ---------- PANEL SUPERIOR ----------
         JPanel superiorPanel = new JPanel();
         superiorPanel.setBackground(azulClaro);
 
-        // borde del panel ------------------------------------
-        //superiorPanel.setBorder(BorderFactory.createLineBorder(celeste,2));
-
-        // label con titulo ------------------------------------
-        JLabel informacion = new JLabel("REGISTRATE");
-        informacion.setForeground(Color.BLACK);
+        JLabel informacion = new JLabel("REGÍSTRATE");
         informacion.setFont(fuenteTitulo);
         superiorPanel.add(informacion);
 
-        // -----------------------------------------------------
+        add(superiorPanel, BorderLayout.NORTH);
 
-        this.add(superiorPanel, BorderLayout.NORTH);
-
-        // ------------------------------------------------------------------------------------------------------
-
-        // panel de registro (centro) ------------------------------------------
+        // ---------- PANEL CENTRAL ----------
         JPanel registerPanel = new JPanel();
         registerPanel.setBackground(azulClaro);
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.Y_AXIS));
 
-        // borde del panel -----------------------------------------------------
         TitledBorder bordeReg = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(celeste,2),
+                BorderFactory.createLineBorder(celeste, 2),
                 "Introduce tus datos para iniciar sesión",
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
                 fuenteTexto
         );
         bordeReg.setTitleColor(celeste);
+
         registerPanel.setBorder(BorderFactory.createCompoundBorder(
-        		bordeReg,
-        		BorderFactory.createEmptyBorder(20, 50, 20, 30))); // margen interno));
-        // -----------------------------------------------------
-        JLabel nombre = new JLabel("Nombre");
-        nombre.setFont(fuenteTexto);
-        
-        JLabel apellido = new JLabel("Apellido");
-        apellido.setFont(fuenteTexto);
-        
-        JLabel username = new JLabel("Username");
-        username.setFont(fuenteTexto);
-        
-		JLabel edad = new JLabel("Edad");
-		edad.setFont(fuenteTexto);
-		        
-        JLabel email = new JLabel("Email");
-        email.setFont(fuenteTexto);
-        
-        JLabel telefono = new JLabel("Teléfono");
-        telefono.setFont(fuenteTexto);
-        
-        JLabel tarjeta = new JLabel("TarjetaBancaria");
-        tarjeta.setFont(fuenteTexto);
-        
-        JLabel contraseña = new JLabel("Contraseña");
-        contraseña.setFont(fuenteTexto);
+                bordeReg,
+                BorderFactory.createEmptyBorder(20, 50, 20, 30)
+        ));
 
         JPanel fieldsPanel = new JPanel(new GridLayout(8, 2, 0, 10));
-        fieldsPanel.setOpaque(false); // para que mantenga el fondo rosa
-        
-        // -----------------------------------------------------
+        fieldsPanel.setOpaque(false);
+
+        JLabel nombre = new JLabel("Nombre");
+        JLabel apellido = new JLabel("Apellido");
+        JLabel edad = new JLabel("Edad");
+        JLabel username = new JLabel("Username");
+        JLabel email = new JLabel("Email");
+        JLabel telefono = new JLabel("Teléfono");
+        JLabel tarjeta = new JLabel("Tarjeta Bancaria");
+        JLabel contraseña = new JLabel("Contraseña");
+
+        JLabel[] labels = {nombre, apellido, edad, username, email, telefono, tarjeta, contraseña};
+        for (JLabel l : labels) l.setFont(fuenteTexto);
 
         JTextField rellenarNombre = new JTextField(14);
         JTextField rellenarApellido = new JTextField(14);
@@ -109,107 +85,80 @@ public class VentanaRegistro extends JFrame {
         JTextField rellenarTarjeta = new JTextField(14);
         JPasswordField rellenarContraseña = new JPasswordField(14);
 
-        fieldsPanel.add(nombre);
-        fieldsPanel.add(rellenarNombre);
-        
-        fieldsPanel.add(apellido);
-        fieldsPanel.add(rellenarApellido);
-        
-        fieldsPanel.add(edad);
-        fieldsPanel.add(rellenarEdad);
-        
-        fieldsPanel.add(username);
-        fieldsPanel.add(rellenarUsername);
+        JTextField[] campos = {
+                rellenarNombre, rellenarApellido, rellenarEdad,
+                rellenarUsername, rellenarEmail, rellenarTelf,
+                rellenarTarjeta, rellenarContraseña
+        };
 
-        fieldsPanel.add(email);
-        fieldsPanel.add(rellenarEmail);
-        
-        fieldsPanel.add(telefono);
-        fieldsPanel.add(rellenarTelf);
-        
-        fieldsPanel.add(tarjeta);
-        fieldsPanel.add(rellenarTarjeta);
-
-        fieldsPanel.add(contraseña);
-        fieldsPanel.add(rellenarContraseña);
-
-
+        fieldsPanel.add(nombre);      fieldsPanel.add(rellenarNombre);
+        fieldsPanel.add(apellido);    fieldsPanel.add(rellenarApellido);
+        fieldsPanel.add(edad);        fieldsPanel.add(rellenarEdad);
+        fieldsPanel.add(username);    fieldsPanel.add(rellenarUsername);
+        fieldsPanel.add(email);       fieldsPanel.add(rellenarEmail);
+        fieldsPanel.add(telefono);    fieldsPanel.add(rellenarTelf);
+        fieldsPanel.add(tarjeta);     fieldsPanel.add(rellenarTarjeta);
+        fieldsPanel.add(contraseña);  fieldsPanel.add(rellenarContraseña);
 
         registerPanel.add(fieldsPanel);
+        add(registerPanel, BorderLayout.CENTER);
 
-        JTextField[] campos = {rellenarNombre, rellenarApellido, rellenarEdad, rellenarUsername, rellenarEmail, rellenarTelf, rellenarTarjeta, rellenarContraseña};
-        // -----------------------------------------------------
-
-        this.add(registerPanel, BorderLayout.CENTER);
-
-        // ------------------------------------------------------------------------------------------------------
-
-        // panel de botón de acceso -----------------------------------------------------------------------------
-
+        // ---------- PANEL INFERIOR ----------
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(azulClaro);
 
-        // borde del panel -----------------------------------------------------
-        TitledBorder bordeBottom = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(celeste,2),
-                "Completar y volver a la ventana de inicio de sesión",
-                TitledBorder.CENTER,
-                TitledBorder.TOP,
-                fuenteTexto);
-        bordeBottom.setTitleColor(celeste);
-        
-        // botones  ------------------------------------------------------------
         JButton compButton = new JButton("Completar");
+        JButton cancelButton = new JButton("Cancelar");
 
-        // listener para que abra la ventana principal -------------------------
         compButton.addActionListener(e -> {
-            boolean vacio = false;
-            
+
+            // Campos vacíos
             for (JTextField campo : campos) {
                 if (campo.getText().trim().isEmpty()) {
-                    vacio = true;
-                    break;
+                    JOptionPane.showMessageDialog(this, "Hay campos vacíos.", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
             }
-            
-            if (vacio) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Hay un campo vacío",
-                    "Error de validación",
-                    JOptionPane.WARNING_MESSAGE
-                );
-                return;
-            }
 
-            // Validar y parsear edad
+            // Edad
             int edadVal;
             try {
                 edadVal = Integer.parseInt(rellenarEdad.getText().trim());
-                if (edadVal < 0) throw new NumberFormatException("Edad negativa");
+                if (edadVal < 0) throw new NumberFormatException();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Introduce una edad válida (número entero).", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Edad no válida.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Recuperar username y contraseña
+            String emailVal = rellenarEmail.getText().trim();
+            if (!emailValido(emailVal)) {
+                JOptionPane.showMessageDialog(this, "Email no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String telefonoVal = rellenarTelf.getText().trim();
+            if (!telefonoValido(telefonoVal)) {
+                JOptionPane.showMessageDialog(this, "Teléfono no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String tarjetaVal = rellenarTarjeta.getText().trim();
+            if (!tarjetaValida(tarjetaVal)) {
+                JOptionPane.showMessageDialog(this, "Tarjeta bancaria no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String usernameVal = rellenarUsername.getText().trim();
             String passwordVal = new String(rellenarContraseña.getPassword()).trim();
 
-            if (usernameVal.isEmpty() || passwordVal.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Username y contraseña son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Construir objeto Usuario y Perfil
             Usuario nuevo = new Usuario();
             nuevo.setNombre(rellenarNombre.getText().trim());
             nuevo.setApellido(rellenarApellido.getText().trim());
             nuevo.setEdad(edadVal);
-            nuevo.setEmail(rellenarEmail.getText().trim());
-            nuevo.setTelefono(rellenarTelf.getText().trim());
-            nuevo.setTarjeta_bancaria(rellenarTarjeta.getText().trim());
-            nuevo.setMascotas(new ArrayList<Animal>()); // vacía al crear
+            nuevo.setEmail(emailVal);
+            nuevo.setTelefono(telefonoVal);
+            nuevo.setTarjeta_bancaria(tarjetaVal);
+            nuevo.setMascotas(new ArrayList<>());
 
             Perfil perfil = new Perfil();
             perfil.setUsername(usernameVal);
@@ -217,36 +166,38 @@ public class VentanaRegistro extends JFrame {
             perfil.setUsuario(nuevo);
             nuevo.setPerfil(perfil);
 
-            // Insertar en BD usando GestorBD
-            boolean ok = false;
-            if (gestor != null) {
-                ok = gestor.insertarUsuario(nuevo);
-            } else {
-                // Si no se pasó GestorBD, mostrar mensaje (modo offline)
-                JOptionPane.showMessageDialog(this, "GestorBD no disponible: el usuario no se guardará en la base de datos. Volviendo al login.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                ok = true; // permitir continuar al login aunque no esté persistido
-            }
+            boolean ok = gestor != null && gestor.insertarUsuario(nuevo);
 
             if (ok) {
-                JOptionPane.showMessageDialog(this, "Registro completado correctamente. Ya puedes iniciar sesión.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                if (ventanaInicioSesion != null) {
-                    ventanaInicioSesion.setVisible(true);
-                }
-                this.dispose();
+                JOptionPane.showMessageDialog(this, "Registro completado correctamente.");
+                ventanaInicioSesion.setVisible(true);
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al registrar el usuario. Revisa la consola para más detalles.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al registrar usuario.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         });
 
-
-
-        // -----------------------------------------------------
+        cancelButton.addActionListener(e -> {
+            ventanaInicioSesion.setVisible(true);
+            dispose();
+        });
 
         bottomPanel.add(compButton);
+        bottomPanel.add(cancelButton);
 
-        this.add(bottomPanel, BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    // ---------- VALIDACIONES ----------
+    private boolean emailValido(String email) {
+        return email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+    }
 
+    private boolean telefonoValido(String telefono) {
+        return telefono.matches("^[6789]\\d{8}$");
+    }
+
+    private boolean tarjetaValida(String tarjeta) {
+        return tarjeta.matches("^\\d{16}$");
+    }
 }

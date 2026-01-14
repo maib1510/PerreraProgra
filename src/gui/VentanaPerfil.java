@@ -27,14 +27,15 @@ public class VentanaPerfil extends JFrame {
     // de momento pongo esto, ya crearé las clases 
     private Perfil perfil = new Perfil("imagenes/fotosPerfil/Image.jpeg", Color.BLACK);
     
-    public VentanaPerfil(JFrame ventanaAnterior, Usuario user, GestorBD gestor) {
+    public VentanaPerfil(JFrame ventanaAnterior, Gato[] gatos, Roedor[] roedores, Pajaro[] pajaros, Perro[] perros, Usuario user, GestorBD gestor) {
         this.ventanaAnimales = ventanaAnterior;
         this.user = user;
         this.gestor = gestor;
     
         // ------- CONFIGURACIÓN DE VENTANA -------------------------------------------------------------------------------------------
         setTitle("Perfil de Usuario");
-        setSize(400, 420);
+        setSize(500, 420);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -86,7 +87,7 @@ public class VentanaPerfil extends JFrame {
         
         
         tienda.addActionListener(e -> {
-        	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, user, gestor);
+        	VentanaTienda ventanaTienda = new VentanaTienda(ventanaAnimales, gatos, roedores, pajaros, perros, user, gestor);
         	ventanaTienda.setVisible(true);
         	dispose();
         });       
@@ -199,6 +200,7 @@ public class VentanaPerfil extends JFrame {
 
         
         buttonPanel.setBackground(forestGreen);
+        
         JButton changeColorButton = new JButton("color círculo");
         changeColorButton.setForeground(forestGreen);
         changeColorButton.setFont(fuenteTitulos);
@@ -209,12 +211,55 @@ public class VentanaPerfil extends JFrame {
         changeImageButton.setForeground(forestGreen);
         changeImageButton.setFont(fuenteTitulos);
         
+        JButton eliminarCuentaButton = new JButton("Eliminar cuenta");
+        eliminarCuentaButton.setForeground(Color.RED);
+        eliminarCuentaButton.setFont(fuenteTitulos);
+
+        
         changeImageButton.addActionListener(new ChangeImageListener());
+        
+        
+        eliminarCuentaButton.addActionListener(e -> {
+
+            int opcion = JOptionPane.showConfirmDialog(
+                VentanaPerfil.this,
+                "¿Seguro que quieres eliminar tu cuenta?\nEsta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+
+                boolean ok = gestor.eliminarUsuario(user.getId_usuario()) && gestor.eliminarPerfil(user.getId_usuario());
+
+                if (ok) {
+                    JOptionPane.showMessageDialog(
+                        VentanaPerfil.this,
+                        "Cuenta eliminada correctamente.",
+                        "Cuenta eliminada",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    // Volver al login
+                    new VentanaInicioSesion(gatos, roedores, pajaros, perros, gestor).setVisible(true);
+                    dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(
+                        VentanaPerfil.this,
+                        "No se pudo eliminar la cuenta.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        });
+
         
         buttonPanel.add(changeColorButton);
         buttonPanel.add(changeImageButton);
-
-        // Añadir todo al layout principal
+        buttonPanel.add(eliminarCuentaButton);        // Añadir todo al layout principal
         add(panelMenu, BorderLayout.NORTH);
         add(centroPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -324,6 +369,8 @@ public class VentanaPerfil extends JFrame {
             }
         }
     }
+    
+  
 
     // --- CLASES DE PRUEBA ------
     private static class Perfil {
