@@ -345,7 +345,7 @@ public class VentanaPrincipal extends JFrame {
 	        panel.add(boton);
 	    }
 
-	    dialog.add(new JLabel("Opciones de búsqueda entre los animales de la perrera:"), BorderLayout.NORTH);
+	    dialog.add(new JLabel("	Opciones de búsqueda entre los animales del centro de adopción:"), BorderLayout.NORTH);
 	    dialog.add(panel, BorderLayout.CENTER);
 
 	    dialog.pack();
