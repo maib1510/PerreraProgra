@@ -512,6 +512,69 @@ public class GestorBD {
 
 	    return mascotas;
 	}
+	
+	
+	// OBTENER ADOPCIONES: (para la recursividad ) ------------------
+	public ArrayList<Adopcion> cargarAdopciones() {
+	    ArrayList<Adopcion> lista = new ArrayList<>();
+
+	    String sql = "SELECT d.fecha_adopcion, u.*, a.* " +
+	                 "FROM adopcion d " +
+	                 "JOIN usuario u ON d.id_usuario = u.id_usuario " +
+	                 "JOIN animal a ON d.id_animal = a.id_animal";
+
+	    try (Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+
+	            // Usuario
+	            Usuario u = new Usuario();
+	            u.setId_usuario(rs.getInt("id_usuario"));
+	            u.setNombre(rs.getString("nombre"));
+	            u.setApellido(rs.getString("apellido"));
+	            u.setEmail(rs.getString("email"));
+	            u.setTelefono(rs.getString("telefono"));
+
+	            // Animal (según tipo)
+	            String tipo = rs.getString("tipo_animal");
+	            Animal a;
+
+	            switch (tipo.toLowerCase()) {
+	                case "perro": a = new Perro(); break;
+	                case "gato": a = new Gato(); break;
+	                case "pajaro": a = new Pajaro(); break;
+	                case "roedor": a = new Roedor(); break;
+	                default: continue;
+	            }
+
+	            a.setId_animal(rs.getInt("id_animal"));
+	            a.setNombre(rs.getString("nombre"));
+	            a.setEdad(rs.getFloat("edad"));
+	            a.setRaza(rs.getString("raza"));
+	            a.setTipoAnimal(tipo);
+
+	            // Adopción
+	            Adopcion ad = new Adopcion(a, u);
+	            // asegurarme de que fcha no sea null !!
+	            String fechaStr = rs.getString("fecha_adopcion"); // lee como String
+	            if (fechaStr != null && !fechaStr.isEmpty()) {
+	                ad.setFecha_adopcion(LocalDate.parse(fechaStr)); // convierte a LocalDate
+	            } else {
+	                ad.setFecha_adopcion(null);
+	            }
+
+	            lista.add(ad);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
 
 
 

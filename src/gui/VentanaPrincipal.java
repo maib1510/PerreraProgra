@@ -12,10 +12,12 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import DB.GestorBD;
+import Domain.Adopcion;
 import Domain.Animal;
 import Domain.Gato;
 import Domain.Pajaro;
 import Domain.Perro;
+import Domain.Producto;
 import Domain.Roedor;
 import Domain.Usuario;
 
@@ -27,6 +29,9 @@ public class VentanaPrincipal extends JFrame {
 	private Perro[] perros;
 	private Usuario user;
 	private GestorBD gestor;
+	private Adopcion[] adopciones;
+	private Producto[] productos;
+
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -38,6 +43,10 @@ public class VentanaPrincipal extends JFrame {
         this.perros=perros;
         this.user = user;
         this.gestor = gestor;
+        // Para las funciones de recursividad:
+        this.adopciones = gestor.cargarAdopciones().toArray(new Adopcion[0]);
+        this.productos = gestor.cargarProductos().toArray(new Producto[0]);
+
         
         
 		this.setTitle("ventana principal - perrera");
@@ -285,10 +294,9 @@ public class VentanaPrincipal extends JFrame {
 	    label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 	    return label;
 	}
-	
-	// ============================
-	// RECUSIVIDAD 
-	// ============================
+
+
+	// RECUSIVIDAD  --------------------------------------------------------------------------------
 
 	private void mostrarHerramientasRecursivasAnimales() {
 	    if (noHayAnimalesGenerales()) {
@@ -301,7 +309,11 @@ public class VentanaPrincipal extends JFrame {
 	            "¿Todos disponibles?",
 	            "¿Todos adoptados?",
 	            "Animal más viejo",
-	            "Animal más joven"
+	            "Animal más joven",
+	            // más opciones: ----------
+	            "Contar adopciones por año",
+	            "Gasto total en la tienda",
+	            "Buscar producto por nombre"
 	    };
 
 	    int op = JOptionPane.showOptionDialog(
@@ -351,6 +363,24 @@ public class VentanaPrincipal extends JFrame {
 	                    (a == null) ? "No hay animales." : "Animal más joven:\n\n" + formatearAnimalGeneral(a));
 	            break;
 	        }
+	        case 5: {
+	            int anio = Integer.parseInt(JOptionPane.showInputDialog("Introduce el año:"));
+	            int total = contarAdopcionesPorAno(anio);
+	            JOptionPane.showMessageDialog(this, "Adopciones en " + anio + ": " + total);
+	            break;
+	        }
+	        case 6: {
+	            double total = gastoTotal();
+	            JOptionPane.showMessageDialog(this, "Gasto total: " + total + " €");
+	            break;
+	        }
+	        case 7: {
+	            String nombre = JOptionPane.showInputDialog("Nombre del producto:");
+	            Producto p = buscarProductoPorNombre(nombre);
+	            JOptionPane.showMessageDialog(this, p == null ? "No encontrado" : p.toString());
+	            break;
+	        }
+
 	        default:
 	            break;
 	    }
@@ -491,6 +521,76 @@ public class VentanaPrincipal extends JFrame {
 	    }
 	    return masJovenEnGruposRec(grupos, gIdx, idx + 1, mejor);
 	}
+	
+	
+	// Más opciones: ---------------------------------------------------------
+	
+	// CONTAR ADOPCIONES POR AÑO DE ADOPCIÓN:
+	private int contarAdopcionesPorAno(int ano) {
+	    return contarAdopcionesPorAnoRec(adopciones, 0, ano);
+	}
+
+	private int contarAdopcionesPorAnoRec(Adopcion[] lista_adopciones, int i, int ano) {
+	    if (lista_adopciones == null || i >= lista_adopciones.length) {
+	        return 0;
+	    }
+
+	    int suma = 0;
+	    Adopcion adopcion = lista_adopciones[i];
+	    if (adopcion != null && adopcion.getFecha_adopcion() != null) {
+	        if (adopcion.getFecha_adopcion().getYear() == ano) {
+	            suma = 1;
+	        }
+	    }
+
+	    return suma + contarAdopcionesPorAnoRec(lista_adopciones, i + 1, ano);
+	}
+
+	
+	// GASTO TOTAL EN LA TIENDA:
+	private double gastoTotal() {
+	    return sumaPreciosRec(productos, 0);
+	}
+
+	private double sumaPreciosRec(Producto[] lista, int i) {
+	    // caso base: si llegamos al final del array
+	    if (lista == null || i >= lista.length) {
+	        return 0.0;
+	    }
+
+	    double precio;
+	    if (lista[i] != null) {
+	        precio = lista[i].getPrecio();
+	    } else {
+	        precio = 0.0;
+	    }
+
+	    // suma del precio actual + suma recursiva del resto
+	    return precio + sumaPreciosRec(lista, i + 1);
+	}
+
+	
+	//BUSCAR PRODUCTO POR NOMBRE:
+	private Producto buscarProductoPorNombre(String nombre) {
+	    return buscarProductoPorNombreRec(productos, 0, nombre);
+	}
+
+	private Producto buscarProductoPorNombreRec(Producto[] lista_productos, int i, String nombre) {
+	    if (lista_productos == null || i >= lista_productos.length) { // caso base
+	    	return null;
+	    }
+
+	    if (lista_productos[i] != null && lista_productos[i].getNombre().equals(nombre)) {
+	        return lista_productos[i];
+	    }
+
+	    return buscarProductoPorNombreRec(lista_productos, i + 1, nombre);
+	}
+
+
+	
+	
+
 
 
 }
