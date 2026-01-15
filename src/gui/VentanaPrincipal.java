@@ -304,6 +304,114 @@ public class VentanaPrincipal extends JFrame {
 	        return;
 	    }
 
+	    JDialog dialog = new JDialog(this, "Búsqueda", true);
+	    dialog.setLayout(new BorderLayout());
+
+	    JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+	    panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+	    String[] opciones = {
+	        "Buscar animal por nombre",
+	        "¿Todos disponibles?",
+	        "¿Todos adoptados?",
+	        "Animal más viejo",
+	        "Animal más joven",
+	        "Contar adopciones por año",
+	        "Gasto total en la tienda",
+	        "Buscar producto por nombre"
+	    };
+
+	    for (int i = 0; i < opciones.length; i++) {
+	        final int op = i;
+	        JButton boton = new JButton(opciones[i]);
+	        boton.addActionListener(e -> {
+	            dialog.dispose();
+	            ejecutarOpcionRecursiva(op);
+	        });
+	        panel.add(boton);
+	    }
+
+	    dialog.add(new JLabel("Opciones de búsqueda entre los animales de la perrera:"), BorderLayout.NORTH);
+	    dialog.add(panel, BorderLayout.CENTER);
+
+	    dialog.pack();
+	    dialog.setLocationRelativeTo(this);
+	    dialog.setVisible(true);
+	}
+
+	private void ejecutarOpcionRecursiva(int op) {
+	    switch (op) {
+
+	        case 0 -> {
+	            String nombre = JOptionPane.showInputDialog(this, "Introduce el nombre del animal:");
+	            if (nombre == null) return;
+	            Animal a = buscarAnimalPorNombreRec(nombre);
+	            JOptionPane.showMessageDialog(this,
+	                a == null
+	                    ? "No se encontró ningún animal con nombre \"" + nombre + "\""
+	                    : formatearAnimalGeneral(a));
+	        }
+
+	        case 1 -> {
+	            boolean ok = todosDisponiblesRec();
+	            JOptionPane.showMessageDialog(this,
+	                ok
+	                    ? "Sí: algunos están disponibles (NO adoptados)."
+	                    : "Sí: todos están disponibles.");
+	        }
+
+	        case 2 -> {
+	            boolean ok = todosAdoptadosRec();
+	            JOptionPane.showMessageDialog(this,
+	                ok
+	                    ? "Sí: todos están adoptados."
+	                    : "No: hay alguno NO adoptado.");
+	        }
+
+	        case 3 -> {
+	            Animal a = animalMasViejoRec();
+	            JOptionPane.showMessageDialog(this,
+	                a == null
+	                    ? "No hay animales."
+	                    : "Animal más viejo:\n\n" + formatearAnimalGeneral(a));
+	        }
+
+	        case 4 -> {
+	            Animal a = animalMasJovenRec();
+	            JOptionPane.showMessageDialog(this,
+	                a == null
+	                    ? "No hay animales."
+	                    : "Animal más joven:\n\n" + formatearAnimalGeneral(a));
+	        }
+
+	        case 5 -> {
+	            int anio = Integer.parseInt(JOptionPane.showInputDialog("Introduce el año:"));
+	            int total = contarAdopcionesPorAno(anio);
+	            JOptionPane.showMessageDialog(this,
+	                "Adopciones en " + anio + ": " + total);
+	        }
+
+	        case 6 -> {
+	            double total = gastoTotal();
+	            JOptionPane.showMessageDialog(this,
+	                "Gasto total: " + total + " €");
+	        }
+
+	        case 7 -> {
+	            String nombre = JOptionPane.showInputDialog("Nombre del producto:");
+	            Producto p = buscarProductoPorNombre(nombre);
+	            JOptionPane.showMessageDialog(this,
+	                p == null ? "No encontrado" : p.toString());
+	        }
+	    }
+	}
+
+	/*private void mostrarHerramientasRecursivasAnimales() {
+	    if (noHayAnimalesGenerales()) {
+	        JOptionPane.showMessageDialog(this, "No hay animales cargados.");
+	        return;
+	    }
+
 	    String[] opciones = {
 	            "Buscar animal por nombre",
 	            "¿Todos disponibles?",
@@ -385,7 +493,7 @@ public class VentanaPrincipal extends JFrame {
 	            break;
 	    }
 	}
-
+*/
 	private String formatearAnimalGeneral(Animal a) {
 	    boolean adoptado = estaAdoptadoGeneral(a);
 	    return "ID: " + a.getId_animal()
@@ -587,9 +695,6 @@ public class VentanaPrincipal extends JFrame {
 	    return buscarProductoPorNombreRec(lista_productos, i + 1, nombre);
 	}
 
-
-	
-	
 
 
 

@@ -147,6 +147,7 @@ public class VentanaConfirmacion extends JFrame {
 		
 		Adopcion adopcionActual = new Adopcion(animales[indiceAnimal], user);
 		gestor.insertarMascota(adopcionActual);
+		gestor.actualizarAnimal(animales[indiceAnimal].getId_animal());
 
 	}
 
