@@ -139,7 +139,7 @@ public class VentanaMascotas extends JFrame {
         JLabel tipoLbl = new JLabel("Tipo: " + mascota.getRaza(), JLabel.CENTER);
         tipoLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         tipoLbl.setForeground(Color.WHITE);
-        JLabel edadLbl = new JLabel("Edad: " + mascota.getEdad() + " años", JLabel.CENTER);
+        JLabel edadLbl = new JLabel("Edad: " + mascota.getEdad() + " años", JLabel.CENTER); 
         edadLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         edadLbl.setForeground(Color.WHITE);
 

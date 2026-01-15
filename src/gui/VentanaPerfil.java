@@ -34,7 +34,7 @@ public class VentanaPerfil extends JFrame {
     
         // ------- CONFIGURACIÓN DE VENTANA -------------------------------------------------------------------------------------------
         setTitle("Perfil de Usuario");
-        setSize(500, 420);
+        setSize(550, 470);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -70,6 +70,7 @@ public class VentanaPerfil extends JFrame {
         JButton tienda = new JButton("Tienda");
         JButton perfilBtn = new JButton("Perfil");
         JButton noticias = new JButton("Ver noticias");
+        JButton buscar = new JButton("Buscar");
         
         animales.setFont(fuenteTitulos);
         animales.setForeground(forestGreen);
@@ -83,6 +84,8 @@ public class VentanaPerfil extends JFrame {
         noticias.setFont(fuenteTitulos);  
         noticias.setForeground(forestGreen);
         
+        buscar.setFont(fuenteTitulos);
+        buscar.setForeground(forestGreen);
         
         animales.addActionListener(e -> {
             ventanaAnimales.setVisible(true);
@@ -104,12 +107,19 @@ public class VentanaPerfil extends JFrame {
             this.setVisible(false);
         });
 
+        buscar.addActionListener(e -> {
+            VentanaPrincipal vt = new VentanaPrincipal(gatos, roedores, pajaros, perros, user, gestor);
+            vt.mostrarHerramientasRecursivasAnimales();
+            vt.setVisible(true);
+            this.setVisible(false);
+        });
         
         // añadir los botones 
         panelMenu.add(perfilBtn);
         panelMenu.add(animales);
         panelMenu.add(tienda);
         panelMenu.add(noticias);
+        panelMenu.add(buscar);
         
         // añadir el panel 
         add(panelMenu, BorderLayout.NORTH);
@@ -216,7 +226,7 @@ public class VentanaPerfil extends JFrame {
         
         buttonPanel.setBackground(forestGreen);
         
-        JButton changeColorButton = new JButton("color círculo");
+        JButton changeColorButton = new JButton("Color círculo");
         changeColorButton.setForeground(forestGreen);
         changeColorButton.setFont(fuenteTitulos);
         changeColorButton.addActionListener(new ChangeColorListener());
